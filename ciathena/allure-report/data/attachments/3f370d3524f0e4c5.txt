@@ -1,0 +1,3 @@
+verify_personalized_insights_all_cards failed: Locator.wait_for: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("//h2[text()='Data Trends and Exploration']") to be visible
