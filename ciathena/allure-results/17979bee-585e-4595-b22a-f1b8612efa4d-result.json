@@ -1,0 +1,1 @@
+{"name": "Verify Collabspace UI", "status": "skipped", "description": "Validate that the UI of Collabspace loads correctly", "start": 1768137464492, "stop": 1768137464492, "uuid": "be454cc0-ac70-499d-8e65-60c0b9d2e349", "testCaseId": "a134ad1ddd4d0484ff6ca90b53877f83", "fullName": "tests.test_CollabSpace#test_Collabspace", "titlePath": ["tests", "test_CollabSpace.py"]}

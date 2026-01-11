@@ -1,11 +1,15 @@
 import pytest
 from playwright.async_api import async_playwright
+
 from ciathena.pages.BasePage import BasePage
 from ciathena.pages.LoginPage import LoginPage
 from ciathena.pages.WelcomePage import WelcomePage
 from ciathena.pages.InsightsHubPage import InsightsHubPage
 from ciathena.pages.OngoingThreadsPage import OngoingThreadsPage
 from ciathena.pages.CollabSpacePage import CollabSpacePage
+from ciathena.pages.brandingPage import BrandingPage
+from ciathena.pages.AuthenticationPage import AuthenticationPage
+from ciathena.pages.UsersPage import UsersPage
 from pytest_html import extras
 
 @pytest.fixture(scope="function")
@@ -25,10 +29,11 @@ async def setup(step_logger):
         ongoingthreadsPage = OngoingThreadsPage(page, step_logger)
         insightshubPage = InsightsHubPage(page, step_logger)
         collabspacePage = CollabSpacePage(page, step_logger)
-
+        brandingPage = BrandingPage(page, step_logger)
+        authenticationPage =AuthenticationPage(page, step_logger)
+        usersPage =UsersPage(page, step_logger)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
-
         print("🔹 Starting navigation--")
         await basepage.navigate("https://ciathena.customerinsights.ai/")
         yield {
@@ -38,7 +43,11 @@ async def setup(step_logger):
             "welcomePage": welcomePage,
             "ongoingthreadsPage": ongoingthreadsPage,
             "insightshubPage": insightshubPage,
-            "collabspacePage" : collabspacePage
+            "collabspacePage" : collabspacePage,
+            "brandingPage" : brandingPage,
+            "authenticationPage": authenticationPage,
+            "usersPage": usersPage
+
         }
         # print("🧹 Closing page after test--")
         #

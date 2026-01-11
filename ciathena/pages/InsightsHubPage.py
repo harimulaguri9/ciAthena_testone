@@ -155,7 +155,7 @@ class InsightsHubPage(BasePage):
         await self.insights_hub_nav_label.click()
         await self.personalized_insights_tab.wait_for(state="visible", timeout=5000)
         await self.click(self.personalized_insights_tab, "personalized_insights_tab")
-
+        time.sleep(30)
         # --- Step 2: Define all section headers to iterate through ---
         headers = [
             "Data Trends and Exploration",
