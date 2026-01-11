@@ -3,7 +3,7 @@ from datetime import time
 from playwright.async_api import Page, expect
 import time
 from ciathena.pages.BasePage import BasePage
-import pytest_check as check
+#import pytest_check as check
 
 
 class InsightsHubPage(BasePage):
