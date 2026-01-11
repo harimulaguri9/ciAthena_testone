@@ -56,10 +56,10 @@ async def setup(step_logger):
 
 
 @pytest.fixture
-def step_logger(request):
+async def step_logger(request):
     request.node.step_logs = []
 
-    def log_step(message: str):
+    async def log_step(message: str):
         print(f"[STEP] {message}")
         request.node.step_logs.append(f"➡️ {message}")
 
