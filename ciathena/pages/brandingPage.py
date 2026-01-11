@@ -32,6 +32,7 @@ class BrandingPage(BasePage):
         await self.Configuration.click()
         await self.page.wait_for_timeout(3000)  # 20 seconds
         expect(self.Branding_nav_bar).to_be_visible()
+        print("config page tabs")
 
     async def validate_branding_tabs(self):
         await self.Branding_nav_bar.click()
