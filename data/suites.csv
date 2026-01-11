@@ -1,0 +1,6 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"broken","Sun Jan 11 14:16:31 UTC 2026","Sun Jan 11 14:16:31 UTC 2026","0","ciathena.tests","test_CollabSpace","","","","Verify Collabspace UI","Validate that the UI of Collabspace loads correctly"
+"broken","Sun Jan 11 14:16:31 UTC 2026","Sun Jan 11 14:16:31 UTC 2026","0","ciathena.tests","test_Configurations","","","","Verify brandingPage UI elements","Validate brandingPage"
+"broken","Sun Jan 11 14:16:31 UTC 2026","Sun Jan 11 14:16:31 UTC 2026","0","ciathena.tests","test_Insights","","","","Verify InsightsHub UI elements","Validate UI components of Insights Hub after login"
+"broken","Sun Jan 11 14:16:31 UTC 2026","Sun Jan 11 14:16:31 UTC 2026","0","ciathena.tests","test_OngoingThreads","","","","Verify OngoingThreads UI elements","Validate OngoingThreads"
+"broken","Sun Jan 11 14:16:31 UTC 2026","Sun Jan 11 14:16:31 UTC 2026","0","ciathena.tests","test_Login","","","","SSO-Login","test_login with valid logins"
