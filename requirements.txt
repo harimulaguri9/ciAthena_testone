@@ -8,3 +8,4 @@ python-dotenv==1.2.1
 pytest-xdist==3.8.0
 allure-pytest==2.15.2
 pytest-check
+pytest-asyncio
