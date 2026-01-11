@@ -3,8 +3,8 @@ from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 
 class OngoingThreadsPage(BasePage):
-    def __init__(self, page: Page, step_logger=None):
-        super().__init__(page, step_logger)
+    def __init__(self, page: Page):
+        super().__init__(page)
         self.ongoing_threads_navbar=page.locator("#sidebar-nav-label-ongoing-threads")
         self.sidebar_nav_item_newchat=page.locator("#sidebar-nav-item-new-chat")
 

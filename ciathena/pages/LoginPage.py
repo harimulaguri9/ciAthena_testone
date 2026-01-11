@@ -6,7 +6,7 @@ from playwright.async_api import Page
 
 class LoginPage(BasePage):
     @allure.step("login into the application--")
-    def __init__(self, page: Page,step_logger=None):
+    def __init__(self, page: Page):
         super().__init__(page)
         self.SSO_signin_button=page.get_by_text("Sign in with Microsoft")
         self.email_input = page.locator("#i0116")

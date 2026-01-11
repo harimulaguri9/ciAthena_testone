@@ -1,2 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"Validate UI components of Insights Hub after login","100474","Verify InsightsHub UI elements","tests","Fri Nov 14 11:20:57 IST 2025","passed","Fri Nov 14 11:22:38 IST 2025","","test_Insights","",""

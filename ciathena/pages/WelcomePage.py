@@ -4,8 +4,8 @@ import time
 from ciathena.pages.BasePage import BasePage
 
 class WelcomePage(BasePage):
-    def __init__(self, page: Page,step_logger=None):
-        super().__init__(page,step_logger)
+    def __init__(self, page: Page):
+        super().__init__(page)
         self.welcome_text=page.locator("#welcome-prefix")
         self.welcome_search_input=page.locator("#welcome-search-input")
         self.search_button=page.locator("#welcome-search-submit-button")

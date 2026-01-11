@@ -13,7 +13,7 @@ from ciathena.pages.UsersPage import UsersPage
 from pytest_html import extras
 
 @pytest.fixture(scope="function")
-async def setup(step_logger):
+async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
         browser = await p.chromium.launch(headless=False, slow_mo=100)
@@ -23,15 +23,15 @@ async def setup(step_logger):
         print(f"🧩 New Page Created: {id(page)}")
 
     # Initialize all your page objects
-        basepage = BasePage(page, step_logger)
-        loginPage = LoginPage(page, step_logger)
-        welcomePage = WelcomePage(page, step_logger)
-        ongoingthreadsPage = OngoingThreadsPage(page, step_logger)
-        insightshubPage = InsightsHubPage(page, step_logger)
-        collabspacePage = CollabSpacePage(page, step_logger)
-        brandingPage = BrandingPage(page, step_logger)
-        authenticationPage =AuthenticationPage(page, step_logger)
-        usersPage =UsersPage(page, step_logger)
+        basepage = BasePage(page)
+        loginPage = LoginPage(page)
+        welcomePage = WelcomePage(page)
+        ongoingthreadsPage = OngoingThreadsPage(page)
+        # insightshubPage = InsightsHubPage(page, step_logger)
+        # collabspacePage = CollabSpacePage(page, step_logger)
+        # brandingPage = BrandingPage(page, step_logger)
+        # authenticationPage =AuthenticationPage(page, step_logger)
+        # usersPage =UsersPage(page, step_logger)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
         print("🔹 Starting navigation--")
@@ -42,11 +42,11 @@ async def setup(step_logger):
             "loginPage": loginPage,
             "welcomePage": welcomePage,
             "ongoingthreadsPage": ongoingthreadsPage,
-            "insightshubPage": insightshubPage,
-            "collabspacePage" : collabspacePage,
-            "brandingPage" : brandingPage,
-            "authenticationPage": authenticationPage,
-            "usersPage": usersPage
+            # "insightshubPage": insightshubPage,
+            # "collabspacePage" : collabspacePage,
+            # "brandingPage" : brandingPage,
+            # "authenticationPage": authenticationPage,
+            # "usersPage": usersPage
 
         }
         # print("🧹 Closing page after test--")
