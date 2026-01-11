@@ -2,7 +2,7 @@ from datetime import time
 import time
 import allure
 import pytest
-import pytest_check as check
+#import pytest_check as check
 @pytest.mark.order(2)
 @pytest.mark.usefixtures("step_logger")
 @pytest.mark.smoke
