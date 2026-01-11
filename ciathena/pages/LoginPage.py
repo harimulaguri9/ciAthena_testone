@@ -20,6 +20,7 @@ class LoginPage(BasePage):
 
     async def login_success(self):
         await self.SSO_signin_button.click()
+        print("SSO_signin_clicked-----")
         await self.email_input.fill("hari.mulaguri@customerinsights.ai")
         await self.next_button.click()
         await self.password_input.wait_for(state="visible")

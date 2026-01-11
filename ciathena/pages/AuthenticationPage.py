@@ -5,8 +5,8 @@ from ciathena.pages.BasePage import BasePage
 
 
 class AuthenticationPage(BasePage):
-    def __init__(self, page: Page, step_logger=None):
-        super().__init__(page, step_logger)
+    def __init__(self, page: Page):
+        super().__init__(page)
 
 #Authentication
         self.authentication_nav_button = page.get_by_role("button", name="Authentication")

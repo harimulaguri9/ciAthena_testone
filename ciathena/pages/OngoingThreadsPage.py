@@ -7,7 +7,6 @@ class OngoingThreadsPage(BasePage):
         super().__init__(page)
         self.ongoing_threads_navbar=page.locator("#sidebar-nav-label-ongoing-threads")
         self.sidebar_nav_item_newchat=page.locator("#sidebar-nav-item-new-chat")
-
         self.ongoing_threads_title = page.get_by_text("Ongoing Threads")
         self.search_input = page.locator("//*[@id='search-input']")
         #self.search_input = page.locator("#search-input")

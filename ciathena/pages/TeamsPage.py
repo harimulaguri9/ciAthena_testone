@@ -7,8 +7,8 @@ from ciathena.pages.BasePage import BasePage
 
 
 class BrandingPage(BasePage):
-    def __init__(self, page: Page, step_logger=None):
-        super().__init__(page, step_logger)
+    def __init__(self, page: Page):
+        super().__init__(page)
 
         page.get_by_role("button", name="Teams Teams").click()
         page.get_by_role("textbox", name="Search by team name/").click()

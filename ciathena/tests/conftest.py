@@ -13,11 +13,11 @@ from ciathena.pages.AuthenticationPage import AuthenticationPage
 from ciathena.pages.UsersPage import UsersPage
 from pytest_html import extras
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(slow_mo=100)
+        browser = await p.chromium.launch(headless=False, slow_mo=100)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
@@ -28,31 +28,33 @@ async def setup():
         loginPage = LoginPage(page)
         welcomePage = WelcomePage(page)
         ongoingthreadsPage = OngoingThreadsPage(page)
-        # insightshubPage = InsightsHubPage(page, step_logger)
-        # collabspacePage = CollabSpacePage(page, step_logger)
-        # brandingPage = BrandingPage(page, step_logger)
-        # authenticationPage =AuthenticationPage(page, step_logger)
-        # usersPage =UsersPage(page, step_logger)
+        insightshubPage = InsightsHubPage(page)
+        collabspacePage = CollabSpacePage(page)
+        brandingPage = BrandingPage(page)
+        authenticationPage =AuthenticationPage(page)
+        usersPage =UsersPage(page)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
         print("🔹 Starting navigation--")
         await basepage.navigate("https://ciathena.customerinsights.ai/")
+        await loginPage.login_success()
+        await welcomePage.select_usecase()
+
         yield {
             "page": page,
             "basepage": basepage,
             "loginPage": loginPage,
             "welcomePage": welcomePage,
             "ongoingthreadsPage": ongoingthreadsPage,
-            # "insightshubPage": insightshubPage,
-            # "collabspacePage" : collabspacePage,
-            # "brandingPage" : brandingPage,
-            # "authenticationPage": authenticationPage,
-            # "usersPage": usersPage
+            "insightshubPage": insightshubPage,
+            "collabspacePage" : collabspacePage,
+            "brandingPage" : brandingPage,
+            "authenticationPage": authenticationPage,
+            "usersPage": usersPage
 
         }
-        # print("🧹 Closing page after test--")
-        #
-        # await page.close()
+        print("🧹 Closing page after test--")
+        await page.close()
 
 
 

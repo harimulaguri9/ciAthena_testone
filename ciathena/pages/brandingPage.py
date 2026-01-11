@@ -7,8 +7,8 @@ from ciathena.pages.BasePage import BasePage
 
 
 class BrandingPage(BasePage):
-    def __init__(self, page: Page, step_logger=None):
-        super().__init__(page, step_logger)
+    def __init__(self, page: Page):
+        super().__init__(page)
         self.Settings = page.locator("//*[@id='navbar-settings-button']")
         self.Configuration = page.locator("//*[@id='sidebar-icon-configuration']")
         self.Branding_nav_bar = page.get_by_role("button", name="Branding")

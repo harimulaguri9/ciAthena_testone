@@ -7,8 +7,8 @@ from ciathena.pages.BasePage import BasePage
 
 
 class InsightsHubPage(BasePage):
-    def __init__(self, page: Page, step_logger=None):
-        super().__init__(page, step_logger)
+    def __init__(self, page: Page ):
+        super().__init__(page)
         self.insights_hub_nav_label = page.locator("#sidebar-icon-insights-hub")
         # self.insights_hub_nav_label=page.locator("#sidebar-nav-icon-container-insights-hub")
         self.insights_hub_title = page.get_by_text("Insights Hub")

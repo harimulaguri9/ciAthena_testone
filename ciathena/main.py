@@ -13,7 +13,8 @@ def test_run_all_tests():
         # run entire test folder
         "-sv",
         "--alluredir=allure-results", # generate allure raw results
-        "--clean-alluredir",          # clean old results
+        "--clean-alluredir",         # clean old results
+        "--headed",
     ])
 
 if __name__ == "__main__":
