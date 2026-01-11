@@ -1,4 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"Validate OngoingThreads","369217","Verify OngoingThreads UI elements","tests","2026-01-09","passed","2026-01-09","","test_OngoingThreads","",""
-"Validate UI components of Insights Hub after login","145769","Verify InsightsHub UI elements","tests","2026-01-09","passed","2026-01-09","","test_Insights","",""
-"Validate that the UI of Collabspace loads correctly","174116","Verify Collabspace UI","tests","2026-01-09","passed","2026-01-09","","test_CollabSpace","",""
+"Validate OngoingThreads","60178","Verify OngoingThreads UI elements","tests","2026-01-11","broken","2026-01-11","","test_OngoingThreads","",""

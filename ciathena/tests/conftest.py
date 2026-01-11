@@ -1,5 +1,6 @@
+import allure
 import pytest
-from playwright.async_api import async_playwright
+from playwright.async_api import async_playwright, Page
 import asyncio
 from ciathena.pages.BasePage import BasePage
 from ciathena.pages.LoginPage import LoginPage
@@ -62,18 +63,42 @@ async def step_logger(request):
     async def log_step(message: str):
         print(f"[STEP] {message}")
         request.node.step_logs.append(f"➡️ {message}")
-
     return log_step
 
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+@pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
-    rep = outcome.get_result()
-    if hasattr(item, "step_logs") and rep.when == "call":
-        html_steps = "<br>".join(item.step_logs)
-        extra = getattr(rep, "extra", [])
-        extra.append(extras.html(f"<div><strong>Steps:</strong><br>{html_steps}</div>"))
-        rep.extra = extra
+    report = outcome.get_result()
+
+    if report.failed:
+        page = item.funcargs.get("page") or item.funcargs.get("setup", {}).get("page")
+
+        if isinstance(page, Page):
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+            screenshot_bytes = loop.run_until_complete(
+                page.screenshot(full_page=True)
+            )
+
+            allure.attach(
+                screenshot_bytes,
+                name=f"Failure Screenshot ({report.when})",
+                attachment_type=allure.attachment_type.PNG
+            )
+#
+# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     rep = outcome.get_result()
+#     if hasattr(item, "step_logs") and rep.when == "call":
+#         html_steps = "<br>".join(item.step_logs)
+#         extra = getattr(rep, "extra", [])
+#         extra.append(extras.html(f"<div><strong>Steps:</strong><br>{html_steps}</div>"))
+#         rep.extra = extra
 
 @pytest.fixture(scope="session")
 def event_loop():
