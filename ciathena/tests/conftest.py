@@ -1,6 +1,6 @@
 import pytest
 from playwright.async_api import async_playwright
-
+import asyncio
 from ciathena.pages.BasePage import BasePage
 from ciathena.pages.LoginPage import LoginPage
 from ciathena.pages.WelcomePage import WelcomePage
@@ -74,3 +74,9 @@ def pytest_runtest_makereport(item, call):
         extra = getattr(rep, "extra", [])
         extra.append(extras.html(f"<div><strong>Steps:</strong><br>{html_steps}</div>"))
         rep.extra = extra
+
+@pytest.fixture(scope="session")
+def event_loop():
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()
