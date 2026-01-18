@@ -1,3 +1,2 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Sun Jan 18 15:41:21 UTC 2026","Sun Jan 18 15:41:56 UTC 2026","35300","tests","test_OngoingThreads","","","","test_ask_question",""
-"broken","Sun Jan 18 15:42:19 UTC 2026","Sun Jan 18 15:42:50 UTC 2026","30102","tests","test_OngoingThreads","","","","test_validate_insights_icons",""
+"broken","Sun Jan 18 15:49:16 UTC 2026","Sun Jan 18 15:49:16 UTC 2026","0","ciathena.tests","test_Insights","","","","Verify InsightsHub UI elements","Validate UI components of Insights Hub after login"
