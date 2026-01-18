@@ -9,12 +9,7 @@ import pytest
 # @allure.title("Verify InsightsHub UI elements")
 # @allure.description("Validate UI components of Insights Hub after login")
 async def test_Insights(setup):
-    basepage = setup["basepage"]
     insightshubPage = setup["insightshubPage"]
-    welcomePage=setup["welcomePage"]
-    failures = []
-    loginPage = setup["loginPage"]
-
 
     await insightshubPage.verify_insightshub_UI()
     await insightshubPage.verify_executive_cards()
