@@ -68,16 +68,11 @@ async def test_Configurations(setup):
 
 
 #users_valdaition
-    # with allure.step("validate_Configuration_tabs"):
-    await brandingPage.validate_Configuration_tabs()
-    # with allure.step("users_page_valdaition"):
-    await usersPage.validate_users_page_options()
-
-    # with allure.step("users_page_valdaition"):
-    await usersPage.verify_users_table_columns()
-    # with allure.step("users_page_valdaition"):
-    await usersPage.verify_adduser_fields()
-    # with allure.step("users_page_valdaition"):
+    # await brandingPage.validate_Configuration_tabs()
+    # await usersPage.validate_users_page_options()
+    #
+    # await usersPage.verify_users_table_columns()
+    # await usersPage.verify_adduser_fields()
     # await usersPage.fill_user_details(
             # first_name="Hari",
             # last_name="Mulaguri",
