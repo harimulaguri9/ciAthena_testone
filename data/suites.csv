@@ -1,2 +1,2 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"broken","Sun Jan 18 16:34:31 UTC 2026","Sun Jan 18 16:34:31 UTC 2026","0","ciathena.tests","test_Insights","","","","test_Insights",""
+"broken","Sun Jan 18 18:02:20 UTC 2026","Sun Jan 18 18:02:20 UTC 2026","0","ciathena.tests","test_Configurations","","","","test_Configurations",""
