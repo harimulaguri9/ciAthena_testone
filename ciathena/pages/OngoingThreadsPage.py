@@ -3,11 +3,10 @@ from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 
 class OngoingThreadsPage(BasePage):
-    def __init__(self, page: Page, step_logger=None):
-        super().__init__(page, step_logger)
+    def __init__(self, page: Page):
+        super().__init__(page)
         self.ongoing_threads_navbar=page.locator("#sidebar-nav-label-ongoing-threads")
         self.sidebar_nav_item_newchat=page.locator("#sidebar-nav-item-new-chat")
-
         self.ongoing_threads_title = page.get_by_text("Ongoing Threads")
         self.search_input = page.locator("//*[@id='search-input']")
         #self.search_input = page.locator("#search-input")
@@ -15,7 +14,7 @@ class OngoingThreadsPage(BasePage):
         self.today_header = page.locator("//*[@id='group-label-0']")
         self.response_question_text = page.locator("#question-text")
         self.today_history_section=page.locator("//p[contains(text(),'Today')]//parent::div/div/div/div/div[2]")
-        self.mmx_title = page.get_by_text("Market Mix Modeling")
+        self.mmm1_title = page.get_by_text("MMM1")
         self.home_icon = page.locator("#navbar-home-button")
         self.settings_icon = page.locator("#navbar-settings-button")
         self.app_overview_icon = page.locator("#navbar-app-overview-button")
@@ -72,8 +71,9 @@ class OngoingThreadsPage(BasePage):
     # Verification of page UI
     # --------------------------------------------------------------------------
     async def verify_ongoing_threads_UI(self):
-        await self.ongoing_threads_title.wait_for(state="visible", timeout=20000)
-        await self.assert_visible(self.mmx_title, "MMX title")
+        await self.page.pause()
+        # await self.ongoing_threads_title.wait_for(state="visible", timeout=20000)
+        await self.assert_visible(self.mmm1_title, "MMM1 title")
         await self.assert_visible(self.home_icon, "home_icon")
         await self.assert_visible(self.settings_icon, "settings_icon")
         await self.assert_visible(self.app_overview_icon, "app_overview_icon")
@@ -82,9 +82,12 @@ class OngoingThreadsPage(BasePage):
     # Ask Question
     # --------------------------------------------------------------------------
     async def ask_question(self):
+        await self.page.pause()
+
         await self.main_input.fill(
             "How does TOTAL_DIGITAL_PROMOTIONS volume last month compare to the previous month across regions?"
         )
+
         await self.send_button1.click()
         #await asyncio.sleep(3)
         await self.page.wait_for_timeout(35000)  # 20 seconds

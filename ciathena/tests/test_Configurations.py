@@ -2,7 +2,7 @@ from datetime import time
 import time
 import allure
 import pytest
-import pytest_check as check
+#import pytest_check as check
 
 
 @pytest.mark.order(2)
@@ -29,9 +29,19 @@ async def test_Configurations(setup):
 
     with allure.step("Select use case"):
         await welcomePage.select_usecase()
-        time.sleep(3)
+        print("usecasesss")
 
-#brandingPage
+    with allure.step("validate_Configuration_tabs"):
+        print("configgg")
+        await brandingPage.validate_Configuration_tabs()
+        await brandingPage.validate_branding_tabs()
+        await brandingPage.update_branding_logos()
+
+    # with allure.step("users_page_valdaition"):
+    #     await usersPage.validate_users_page_options()
+    #     time.sleep(3)
+
+    #brandingPage
     # with allure.step("validate_tabs"):
     #     await brandingPage.validate_branding_tabs()
     # # with allure.step("update_branding"):

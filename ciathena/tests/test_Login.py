@@ -2,7 +2,7 @@
 import allure
 import pytest
 @pytest.mark.order(1)
-@pytest.mark.usefixtures("step_logger")
+# @pytest.mark.usefixtures("step_logger")
 @pytest.mark.smoke
 @pytest.mark.asyncio
 @allure.epic("LoginPage")
