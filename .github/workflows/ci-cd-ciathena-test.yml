@@ -38,7 +38,7 @@ jobs:
       # 4️⃣ Run Playwright tests (parallel)
       - name: Run Playwright Tests
         run: |
-          pytest -m wip -n 6 \
+          pytest -m wip \
             --alluredir=allure-results \
             --capture=tee-sys
 

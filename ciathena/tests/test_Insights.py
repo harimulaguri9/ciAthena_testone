@@ -1,13 +1,13 @@
 import allure
 import pytest
-@pytest.mark.order(3)
-@pytest.mark.smoke
+# @pytest.mark.order(3)
+# @pytest.mark.smoke
 @pytest.mark.wip
 @pytest.mark.asyncio
-@allure.epic("Insights Hub")
-@allure.story("InsightsHub_UI")
-@allure.title("Verify InsightsHub UI elements")
-@allure.description("Validate UI components of Insights Hub after login")
+# @allure.epic("Insights Hub")
+# @allure.story("InsightsHub_UI")
+# @allure.title("Verify InsightsHub UI elements")
+# @allure.description("Validate UI components of Insights Hub after login")
 async def test_Insights(setup):
     basepage = setup["basepage"]
     insightshubPage = setup["insightshubPage"]
