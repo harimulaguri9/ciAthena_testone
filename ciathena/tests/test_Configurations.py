@@ -5,13 +5,14 @@ import pytest
 #import pytest_check as check
 
 
-@pytest.mark.order(2)
+# @pytest.mark.order(2)
 @pytest.mark.smoke
+@pytest.mark.wip
 @pytest.mark.asyncio
-@allure.epic("BrandingPage validation")
-@allure.story("brandingPages_Features")
-@allure.title("Verify brandingPage UI elements")
-@allure.description("Validate brandingPage")
+# @allure.epic("BrandingPage validation")
+# @allure.story("brandingPages_Features")
+# @allure.title("Verify brandingPage UI elements")
+# @allure.description("Validate brandingPage")
 async def test_Configurations(setup):
     basepage = setup["basepage"]
     loginPage = setup["loginPage"]

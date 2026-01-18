@@ -17,7 +17,7 @@ from pytest_html import extras
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(headless=True, slow_mo=2000)
+        browser = await p.chromium.launch(headless=False, slow_mo=2000)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
