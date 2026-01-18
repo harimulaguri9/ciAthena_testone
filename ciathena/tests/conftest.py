@@ -57,14 +57,14 @@ async def setup():
 
 
 
-@pytest.fixture
-async def step_logger(request):
-    request.node.step_logs = []
-
-    async def log_step(message: str):
-        print(f"[STEP] {message}")
-        request.node.step_logs.append(f"➡️ {message}")
-    return log_step
+# @pytest.fixture
+# async def step_logger(request):
+#     request.node.step_logs = []
+#
+#     async def log_step(message: str):
+#         print(f"[STEP] {message}")
+#         request.node.step_logs.append(f"➡️ {message}")
+#     return log_step
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):

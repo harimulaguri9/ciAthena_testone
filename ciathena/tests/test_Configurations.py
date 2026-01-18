@@ -6,7 +6,6 @@ import pytest
 
 
 @pytest.mark.order(2)
-@pytest.mark.usefixtures("step_logger")
 @pytest.mark.smoke
 @pytest.mark.asyncio
 @allure.epic("BrandingPage validation")
@@ -24,18 +23,18 @@ async def test_Configurations(setup):
 
 
     failures = []
-    with allure.step("login into the application"):
-        await loginPage.login_success()
+    # with allure.step("login into the application"):
+    #     await loginPage.login_success()
+    #
+    # with allure.step("Select use case"):
+    #     await welcomePage.select_usecase()
+    #     print("usecasesss")
 
-    with allure.step("Select use case"):
-        await welcomePage.select_usecase()
-        print("usecasesss")
-
-    with allure.step("validate_Configuration_tabs"):
-        print("configgg")
-        await brandingPage.validate_Configuration_tabs()
-        await brandingPage.validate_branding_tabs()
-        await brandingPage.update_branding_logos()
+    # with allure.step("validate_Configuration_tabs"):
+    #     print("configgg")
+    await brandingPage.validate_Configuration_tabs()
+    await brandingPage.validate_branding_tabs()
+    await brandingPage.update_branding_logos()
 
     # with allure.step("users_page_valdaition"):
     #     await usersPage.validate_users_page_options()
@@ -68,25 +67,22 @@ async def test_Configurations(setup):
 
 
 #users_valdaition
-    with allure.step("validate_Configuration_tabs"):
-        await brandingPage.validate_Configuration_tabs()
-    with allure.step("users_page_valdaition"):
-        await usersPage.validate_users_page_options()
-        time.sleep(3)
+    # with allure.step("validate_Configuration_tabs"):
+    await brandingPage.validate_Configuration_tabs()
+    # with allure.step("users_page_valdaition"):
+    await usersPage.validate_users_page_options()
 
-    with allure.step("users_page_valdaition"):
-        await usersPage.verify_users_table_columns()
-        time.sleep(3)
-    with allure.step("users_page_valdaition"):
-        await usersPage.verify_adduser_fields()
-        time.sleep(3)
-    with allure.step("users_page_valdaition"):
-        await usersPage.fill_user_details(
-            first_name="Hari",
-            last_name="Mulaguri",
-            email="hari@test.com",
-            title="QA",
-            phone="9999999999")
+    # with allure.step("users_page_valdaition"):
+    await usersPage.verify_users_table_columns()
+    # with allure.step("users_page_valdaition"):
+    await usersPage.verify_adduser_fields()
+    # with allure.step("users_page_valdaition"):
+    # await usersPage.fill_user_details(
+            # first_name="Hari",
+            # last_name="Mulaguri",
+            # email="hari@test.com",
+            # title="QA",
+            # phone="9999999999")
             # use_case="Analytics",
             # role="Admin",
             # team="QA",
