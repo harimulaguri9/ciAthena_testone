@@ -35,7 +35,7 @@ async def setup():
         usersPage =UsersPage(page)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
-        await basepage.navigate("https://ciathena-dev.customerinsights.ai/")
+        await page.goto("https://ciathena-dev.customerinsights.ai/")
         await loginPage.login_success()
         await welcomePage.select_usecase()
 
