@@ -20,9 +20,13 @@ class LoginPage(BasePage):
 
     async def login_success(self):
         await self.email_input.fill("harimulaguri9@gmail.com")
+        await self.page.wait_for_timeout(2000)
         await self.signin_button.click()
+        await self.page.wait_for_timeout(2000)
         await self.password_input.wait_for(state="visible")
+        await self.page.wait_for_timeout(2000)
         await self.password_input.fill("Test@123")
+        await self.page.wait_for_timeout(2000)
         await self.signin_button.click()
 
         # await self.SSO_signin_button.click()

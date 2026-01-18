@@ -100,7 +100,6 @@ class InsightsHubPage(BasePage):
         # await check.is_true(self.executive_insights_tab.is_visible(), "Executive Insights tab should be visible")
         # await check.is_true(self.personalized_insights_tab.is_visible(), "personalized  Insights tab should be visible")
         await self.personalized_insights_tab.wait_for(state="visible", timeout=2000)
-        assert self.personalized_insights_tab.is_visible()
         await self.assert_visible(self.personalized_insights_tab, "Personalized insights")
 
     async def verify_executive_cards(self):
