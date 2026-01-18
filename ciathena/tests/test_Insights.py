@@ -14,6 +14,12 @@ async def test_Insights(setup):
     welcomePage=setup["welcomePage"]
     failures = []
     loginPage = setup["loginPage"]
+
+
+    await insightshubPage.verify_insightshub_UI()
+    await insightshubPage.verify_executive_cards()
+    await insightshubPage.verify_personalized_insights_all_cards()
+
     #
     # with allure.step("login into the application"):
     #     await loginPage.login_success()
@@ -22,25 +28,25 @@ async def test_Insights(setup):
     # ---------------------------------------------------------
     # 3️⃣ VERIFY INSIGHTS HUB UI
     # ---------------------------------------------------------
-    with allure.step("Verify InsightsHub UI"):
-        try:
-            await insightshubPage.verify_insightshub_UI()
-        except Exception as e:
-            msg = f"verify_insightshub_UI failed: {e}"
-            failures.append(msg)
-            allure.attach(msg, "UI Check Failed", allure.attachment_type.TEXT)
-            print("[WARNING] InsightsHub UI verification failed but continuing...")
+    # with allure.step("Verify InsightsHub UI"):
+    #     try:
+    #         await insightshubPage.verify_insightshub_UI()
+    #     except Exception as e:
+    #         msg = f"verify_insightshub_UI failed: {e}"
+    #         failures.append(msg)
+    #         allure.attach(msg, "UI Check Failed", allure.attachment_type.TEXT)
+    #         print("[WARNING] InsightsHub UI verification failed but continuing...")
     # ---------------------------------------------------------
     # 4️⃣ EXECUTIVE CARDS
     # ---------------------------------------------------------
-    with allure.step("Verify Executive Cards"):
-        try:
-            await insightshubPage.verify_executive_cards()
-        except Exception as e:
-            msg = f"verify_executive_cards failed: {e}"
-            failures.append(msg)
-            allure.attach(msg, "Executive Cards Failed", allure.attachment_type.TEXT)
-            print("[WARNING] Executive cards verification failed but continuing...")
+    # with allure.step("Verify Executive Cards"):
+    #     try:
+    #         await insightshubPage.verify_executive_cards()
+    #     except Exception as e:
+    #         msg = f"verify_executive_cards failed: {e}"
+    #         failures.append(msg)
+    #         allure.attach(msg, "Executive Cards Failed", allure.attachment_type.TEXT)
+    #         print("[WARNING] Executive cards verification failed but continuing...")
     # ---------------------------------------------------------
     # 5️⃣ PERSONALIZED INSIGHTS (ALL SECTIONS)
     # # ---------------------------------------------------------
@@ -55,5 +61,5 @@ async def test_Insights(setup):
     # ---------------------------------------------------------
     # FAIL TEST IF ANY STEP FAILED
     # ---------------------------------------------------------
-    if failures:
-        pytest.fail("\n".join(failures))
+    # if failures:
+    #     pytest.fail("\n".join(failures))
