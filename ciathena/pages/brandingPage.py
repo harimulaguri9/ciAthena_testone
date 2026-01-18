@@ -6,9 +6,9 @@ from ciathena.pages.BasePage import BasePage
 #import pytest_check as check
 
 
-class BrandingPage(BasePage):
+class BrandingPage():
     def __init__(self, page: Page):
-        super().__init__(page)
+        # super().__init__(page)
         self.Settings = page.locator("//*[@id='navbar-settings-button']")
         self.Configuration = page.locator("//*[@id='sidebar-icon-configuration']")
         self.Branding_nav_bar = page.get_by_role("button", name="Branding")
@@ -16,8 +16,8 @@ class BrandingPage(BasePage):
         self.login_screen_tab = page.get_by_role("tab", name="Login screen")
         # Branding fields
         self.company_name = page.get_by_role("textbox", name="Enter company name")
-        self.brand_logo_image = page.locator("//p[normalize-space()='Brand logo']/following::img[@alt='Uploaded'][1]")
-        self.brand_logo_upload_icon = page.locator("[data-testid='UploadIcon']")
+        self.brand_logo_image = page.locator("#image-upload-card-primary-logo-placeholder")
+        self.brand_logo_upload_icon = page.locator("#image-upload-card-brand-logo-placeholder")
         # self.brand_logo_upload = page.locator("input[type='file']").nth(1)
         self.favicon_logo = page.locator("input[type='file']").nth(2)
         # Login screen
@@ -28,6 +28,7 @@ class BrandingPage(BasePage):
         background_image_path= r"/ciathena/tests/data/baner.svg"
 
     async def validate_Configuration_tabs(self):
+        await print("Configuration_tabs")
         await self.Settings.click()
         await self.Configuration.click()
         await self.page.wait_for_timeout(3000)  # 20 seconds
@@ -64,9 +65,9 @@ class BrandingPage(BasePage):
 
     async def update_brand_logo(self):
 
-        await self.brand_logo_image.click()
+        # await self.brand_logo_upload_icon.click()
         await self.page.set_input_files(
-            "[data-testid='UploadIcon']",
+            await self.brand_logo_upload_icon,
             "tests/data/340b-icon.svg"
         )
         # await self.page.locator("//p[normalize-space()='Brand logo']/following::img[@alt='Uploaded'][1]").set_input_files("tests/data/340b-icon.svg")

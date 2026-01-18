@@ -8,7 +8,6 @@ from ciathena.pages.BasePage import BasePage
 class CollabSpacePage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
-
         self.collab_space_navbar=page.locator("#sidebar-nav-label-container-collaboration-space")
         self.proceed_button = page.locator("//button[contains(text(), 'Proceed')]")
         self.spaceTitleInput = page.locator("#spaceTitleInput")

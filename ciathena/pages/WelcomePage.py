@@ -9,12 +9,12 @@ class WelcomePage(BasePage):
         self.welcome_text=page.locator("#welcome-prefix")
         self.welcome_search_input=page.locator("#welcome-search-input")
         self.search_button=page.locator("#welcome-search-submit-button")
-        self.mmx_usecase_icon=page.locator("#icon-app-mmx")
+        self.mmm1_usecase_icon=page.locator("#icon-app-mmm1")
         self.navbar=page.locator("#navbar-deepdive-text-section")
 
     async def select_usecase(self):
         await self.welcome_search_input.click()
-        await self.mmx_usecase_icon.wait_for(state="visible", timeout=2000)
-        await self.mmx_usecase_icon.scroll_into_view_if_needed()
-        await self.mmx_usecase_icon.click()
-        await self.page.wait_for_timeout(20000)
+        await self.mmm1_usecase_icon.wait_for(state="visible", timeout=10000)
+        await self.mmm1_usecase_icon.scroll_into_view_if_needed()
+        await self.mmm1_usecase_icon.click()
+        await self.page.wait_for_timeout(10000)

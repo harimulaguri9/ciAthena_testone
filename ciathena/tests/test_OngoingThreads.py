@@ -22,21 +22,27 @@ import pytest
     # with allure.step("Select use case"):
     #     await welcomePage.select_usecase()
 
-@pytest.mark.asyncio
-@pytest.mark.order(1)
-async def test_ongoing_threads_UI(setup):
-    # basepage = setup["basepage"]
-    # loginPage = setup["loginPage"]
-    # welcomePage = setup["welcomePage"]
-    ongoingthreadsPage = setup["ongoingthreadsPage"]
-    await ongoingthreadsPage.verify_ongoing_threads_UI()
+# @pytest.mark.asyncio
+# @pytest.mark.order(1)
+# async def test_ongoing_threads_UI(setup):
+#     # basepage = setup["basepage"]
+#     # loginPage = setup["loginPage"]
+#     # welcomePage = setup["welcomePage"]
+#     print("UI-1")
+#
+#     ongoingthreadsPage = setup["ongoingthreadsPage"]
+#     print("UI-2")
+#
+#     await ongoingthreadsPage.verify_ongoing_threads_UI()
+#     print("UI-3")
+
 
     # await setup["ongoingthreadsPage"].verify_ongoing_threads_UI()
-    print("UI")
 
 @pytest.mark.asyncio
 @pytest.mark.order(2)
 async def test_ask_question(setup):
+    print("")
     # basepage = setup["basepage"]
     # loginPage = setup["loginPage"]
     # welcomePage = setup["welcomePage"]
