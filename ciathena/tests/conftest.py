@@ -13,7 +13,7 @@ from ciathena.pages.AuthenticationPage import AuthenticationPage
 from ciathena.pages.UsersPage import UsersPage
 from pytest_html import extras
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")

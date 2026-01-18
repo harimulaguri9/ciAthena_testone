@@ -42,21 +42,23 @@ import pytest
 @pytest.mark.asyncio
 @pytest.mark.order(2)
 async def test_ask_question(setup):
-    print("")
-    # basepage = setup["basepage"]
-    # loginPage = setup["loginPage"]
-    # welcomePage = setup["welcomePage"]
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     await ongoingthreadsPage.ask_question()
-
-    # await setup["ongoingthreadsPage"].ask_question()
     print("ask")
 
 
 @pytest.mark.asyncio
 @pytest.mark.order(3)
-async def test_validate_insights_actions(setup):
-    await setup["ongoingthreadsPage"].share_insights()
+async def test_validate_insights_icons(setup):
+    ongoingthreadsPage = setup["ongoingthreadsPage"]
+    await ongoingthreadsPage.verify_share_insights()
+    await ongoingthreadsPage.verify_save_insights()
+    await ongoingthreadsPage.verify_download_insights()
+    await ongoingthreadsPage.verify_sql_query()
+    await ongoingthreadsPage.click_info_button()
+    await ongoingthreadsPage.click_like_button()
+    await ongoingthreadsPage.click_dislike_button()
+
 
     #
     # async def ask_question(setup):
