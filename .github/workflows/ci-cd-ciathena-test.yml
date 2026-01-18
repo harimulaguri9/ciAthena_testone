@@ -38,7 +38,7 @@ jobs:
       # 4️⃣ Run Playwright tests (parallel)
       - name: Run Playwright Tests
         run: |
-          pytest ciathena/tests/test_OngoingThreads.py \
+          pytest -m wip -n 6 \
             --alluredir=allure-results \
             --capture=tee-sys
 
