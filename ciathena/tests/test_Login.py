@@ -5,7 +5,7 @@ import pytest
 # @pytest.mark.usefixtures("step_logger")
 @pytest.mark.smoke
 @pytest.mark.wip
-
+@pytest.mark.asyncio
 #
 # @pytest.mark.asyncio
 # @allure.epic("LoginPage")
