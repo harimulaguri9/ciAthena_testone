@@ -14,7 +14,7 @@ class OngoingThreadsPage(BasePage):
         self.today_header = page.locator("//*[@id='group-label-0']")
         self.response_question_text = page.locator("#question-text")
         self.today_history_section=page.locator("//p[contains(text(),'Today')]//parent::div/div/div/div/div[2]")
-        self.mmm1_title = page.locator("//p[text()='MMM1']")
+        self.mmm_title = page.locator("//p[text()='MMM']")
         self.home_icon = page.locator("#navbar-home-button")
         self.settings_icon = page.locator("#navbar-settings-button")
         self.app_overview_icon = page.locator("#navbar-app-overview-button")
@@ -73,7 +73,7 @@ class OngoingThreadsPage(BasePage):
     async def verify_ongoing_threads_UI(self):
         await self.page.pause()
         # await self.ongoing_threads_title.wait_for(state="visible", timeout=20000)
-        await self.assert_visible(self.mmm1_title, "MMM1 title")
+        await self.assert_visible(self.mmm_title, "MMM1 title")
         await self.assert_visible(self.home_icon, "home_icon")
         await self.assert_visible(self.settings_icon, "settings_icon")
         await self.assert_visible(self.app_overview_icon, "app_overview_icon")
@@ -82,7 +82,6 @@ class OngoingThreadsPage(BasePage):
     # Ask Question
     # --------------------------------------------------------------------------
     async def ask_question(self):
-        await self.page.pause()
 
         await self.main_input.fill(
             "How does TOTAL_DIGITAL_PROMOTIONS volume last month compare to the previous month across regions?"

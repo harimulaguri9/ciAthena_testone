@@ -16,8 +16,8 @@ class UsersPage(BasePage):
         self.user_first_name = page.get_by_role("textbox", name="Enter first name")
         self.user_last_name = page.get_by_role("textbox", name="Enter last name")
         self.user_email = page.get_by_role("textbox", name="Enter email address")
-        self.user_title = page.get_by_role("textbox", name="Title")
-        self.user_phone = page.get_by_role("textbox", name="Phone")
+        self.user_title = page.locator("#general-tab-title-input")
+        self.user_phone = page.locator("#general-tab-phone-input")
         self.user_usecases_dropdown = page.locator("//p[text()='Role']/following::div[@role='combobox'][1]")
 
         self.designation = page.get_by_role("textbox", name="Enter designation")
@@ -40,6 +40,9 @@ class UsersPage(BasePage):
         # ========== Team ==========
         self.team_dropdown = page.get_by_role("combobox").filter(has_text="Select team")
         self.team_alpha = page.get_by_text("Team Alpha")
+        self.licensed_toggle = page.locator("#general-tab-licensed-toggle")
+        self.personalised_toggle = page.locator("#general-tab-personalized-insights-toggle")
+
 
         # ========== Save ==========
         self.save_button = page.get_by_role("button", name="Save")
@@ -70,6 +73,8 @@ class UsersPage(BasePage):
         self.backdrop = page.locator(".MuiBackdrop-root.MuiBackdrop-invisible")
 
 
+        # ========== Users list ==========
+        self.users_search_input = page.locator("#users-search-input")
 
 
     # -------- METHODS --------
@@ -111,13 +116,19 @@ class UsersPage(BasePage):
         await self.user_title.fill(title)
         await self.user_phone.fill(phone)
 
+        # Select language
+        await self.select_user_langugae_dropdown()
+        # Select licensed_toggle
+        await self.enable_licensed_toggle()
         # Select Use Case
         await self.select_user_usecases_dropdown()
         # Select Role
-        await self.select_user_role_dropdown.click()
+        await self.select_user_role_dropdown()
         # Select Team
-        await self.team_dropdown.click()
-        await self.enable_licensed_toggle()
+        await self.select_team_dropdown()
+        #personalised_toggle
+        await self.personalised_toggle.click()
+
         # # Toggle Licensed
         # if licensed:
         #     if not await self.licensed_toggle.is_checked():
@@ -128,16 +139,19 @@ class UsersPage(BasePage):
 
         # Save should be enabled now
         await expect(self.save_button).to_be_enabled()
+        await self.save_button.click()
 
     # ==================================================
     # SAVE USER
     # ==================================================
-    async def click_save(self):
-        await self.save_button.click()
 
     async def select_user_langugae_dropdown(self):
         await self.language_dropdown.click()
         await self.language_option_english.click()
+
+    async def enable_licensed_toggle(self):
+        if await self.licensed_toggle.get_attribute("aria-checked") == "false":
+            await self.licensed_toggle.click()
 
     async def select_user_usecases_dropdown(self):
         await self.use_cases_dropdown.click()
@@ -148,7 +162,13 @@ class UsersPage(BasePage):
         await self.role_dropdown.click()
         await self.role_analyst.click()
 
-    async def enable_licensed_toggle(self):
-        if await self.licensed_toggle.get_attribute("aria-checked") == "false":
-            await self.licensed_toggle.click()
-            await self.licensed_toggle.click()
+    async def select_team_dropdown(self):
+        await self.team_dropdown.click()
+        await self.team_alpha.click()
+
+    async def select_personalised_toggle(self):
+        if await self.personalised_toggle.get_attribute("aria-checked") == "false":
+            await self.personalised_toggle.click()
+
+    async def verify_user_search(self,first_name: str):
+        await self.users_search_input.fill(first_name)
