@@ -1,5 +1,6 @@
 import allure
 import pytest
+import pytest_asyncio
 from playwright.async_api import async_playwright, Page
 import asyncio
 from ciathena.pages.BasePage import BasePage
@@ -12,12 +13,12 @@ from ciathena.pages.brandingPage import BrandingPage
 from ciathena.pages.AuthenticationPage import AuthenticationPage
 from ciathena.pages.UsersPage import UsersPage
 from pytest_html import extras
-
-@pytest.fixture(scope="session")
+# @pytest.fixture(scope="function")
+@pytest_asyncio.fixture
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(headless=False, slow_mo=100)
+        browser = await p.chromium.launch(headless=True, slow_mo=3000)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
@@ -35,9 +36,9 @@ async def setup():
         usersPage =UsersPage(page)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
-        await basepage.navigate("https://ciathena-dev.customerinsights.ai/")
+        await page.goto("https://ciathena-dev.customerinsights.ai/")
         await loginPage.login_success()
-        await welcomePage.select_usecase()
+        await welcomePage.select_mmm_usecase()
 
         yield {
             "page": page,
@@ -57,14 +58,14 @@ async def setup():
 
 
 
-@pytest.fixture
-async def step_logger(request):
-    request.node.step_logs = []
-
-    async def log_step(message: str):
-        print(f"[STEP] {message}")
-        request.node.step_logs.append(f"➡️ {message}")
-    return log_step
+# @pytest.fixture
+# async def step_logger(request):
+#     request.node.step_logs = []
+#
+#     async def log_step(message: str):
+#         print(f"[STEP] {message}")
+#         request.node.step_logs.append(f"➡️ {message}")
+#     return log_step
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):

@@ -1,1 +1,1 @@
-[{"uid":"c8bfc73014069f39","name":"Verify OngoingThreads UI elements","time":{"start":1768146061873,"stop":1768146122051,"duration":60178},"status":"broken","severity":"normal"}]
+[{"uid":"ab7e46a450531fd4","name":"test_validate_insights_icons","time":{"start":1768917218099,"stop":1768917251127,"duration":33028},"status":"broken","severity":"normal"},{"uid":"1090fb470483ec2d","name":"test_ask_question","time":{"start":1768917097427,"stop":1768917138559,"duration":41132},"status":"passed","severity":"normal"}]

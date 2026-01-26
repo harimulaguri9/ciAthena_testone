@@ -65,8 +65,7 @@ class CollabSpacePage(BasePage):
         await self.spaceDescriptionInput.fill(title1desc)
         await self.saveSpaceButton.click()
         time.sleep(2)
-        self.page.locator("Space created successfully")
-
+        expect(self.page.locator("text=Space created successfully")).to_be_visible()
 
     #async def member_sharing(self):
         # space_name = "qa1space"
