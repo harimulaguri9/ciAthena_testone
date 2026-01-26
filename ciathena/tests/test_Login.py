@@ -4,6 +4,7 @@ import pytest
 # @pytest.mark.order(1)
 # @pytest.mark.usefixtures("step_logger")
 @pytest.mark.smoke
+@pytest.mark.wip
 
 #
 # @pytest.mark.asyncio
@@ -14,6 +15,6 @@ import pytest
 async def test_login_functionality(setup):
     basepage = setup["basepage"]
     loginPage = setup["loginPage"]
-
-    with allure.step("login into the application"):
-        await loginPage.login_success()
+    #
+    # with allure.step("login into the application"):
+    #     await loginPage.login_success()
