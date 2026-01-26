@@ -1,4 +1,4 @@
-import page
+
 from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 #import pytest_check as check
