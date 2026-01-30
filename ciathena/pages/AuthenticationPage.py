@@ -11,7 +11,7 @@ class AuthenticationPage(BasePage):
 #Authentication
         self.authentication_nav_button = page.locator("#configurations-nav-button-authentication")
         self.authentication_page_title = page.locator("//h1[contains(text(),'Authentication')]")
-        self.authentication_search_box = page.get_by_placeholder("Search...")
+        self.authentication_search_input = page.get_by_placeholder("Search...")
         self.add_new_authentication_button = page.get_by_role("button", name="Add new")
 
 # Add new / Properties
@@ -58,29 +58,38 @@ class AuthenticationPage(BasePage):
         self.post_logout_url = page.get_by_placeholder("https://dummy.url")
 
  #delete - confirm - button
-        self.row = self.page.locator("tr", has_text="AuthTest1")
-        self.edit_button=page.locator("p:has-text('Edit')")
-        self.delete_button = page.locator("p:has-text('Delete')")
-        self.delete_confirm = page.locator('#delete-confirm-button')
+        auth_sso_name='AAuth_SSO_Test1'
+        self.sso_user_more_button = self.page.locator(f"//tr[.//text()[normalize-space()='AAuth_SSO_Test1']]//button[contains(@data-name,'more-button')]")
+        self.auth_edit_option=page.locator("p:has-text('Edit')")
+        self.auth_delete_option = page.locator("p:has-text('Delete')")
+        self.auth_delete_confirm = page.locator('#delete-confirm-button')
+        self.auth_remove_user_confirm=page.locator('#user-removal-dialog-remove-button')
 
 #Add new
         self.auth_users_tab_button = page.locator("#auth-form-tab-users")
         self.auth_add_users_title = page.locator("#auth-form-breadcrumb")
         self.auth_search_input = page.locator("#auth-users-search-input")
-        self.auth_search_add_new_user_button = page.locator("#auth-users-add-button")
-        self.auth_add_new_user_search_input = page.locator("#auth-add-users-search-input")
-        self.auth_add_new_user_checkbox=page.locator("#auth-add-users-table-body input[type='checkbox']")
+        self.auth_add_user_button = page.locator("#auth-users-add-button")
+        self.auth_add_new_user_search_input = page.locator("#auth_add_new_user_search_input")
+        self.auth_add_new_user_checkbox=page.locator("//tbody[@data-name='auth-users-table-body']//input[@type='checkbox']")
         self.auth_add_new_user_submit_button=page.locator(("#auth-add-users-submit-button"))
         self.auth_add_new_user_save_proceed_button = page.locator(("#auth-form-users-save-button"))
 
     async def add_users_to_the_group(self):
         await self.auth_users_tab_button.click()
         await expect(self.auth_add_users_title).to_be_visible()
-        await self.auth_search_add_new_user_button.click()
+        await self.auth_add_user_button.click()
         await self.auth_add_new_user_search_input.fill("Hari")
         await self.auth_add_new_user_checkbox.first.check()
         await self.auth_add_new_user_submit_button.click()
         await self.auth_add_new_user_save_proceed_button.click()
+
+    async def delete_users_to_the_group(self):
+        users_checkbox = self.page.locator("//tbody[@data-name='auth-users-table-body']//input[@type='checkbox']")
+        count = await users_checkbox.count()
+        for i in range(count):
+            await users_checkbox.nth(i).check()
+
 
 
     # ---------- VALIDATION METHODS ----------
@@ -88,7 +97,7 @@ class AuthenticationPage(BasePage):
     async def verify_authentication_page_ui(self):
         await self.authentication_nav_button.click()
         await expect(self.authentication_page_title).to_be_visible()
-        await expect(self.authentication_search_box).to_be_visible()
+        await expect(self.authentication_search_input).to_be_visible()
         await expect(self.add_new_authentication_button).to_be_visible()
 
 #SSO_OpenID_Connect_authentication:
@@ -104,8 +113,8 @@ class AuthenticationPage(BasePage):
         await expect(self.auth_properties_save_proceed_button).to_be_visible()
 
     async def fill_openID_auth_setup(self):
-        await self.auth_properties_auth_name.fill("AuthTest1")
-        await self.auth_properties_auth_description.fill("AuthTest1_desc")
+        await self.auth_properties_auth_name.fill("AAuth_SSO_Test1")
+        await self.auth_properties_auth_description.fill("AAuth_SSO_Test1_desc")
 
     async def fill_auth_appinfo_details(self):
         await self.auth_properties_appInfo_tab.click()
@@ -115,19 +124,42 @@ class AuthenticationPage(BasePage):
 
         # auth_SSO_provider
     async def fill_auth_sso_provider_details(self):
-            await self.auth_properties_sso_provider_tab.click()
-            await self.sso_authority_url.fill("https:/testciai-authority_url.com")
-            await self.sso_client_id.fill("1234567890")
-            await self.sso_client_secret.fill("987654321")
-            await self.sso_scope.fill("987654321")
+        await self.auth_properties_sso_provider_tab.click()
+        await self.sso_authority_url.fill("https:/testciai-authority_url.com")
+        await self.sso_client_id.fill("1234567890")
+        await self.sso_client_secret.fill("987654321")
+        await self.sso_scope.fill("987654321")
     #auth_Advanced_details
     async def fill_auth_advanced_details(self):
         await self.advanced_tab.click()
         await self.post_logout_url.fill("https:/testciai-post_logout_url.com")
+
+    async def auth_type_save_proceed_button(self):
         await self.auth_properties_save_proceed_button.click()
 
+    async def search_for_created_authentication_type(self):
+        await self.authentication_search_input.fill("AAuth_SSO_Test1")
+        await expect(self.page.locator("#auth-list-table-body")).to_contain_text("AAuth_SSO_Test1")
 
-#==================================================================================
+    async def sso_auth_type_edit(self):
+        await self.page.wait_for_timeout(3000)
+        await self.sso_user_more_button.click()
+        await self.page.wait_for_timeout(2000)
+        await self.auth_edit_option.click()
+        await self.page.wait_for_timeout(2000)
+        await self.auth_properties_auth_description.fill("AAuth_SSO_Test1_desc1")
+        await self.auth_users_tab_button.click()
+        await self.auth_add_new_user_search_input.fill("Hari")
+        await self.delete_users_to_the_group()
+        await self.auth_properties_save_proceed_button.click()
+        await self.auth_remove_user_confirm.click()
+
+
+    async def sso_auth_type_delete(self):
+        await self.sso_user_more_button.click()
+        await self.auth_delete_option.click()
+        await self.auth_delete_confirm.click()
+    #==================================================================================
 
     #auth_setup_details
     async def fill_SAML_auth_setup(self):
@@ -151,7 +183,7 @@ class AuthenticationPage(BasePage):
         await self.auth_properties_auth_name.fill("AuthTest1")
         await self.auth_properties_auth_description.fill("AuthTest1_desc")
         await self.auth_protocol_dropdown.click()
-        await page.get_by_role("option", name="SAML 2.0").click()
+        await self.page.get_by_role("option", name="SAML 2.0").click()
 
 #auth_SSO_provider
     async def fill_auth_saml_sso_provider_details(self):
@@ -169,21 +201,8 @@ class AuthenticationPage(BasePage):
         await self.fieldmapping_signin.fill("signin")
         await self.fieldmapping_teamname.fill("teamA")
 
-    async def perform_auth_edit_delete(self):
-        await self.row.locator("button").last.click()
-        await self.edit_button.click()
-        await self.auth_properties_auth_description.fill("AuthTest1_desc1")
-        await self.auth_properties_sso_provider_tab.click()
-        await self.sso_authority_url.fill("https:/testciai-authority1.com")
-        await self.auth_properties_save_proceed_button.click()
-        await self.row.locator("button").last.click()
-        await self.delete_button.click()
-        await self.delete_confirm.click()
-
 
 # ---------- ACTIONS ----------
-    async def search_authentication(self, value):
-        self.fill(self.search_box, value)
 
     async def click_add_new_authentication_button(self):
         await self.add_new_authentication_button.click()

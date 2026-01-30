@@ -1,3 +1,3 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","33028","test_validate_insights_icons","tests","2026-01-20","broken","2026-01-20","","test_OngoingThreads","",""
-"","41132","test_ask_question","tests","2026-01-20","passed","2026-01-20","","test_OngoingThreads","",""
+"Validate that the UI of Collabspace loads correctly","0","Verify Collabspace UI","","2026-01-30","skipped","2026-01-30","","","",""
+"","109170","test_ask_question","tests","2026-01-30","broken","2026-01-30","","test_OngoingThreads","",""

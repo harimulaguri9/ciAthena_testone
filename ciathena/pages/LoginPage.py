@@ -5,13 +5,12 @@ from playwright.async_api import Page
 
 
 class LoginPage(BasePage):
-    @allure.step("login into the application--")
     def __init__(self, page: Page):
         super().__init__(page)
         self.SSO_signin_button=page.get_by_text("Sign in with Microsoft")
         self.sso_email_input = page.locator("#i0116")
         self.sso_password_input =  page.locator("//input[@placeholder='Password']")
-        placeholder = "username@domain.ai"
+        # placeholder = "username@domain.ai"
         self.sso_signin_button = page.locator("#idSIButton9")
         self.email_input = page.locator("//input[@placeholder='username@domain.ai']")
         self.signin_button =page.locator("//button[normalize-space()='Sign in']")
@@ -34,7 +33,6 @@ class LoginPage(BasePage):
         await self.signin_button.click()
 
 
-        # await self.SSO_signin_button.click()
         # await self.email_input.fill("hari.mulaguri@customerinsights.ai")
         # await self.signin_button.click()
         # await self.sso_email_input.wait_for(state="visible")
@@ -47,6 +45,4 @@ class LoginPage(BasePage):
         # await self.phone_number_button.click()
         # await self.page.wait_for_timeout(20000)
         # await self.verify_button.click()
-        # await self.page.wait_for_timeout(5000)
-        # await self.welcome_text.wait_for(state="visible")
         # await self.page.wait_for_timeout(5000)

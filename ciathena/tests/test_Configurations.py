@@ -6,7 +6,8 @@ import pytest
 
 
 # @pytest.mark.order(2)
-@pytest.mark.smoke
+# @pytest.mark.smoke
+# @pytest.mark.wip
 @pytest.mark.asyncio
 # @allure.epic("BrandingPage validation")
 # @allure.story("brandingPages_Features")
@@ -40,8 +41,16 @@ async def test_Configurations(setup):
     await authenticationPage.fill_auth_appinfo_details()
     await authenticationPage.fill_auth_sso_provider_details()
     await authenticationPage.fill_auth_advanced_details()
+
+    time.sleep(3)
     await authenticationPage.add_users_to_the_group()
-    await authenticationPage.perform_auth_edit_delete()
+    time.sleep(3)
+    await authenticationPage.search_for_created_authentication_type()
+    time.sleep(3)
+    await authenticationPage.sso_auth_type_edit()
+    time.sleep(2)
+    await authenticationPage.sso_auth_type_delete()
+    time.sleep(2)
 
 
 #SAML_authentication_valdaition

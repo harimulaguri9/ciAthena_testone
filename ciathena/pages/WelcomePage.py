@@ -1,6 +1,4 @@
-from datetime import time
-from playwright.async_api import Page
-import time
+from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 
 class WelcomePage(BasePage):
@@ -12,9 +10,13 @@ class WelcomePage(BasePage):
         self.mmm_usecase_icon=page.locator("#icon-app-mmm")
         self.navbar=page.locator("#navbar-deepdive-text-section")
 
+    async def validate_welcomepage_ui(self):
+        await self.welcome_text.wait_for(state="visible", timeout=10000)
+
     async def select_mmm_usecase(self):
         await self.welcome_search_input.click()
-        await self.mmm_usecase_icon.wait_for(state="visible", timeout=10000)
+        await self.mmm_usecase_icon.wait_for(state="visible", timeout=5000)
         await self.mmm_usecase_icon.scroll_into_view_if_needed()
         await self.mmm_usecase_icon.click()
         await self.page.wait_for_timeout(10000)
+

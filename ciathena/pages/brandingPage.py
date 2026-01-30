@@ -44,13 +44,13 @@ class BrandingPage():
         await self.page.wait_for_timeout(3000)  # 20 seconds
         await self.Settings.click()
         await self.Configuration.click()
-        expect(self.Branding_nav_bar).to_be_visible()
+        await expect(self.Branding_nav_bar).to_be_visible()
         print("config page tabs")
 
     async def validate_branding_tabs(self):
         await self.Branding_nav_bar.click()
-        expect(self.branding_tab).to_be_visible()
-        expect(self.login_screen_tab).to_be_visible()
+        await expect(self.branding_tab).to_be_visible()
+        await expect(self.login_screen_tab).to_be_visible()
 
     async def validate_company_name(self):
         await expect(self.input_companyName).to_be_visible()
@@ -74,7 +74,7 @@ class BrandingPage():
         # await self.primary_logo_delete_icon.click()
         # expect(self.page.locator("text=Primary logo deleted successfully")).to_be_visible()
         await self.primary_logo_upload_input.set_input_files("tests/data/fast-icon.svg")
-        expect(self.page.locator("text=Primary logo uploaded successfully")).to_be_visible()
+        await expect(self.page.locator("text=Primary logo uploaded successfully")).to_be_visible()
 
     async def delete_upload_brand_logo(self):
         await self.brand_logo_upload_input.wait_for(state="attached")
@@ -82,7 +82,7 @@ class BrandingPage():
         # await self.brand_logo_delete_icon.click()
         # expect(self.page.locator("text=Brand logo deleted successfully")).to_be_visible()
         await self.brand_logo_upload_input.set_input_files("tests/data/340b-icon.svg")
-        expect(self.page.locator("text=Brand logo uploaded successfully")).to_be_visible()
+        await expect(self.page.locator("text=Brand logo uploaded successfully")).to_be_visible()
 
 
     async def delete_upload_favicon_logo(self):
@@ -91,7 +91,7 @@ class BrandingPage():
         # await self.favicon_logo_delete_icon.click()
         # expect(self.page.locator("text=Favicon deleted successfully")).to_be_visible()
         await self.favicon_logo_upload_input.set_input_files("tests/data/app-icon.svg")
-        expect(self.page.locator("text=Favicon uploaded successfully")).to_be_visible()
+        await expect(self.page.locator("text=Favicon uploaded successfully")).to_be_visible()
 
     async def upload_login_background_image(self):
         await self.login_screen_tab.click()

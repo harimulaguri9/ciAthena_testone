@@ -18,7 +18,7 @@ from pytest_html import extras
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(headless=True, slow_mo=3000)
+        browser = await p.chromium.launch(headless=False, slow_mo=3000)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
@@ -36,7 +36,7 @@ async def setup():
         usersPage =UsersPage(page)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
-        await page.goto("https://ciathena-dev.customerinsights.ai/")
+        await page.goto("https://ciathena.customerinsights.ai/")
         await loginPage.login_success()
         await welcomePage.select_mmm_usecase()
 
@@ -91,16 +91,47 @@ def pytest_runtest_makereport(item, call):
                 name=f"Failure Screenshot ({report.when})",
                 attachment_type=allure.attachment_type.PNG
             )
-#
-# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+
+
+# @pytest.hookimpl(hookwrapper=True)
 # def pytest_runtest_makereport(item, call):
 #     outcome = yield
-#     rep = outcome.get_result()
-#     if hasattr(item, "step_logs") and rep.when == "call":
-#         html_steps = "<br>".join(item.step_logs)
-#         extra = getattr(rep, "extra", [])
-#         extra.append(extras.html(f"<div><strong>Steps:</strong><br>{html_steps}</div>"))
-#         rep.extra = extra
+#     report = outcome.get_result()
+#
+#     if report.failed and report.when == "call":
+#         page = item.funcargs.get("page", None)
+#
+#         # 1️⃣ Screenshot
+#         if page:
+#             screenshot = page.screenshot()
+#             allure.attach(
+#                 screenshot,
+#                 name=f"{item.name} - Screenshot",
+#                 attachment_type=allure.attachment_type.PNG
+#             )
+#
+#             # 2️⃣ Current URL
+#             allure.attach(
+#                 page.url,
+#                 name="Current URL",
+#                 attachment_type=allure.attachment_type.TEXT
+#             )
+#
+#             # 3️⃣ Page title
+#             title = page.title()
+#             allure.attach(
+#                 title,
+#                 name="Page Title",
+#                 attachment_type=allure.attachment_type.TEXT
+#             )
+#
+#         # 4️⃣ Full failure reason (test body)
+#         allure.attach(
+#             report.longreprtext,
+#             name="Test Failure Traceback",
+#             attachment_type=allure.attachment_type.TEXT
+#s        )
+
 
 @pytest.fixture(scope="session")
 def event_loop():
