@@ -7,7 +7,7 @@ import pytest
 
 # @pytest.mark.order(2)
 # @pytest.mark.smoke
-# @pytest.mark.wip
+@pytest.mark.wip
 @pytest.mark.asyncio
 
 # @allure.title("Verify test_Configurations")
