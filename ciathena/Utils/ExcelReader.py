@@ -25,13 +25,13 @@ class ExcelReader:
         for row in self.sheet.iter_rows(min_row=2, values_only=True):
             question = row[0]  # Column A
             expected_sql = row[1]  # Column B
-            # chart = row[3]  # Column D
+            chart = row[3]  # Column D
 
             if question:
                 data.append({
                     "question": question,
-                    "expected_sql": expected_sql
-                    # "chart": chart
+                    "expected_sql": expected_sql,
+                    "chart": chart
 
                 })
         return data

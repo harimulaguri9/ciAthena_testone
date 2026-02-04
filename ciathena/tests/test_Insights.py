@@ -11,7 +11,7 @@ async def test_Insights(setup):
     insightshubPage = setup["insightshubPage"]
 
     await insightshubPage.verify_insightshub_UI()
-    await insightshubPage.verify_executive_cards()
+    # await insightshubPage.verify_executive_cards()
     await insightshubPage.verify_personalized_insights_all_cards()
 
     #

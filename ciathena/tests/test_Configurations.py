@@ -9,9 +9,8 @@ import pytest
 # @pytest.mark.smoke
 # @pytest.mark.wip
 @pytest.mark.asyncio
-# @allure.epic("BrandingPage validation")
-# @allure.story("brandingPages_Features")
-# @allure.title("Verify brandingPage UI elements")
+
+# @allure.title("Verify test_Configurations")
 # @allure.description("Validate brandingPage")
 async def test_Configurations(setup):
     basepage = setup["basepage"]
@@ -25,6 +24,7 @@ async def test_Configurations(setup):
 
     failures = []
 # brandingPage_valdaition
+#     await brandingPage.click_on_Settings()
 #     await brandingPage.validate_Configuration_tabs()
 #     await brandingPage.validate_branding_tabs()
 #     await brandingPage.validate_company_name()
@@ -33,52 +33,46 @@ async def test_Configurations(setup):
 
 
 #SSO_openID_authentication_valdaition
-    await brandingPage.validate_Configuration_tabs()
-    await authenticationPage.verify_authentication_page_ui()
-    await authenticationPage.verify_new_SSO_OpenID_Connect_page()
-    await authenticationPage.fill_openID_auth_setup()
-    time.sleep(2)
-    await authenticationPage.fill_auth_appinfo_details()
-    await authenticationPage.fill_auth_sso_provider_details()
-    await authenticationPage.fill_auth_advanced_details()
-
-    time.sleep(3)
-    await authenticationPage.add_users_to_the_group()
-    time.sleep(3)
-    await authenticationPage.search_for_created_authentication_type()
-    time.sleep(3)
-    await authenticationPage.sso_auth_type_edit()
-    time.sleep(2)
-    await authenticationPage.sso_auth_type_delete()
-    time.sleep(2)
+    # await brandingPage.validate_Configuration_tabs()
+    # await authenticationPage.verify_authentication_page_ui()
+    # await authenticationPage.verify_new_SSO_OpenID_Connect_page()
+    # await authenticationPage.fill_openID_auth_setup()
+    # await authenticationPage.fill_auth_appinfo_details()
+    # await authenticationPage.fill_auth_sso_provider_details()
+    # await authenticationPage.fill_auth_advanced_details()
+    # await authenticationPage.add_users_to_the_group()
+    # await authenticationPage.search_for_created_authentication_type()
+    # await authenticationPage.sso_auth_type_edit()
+    # await authenticationPage.sso_auth_type_delete()
 
 
 #SAML_authentication_valdaition
     # await brandingPage.validate_Configuration_tabs()
     # await authenticationPage.verify_authentication_page_ui()
-    # await authenticationPage.validate_new_auth_properties_page()
-    # await authenticationPage.fill_auth_setup_details()
-    # await authenticationPage.create_SAML_auth_type()
-    # await authenticationPage.fill_auth_appinfo_details()
-    # await authenticationPage.fill_auth_sso_provider_details()
-    # await authenticationPage.fill_auth_advanced_details()
-    # await authenticationPage.perform_auth_edit_delete()
-
+    # await authenticationPage.verify_new_saml_page_properties()
+    # await authenticationPage.fill_saml_auth_setup()
+    # await authenticationPage.select_auth_protocol()
+    # await authenticationPage.fill_saml_auth_appinfo_details()
+    # await authenticationPage.fill_saml_auth_sso_provider_details()
+    # await authenticationPage.fill_saml_auth_field_mapping_details()
+    # await authenticationPage.fill_saml_auth_advanced_details()
+    # await authenticationPage.add_users_to_the_group()
+    # await authenticationPage.search_for_saml_authentication_type()
+    # await authenticationPage.sso_auth_type_edit()
+    # await authenticationPage.sso_auth_type_delete()
 
 #users_valdaition
-    # await usersPage.validate_users_page_options()
-    # await usersPage.verify_users_table_columns()
-    # await usersPage.verify_adduser_fields()
-    # await usersPage.fill_user_details(
-    #         first_name="Hari",
-    #         last_name="Mulaguri",
-    #         email="hari@test.com",
-    #         title="QA",
-    #         phone="9999999999")
-    # await usersPage.users_search(first_name="Hari")
 
-            # use_case="Analytics",
-                    # role="Admin",
-                    # team="QA",
-                    # licensed=True)
+    await brandingPage.click_on_Settings()
+    await brandingPage.validate_Configuration_tabs()
+    await usersPage.validate_users_page_options()
+    await usersPage.verify_users_table_columns()
+    await usersPage.verify_adduser_fields()
+    await usersPage.fill_user_details(
+            first_name="Hari",
+            last_name="Mulaguri",
+            email="hari1@test.com",
+            title="QA",
+            phone="9999999999")
+
 

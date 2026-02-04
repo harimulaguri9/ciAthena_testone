@@ -1,3 +1,4 @@
+import time
 
 from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
@@ -30,7 +31,7 @@ class AuthenticationPage(BasePage):
         self.auth_properties_auth_name = page.get_by_placeholder("Enter name")
         self.auth_properties_auth_description = page.get_by_placeholder("Enter description")
         self.auth_protocol_dropdown = page.locator("#auth-setup-protocol-select")
-        self.auth_protocol_option = page.locator("#auth-setup-protocol-select")
+        self.auth_saml_protocol_option = page.locator("#auth-setup-protocol-option-saml")
         self.auth_properties_enabled_toggle = page.locator("input[type='checkbox']")
 
 #App Information section
@@ -46,7 +47,18 @@ class AuthenticationPage(BasePage):
         self.sso_client_secret = page.locator('//input[contains(@placeholder,"Enter client secret")]')
         self.sso_scope = page.locator('//input[contains(@placeholder,"Enter scope")]')
 
+# SAML- SSO Provider section
+        self.sso_provider_tab = page.get_by_role("button", name="SSO Provider")
+        self.saml_saml_entity_identifier_input = page.locator('#auth-sso-provider-saml-entity-identifier-input')
+        self.saml_signon_url_input = page.locator('#auth-sso-provider-saml-signon-url-input')
+        self.saml_logout_url_input = page.locator('#auth-sso-provider-saml-logout-url-input')
+        self.saml_certificate_input = page.locator('#auth-sso-provider-saml-certificate-input')
+        self.saml_sign_auth_request_control = page.locator('#auth-sso-provider-saml-sign-auth-request-control')
+
+
+
 #Fieldmaping
+        self.fieldmapping_tab = page.locator('#auth-properties-subtab-fieldMapping')
         self.fieldmapping_email = page.locator('#auth-field-mapping-email-input')
         self.fieldmapping_firstname = page.locator('#auth-field-mapping-first-name-input')
         self.fieldmapping_lastname = page.locator('#auth-field-mapping-last-name-input')
@@ -59,23 +71,25 @@ class AuthenticationPage(BasePage):
 
  #delete - confirm - button
         auth_sso_name='AAuth_SSO_Test1'
-        self.sso_user_more_button = self.page.locator(f"//tr[.//text()[normalize-space()='AAuth_SSO_Test1']]//button[contains(@data-name,'more-button')]")
+        self.sso_auth_more_button = self.page.locator("#auth-list-row-0-more-button")
         self.auth_edit_option=page.locator("p:has-text('Edit')")
         self.auth_delete_option = page.locator("p:has-text('Delete')")
         self.auth_delete_confirm = page.locator('#delete-confirm-button')
         self.auth_remove_user_confirm=page.locator('#user-removal-dialog-remove-button')
+        self.auth_discard_changes_confirm= page.locator("#unsaved-changes-dialog-confirm-button")
 
 #Add new
         self.auth_users_tab_button = page.locator("#auth-form-tab-users")
         self.auth_add_users_title = page.locator("#auth-form-breadcrumb")
         self.auth_search_input = page.locator("#auth-users-search-input")
         self.auth_add_user_button = page.locator("#auth-users-add-button")
-        self.auth_add_new_user_search_input = page.locator("#auth_add_new_user_search_input")
-        self.auth_add_new_user_checkbox=page.locator("//tbody[@data-name='auth-users-table-body']//input[@type='checkbox']")
+        self.auth_add_new_user_search_input = page.locator("#auth-add-users-search-input")
+        self.auth_add_new_user_checkbox=page.locator("(//input[@type='checkbox'])[2]")
         self.auth_add_new_user_submit_button=page.locator(("#auth-add-users-submit-button"))
         self.auth_add_new_user_save_proceed_button = page.locator(("#auth-form-users-save-button"))
 
     async def add_users_to_the_group(self):
+        self.page.pause()
         await self.auth_users_tab_button.click()
         await expect(self.auth_add_users_title).to_be_visible()
         await self.auth_add_user_button.click()
@@ -83,19 +97,24 @@ class AuthenticationPage(BasePage):
         await self.auth_add_new_user_checkbox.first.check()
         await self.auth_add_new_user_submit_button.click()
         await self.auth_add_new_user_save_proceed_button.click()
+        time.sleep(3)
+        # await expect(self.auth_updated_toast_message).to_be_visible()
+
 
     async def delete_users_to_the_group(self):
         users_checkbox = self.page.locator("//tbody[@data-name='auth-users-table-body']//input[@type='checkbox']")
         count = await users_checkbox.count()
         for i in range(count):
-            await users_checkbox.nth(i).check()
+            await users_checkbox.nth(i).uncheck()
 
 
 
-    # ---------- VALIDATION METHODS ----------
+    # ---------- OpenID connect----------
 #Verify Authentication landing page UI
     async def verify_authentication_page_ui(self):
+        time.sleep(2)
         await self.authentication_nav_button.click()
+        time.sleep(2)
         await expect(self.authentication_page_title).to_be_visible()
         await expect(self.authentication_search_input).to_be_visible()
         await expect(self.add_new_authentication_button).to_be_visible()
@@ -125,6 +144,7 @@ class AuthenticationPage(BasePage):
         # auth_SSO_provider
     async def fill_auth_sso_provider_details(self):
         await self.auth_properties_sso_provider_tab.click()
+        time.sleep(3)
         await self.sso_authority_url.fill("https:/testciai-authority_url.com")
         await self.sso_client_id.fill("1234567890")
         await self.sso_client_secret.fill("987654321")
@@ -134,33 +154,92 @@ class AuthenticationPage(BasePage):
         await self.advanced_tab.click()
         await self.post_logout_url.fill("https:/testciai-post_logout_url.com")
 
+
+    #===============================SAML============
+    async def verify_new_saml_page_properties(self):
+        await self.add_new_authentication_button.click()
+        await expect(self.auth_properties_tab).to_be_visible()
+        await expect(self.auth_properties_users_tab).to_be_visible()
+        await expect(self.auth_properties_setup_tab).to_be_visible()
+        await expect(self.auth_properties_app_info_tab).to_be_visible()
+        await expect(self.auth_properties_sso_provider_tab).to_be_visible()
+        await expect(self.auth_properties_advanced_tab).to_be_visible()
+        await expect(self.auth_properties_cancel_button).to_be_visible()
+        await expect(self.auth_properties_save_proceed_button).to_be_visible()
+
+
+    async def fill_saml_auth_setup(self):
+        await self.auth_properties_auth_name.fill("AAuth_SAML_Test1")
+        await self.auth_properties_auth_description.fill("AAuth_SAML_Test1_desc")
+
+    async def select_auth_protocol(self):
+        time.sleep(2)
+        await self.auth_protocol_dropdown.click()
+        await self.auth_saml_protocol_option.click()
+
+
+    async def fill_saml_auth_appinfo_details(self):
+        time.sleep(3)
+        await self.auth_properties_appInfo_tab.click()
+        await self.auth_properties_appInfo_redirect_URL.fill("https:/testciai-reditrect.com")
+        await self.auth_properties_appInfo_logout_URL.fill("https:/testciai-logout.com")
+        await self.auth_properties_appInfo_back_channel_logout_URL.fill("https:/testciai-channel.com")
+
+
+    async def fill_saml_auth_sso_provider_details(self):
+        time.sleep(5)
+        await self.auth_properties_sso_provider_tab.click()
+        await self.saml_saml_entity_identifier_input.fill("https:/testciai-authority_url.com")
+        await self.saml_signon_url_input.fill("https:/testciai-authority_signon.com")
+        await self.saml_logout_url_input.fill("https:/testciai-authority_logout.com")
+        await self.saml_certificate_input.fill("certificate test")
+        await self.saml_sign_auth_request_control.click()
+
+    async def fill_saml_auth_field_mapping_details(self):
+        time.sleep(3)
+        await self.fieldmapping_tab.click()
+        await self.fieldmapping_email.fill("haritest@test.com")
+        await self.fieldmapping_firstname.fill("hari")
+        await self.fieldmapping_lastname.fill("test1")
+        await self.fieldmapping_signin.fill(" yes")
+        await self.fieldmapping_teamname.fill("team test")
+
+    #auth_Advanced_details
+    async def fill_saml_auth_advanced_details(self):
+        time.sleep(3)
+        await self.advanced_tab.click()
+        await self.post_logout_url.fill("https:/testciai-post_logout_url.com")
+
     async def auth_type_save_proceed_button(self):
         await self.auth_properties_save_proceed_button.click()
+        await self.page.wait_for_timeout(5000)
 
-    async def search_for_created_authentication_type(self):
-        await self.authentication_search_input.fill("AAuth_SSO_Test1")
-        await expect(self.page.locator("#auth-list-table-body")).to_contain_text("AAuth_SSO_Test1")
+
+    async def search_for_saml_authentication_type(self):
+        time.sleep(4)
+        await self.authentication_search_input.fill("AAuth_SAML_Test1")
+        await expect(self.page.locator("#auth-list-table-body")).to_contain_text("AAuth_SAML_Test1")
 
     async def sso_auth_type_edit(self):
         await self.page.wait_for_timeout(3000)
-        await self.sso_user_more_button.click()
+        await self.sso_auth_more_button.click()
         await self.page.wait_for_timeout(2000)
         await self.auth_edit_option.click()
-        await self.page.wait_for_timeout(2000)
-        await self.auth_properties_auth_description.fill("AAuth_SSO_Test1_desc1")
         await self.auth_users_tab_button.click()
-        await self.auth_add_new_user_search_input.fill("Hari")
+        # await self.auth_add_new_user_search_input.fill("Hari")
         await self.delete_users_to_the_group()
         await self.auth_properties_save_proceed_button.click()
         await self.auth_remove_user_confirm.click()
 
 
     async def sso_auth_type_delete(self):
-        await self.sso_user_more_button.click()
+        await self.sso_auth_more_button.click()
+        await self.page.wait_for_timeout(2000)
         await self.auth_delete_option.click()
         await self.auth_delete_confirm.click()
-    #==================================================================================
 
+
+    #=====================================SAML_auth_setup=============================================
     #auth_setup_details
     async def fill_SAML_auth_setup(self):
         await self.select_saml_authentication_protocol_type()

@@ -32,7 +32,7 @@ class OngoingThreadsPage(BasePage):
         self.save_bookmark_button = page.locator("//button[@aria-label='Save / Bookmark']")
         self.save_insights_button = page.locator("#save-header-button")
         self.next_button = page.locator("#nextButton")
-        self.submit_button = page.get_by_role("#submitInsightsButton")
+        self.submit_button = page.locator("#submitInsightsButton")
         self.insight_saved_msg = page.get_by_text("Insight saved successfully")
         self.insight_unsaved_msg = page.get_by_text("Insight removed successfully.")
         self.insight_shared_msg = page.get_by_text("Insight shared successfully")
@@ -108,7 +108,6 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
     async def verify_share_insights(self):
             await self.page.wait_for_timeout(20000)  # 20 seconds
-
             await self.share_visualization_button.click()
             print("share clicked")
             await self.tag_select()
@@ -120,7 +119,6 @@ class OngoingThreadsPage(BasePage):
             await self.space_select()
             # await self.page.wait_for_timeout(2000)
             await self.save_to_Space_button.click()
-            self.page.pause()
 
             await self.page.wait_for_timeout(5000)  # 20 seconds
 
@@ -133,9 +131,11 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
     async def verify_save_insights(self):
             await self.save_insights_button.click()
+
             print("Save / Bookmark clicked")
             await self.tag_select()
             print("Tag clicked")
+            await self.page.wait_for_timeout(3000)
             await self.submit_button.click()
             # await expect(self.insight_saved_msg).to_be_visible(timeout=2000)
             # await self.assert_visible(self.insight_saved_msg, "Insight saved successfully")
@@ -214,7 +214,7 @@ class OngoingThreadsPage(BasePage):
     # --------------------------------------------------------------------------
     async def tag_select(self):
         count = await self.tag_containers.count()
-        target_tag_name = "mmm_hari_tag"
+        target_tag_name = "MMM"
 
         for i in range(count):
             tag_element = self.tag_containers.nth(i)
@@ -254,7 +254,6 @@ class OngoingThreadsPage(BasePage):
     async def create_new_space(self):
         space_name = "hari_space1"
         space_name_desc = "hari_space1_desc"
-
         await self.create_space_button.wait_for(state="visible", timeout=2000)
         await self.create_space_button.click()
         # await self.page.wait_for_timeout(2000)

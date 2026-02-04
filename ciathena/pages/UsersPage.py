@@ -31,6 +31,8 @@ class UsersPage(BasePage):
         self.use_cases_dropdown = page.get_by_text("Select use cases", exact=True)
         self.use_case_mmx = page.get_by_text("MMX", exact=True)
         self.use_case_fast = page.get_by_role("option", name="FAST")
+        self.minimise_usecase_dropdown = page.get_by_role("#ArrowDropDownIcon")
+
 
         self.user_licensed_toggle=page.locator("//p[text()='Licensed']/following::div[@role='switch'][1]")
         # ========== Role ==========
@@ -94,6 +96,7 @@ class UsersPage(BasePage):
         columns = ["Name", "License", "2FA", "Personalized Insights", "Role", "Team", "Last login1"]
         for columnname in columns:
             await self.page.locator(f"th:has-text('{columnname}')").is_visible()
+            print(columnname)
 
     async def verify_adduser_fields(self):
         await self.users_adduser_button.click()
@@ -105,10 +108,6 @@ class UsersPage(BasePage):
                                 email: str,
                                 title: str,
                                 phone: str
-                                # use_case: str,
-                                # role: str,
-                                # team: str,
-                                # licensed: bool = True
                                 ):
         await self.user_first_name.fill(first_name)
         await self.user_last_name.fill(last_name)
@@ -118,14 +117,16 @@ class UsersPage(BasePage):
 
         # Select language
         await self.select_user_langugae_dropdown()
-        # Select licensed_toggle
-        await self.enable_licensed_toggle()
         # Select Use Case
         await self.select_user_usecases_dropdown()
-        # Select Role
-        await self.select_user_role_dropdown()
+
+        # Select licensed_toggle
+        await self.enable_licensed_toggle()
         # Select Team
         await self.select_team_dropdown()
+
+        # Select Role
+        await self.select_user_role_dropdown()
         #personalised_toggle
         await self.personalised_toggle.click()
 
@@ -156,7 +157,8 @@ class UsersPage(BasePage):
     async def select_user_usecases_dropdown(self):
         await self.use_cases_dropdown.click()
         await self.use_case_mmx.click()
-        await self.use_case_fast.click()
+        await self.page.wait_for_timeout(2000)  # 20 seconds
+
 
     async def select_user_role_dropdown(self):
         await self.role_dropdown.click()
