@@ -18,7 +18,7 @@ from pytest_html import extras
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(headless=True, slow_mo=3000)
+        browser = await p.chromium.launch(headless=False, slow_mo=3000)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
@@ -36,8 +36,9 @@ async def setup():
         usersPage =UsersPage(page)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
-        await page.goto("https://ciathena.customerinsights.ai/")
-        await loginPage.login_success()
+        await page.goto("https://ciathena-dev.customerinsights.ai/")
+        # await loginPage.login_with_email_password()
+        await loginPage.login_with_sso_email()
         await welcomePage.select_mmm_usecase()
 
         yield {

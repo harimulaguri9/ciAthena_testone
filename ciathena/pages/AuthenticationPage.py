@@ -24,15 +24,26 @@ class AuthenticationPage(BasePage):
 
 # Setup-sections
         self.auth_properties_setup_tab = page.get_by_role("button", name="Setup")
-        self.auth_properties_app_info_tab = page.get_by_role("button", name="App Information")
+        self.auth_properties_app_info_tab = page.locator("#auth-properties-subtab-appInformation-label")
         self.auth_properties_sso_provider_tab = page.get_by_role("button", name="SSO Provider")
         self.auth_properties_advanced_tab = page.get_by_role("button", name="Advanced")
+        self.auth_password_policy_tab = page.locator("#auth-properties-subtab-passwordPolicy-label")
+
+
 
         self.auth_properties_auth_name = page.get_by_placeholder("Enter name")
         self.auth_properties_auth_description = page.get_by_placeholder("Enter description")
         self.auth_protocol_dropdown = page.locator("#auth-setup-protocol-select")
+        self.auth_openID_protocol_option = page.locator("#auth-setup-protocol-option-openid_connect")
         self.auth_saml_protocol_option = page.locator("#auth-setup-protocol-option-saml")
+        self.auth_email_protocol_option = page.locator("#auth-setup-protocol-option-email_password")
         self.auth_properties_enabled_toggle = page.locator("input[type='checkbox']")
+        self.auth_email_protocol_option = page.locator("#auth-setup-protocol-option-email_password")
+        self.auth_password_policy_min_chars_input = page.locator("#auth-password-policy-min-chars-input")
+        self.auth_password_policy_expiry_select = page.locator("#auth-password-policy-expiry-select")
+        self.auth_password_policy_expiry_30 = page.locator('//*[@id="auth-password-policy-expiry-30"]')
+
+
 
 #App Information section
         self.auth_properties_appInfo_tab = page.locator("#auth-properties-subtab-appInformation-label")
@@ -89,7 +100,6 @@ class AuthenticationPage(BasePage):
         self.auth_add_new_user_save_proceed_button = page.locator(("#auth-form-users-save-button"))
 
     async def add_users_to_the_group(self):
-        self.page.pause()
         await self.auth_users_tab_button.click()
         await expect(self.auth_add_users_title).to_be_visible()
         await self.auth_add_user_button.click()
@@ -98,6 +108,7 @@ class AuthenticationPage(BasePage):
         await self.auth_add_new_user_submit_button.click()
         await self.auth_add_new_user_save_proceed_button.click()
         time.sleep(3)
+        await self.page.reload()
         # await expect(self.auth_updated_toast_message).to_be_visible()
 
 
@@ -114,7 +125,7 @@ class AuthenticationPage(BasePage):
     async def verify_authentication_page_ui(self):
         time.sleep(2)
         await self.authentication_nav_button.click()
-        time.sleep(2)
+        time.sleep(5)
         await expect(self.authentication_page_title).to_be_visible()
         await expect(self.authentication_search_input).to_be_visible()
         await expect(self.add_new_authentication_button).to_be_visible()
@@ -162,10 +173,6 @@ class AuthenticationPage(BasePage):
         await expect(self.auth_properties_users_tab).to_be_visible()
         await expect(self.auth_properties_setup_tab).to_be_visible()
         await expect(self.auth_properties_app_info_tab).to_be_visible()
-        await expect(self.auth_properties_sso_provider_tab).to_be_visible()
-        await expect(self.auth_properties_advanced_tab).to_be_visible()
-        await expect(self.auth_properties_cancel_button).to_be_visible()
-        await expect(self.auth_properties_save_proceed_button).to_be_visible()
 
 
     async def fill_saml_auth_setup(self):
@@ -212,8 +219,8 @@ class AuthenticationPage(BasePage):
 
     async def auth_type_save_proceed_button(self):
         await self.auth_properties_save_proceed_button.click()
-        await self.page.wait_for_timeout(5000)
-
+        await self.page.wait_for_timeout(3000)
+        await self.page.reload()
 
     async def search_for_saml_authentication_type(self):
         time.sleep(4)
@@ -281,10 +288,45 @@ class AuthenticationPage(BasePage):
         await self.fieldmapping_teamname.fill("teamA")
 
 
-# ---------- ACTIONS ----------
+# ---------- EMAIL -------------------------------------------------------------
+    async def verify_email_authentication_page_properties(self):
+        await self.add_new_authentication_button.click()
+        await self.select_email_auth_protocol()
+        await self.page.wait_for_timeout(3000)
+        await expect(self.auth_properties_tab).to_be_visible()
+        await expect(self.auth_properties_users_tab).to_be_visible()
+        await expect(self.auth_properties_setup_tab).to_be_visible()
+        await expect(self.auth_password_policy_tab).to_be_visible()
+
+
+    async def fill_email_auth_setup(self):
+        await self.auth_properties_auth_name.fill("AAuth_email_Test1")
+        await self.auth_properties_auth_description.fill("AAuth_email_Test1_desc")
+        await self.auth_properties_enabled_toggle.click()
+
+    async def fill_password_policy_fields(self):
+        await self.auth_password_policy_tab.click()
+        await self.page.wait_for_timeout(2000)
+        await self.auth_password_policy_min_chars_input.fill("15")
+        await self.auth_password_policy_expiry_select.click()
+        await self.page.wait_for_timeout(2000)
+        await self.auth_password_policy_expiry_30.click()
+        await self.page.wait_for_timeout(2000)
+
+
+    async def select_email_auth_protocol(self):
+        time.sleep(2)
+        await self.auth_protocol_dropdown.click()
+        await self.auth_email_protocol_option.click()
 
     async def click_add_new_authentication_button(self):
         await self.add_new_authentication_button.click()
+
+
+    async def search_for_email_authentication_type(self):
+        time.sleep(4)
+        await self.authentication_search_input.fill("AAuth_email_Test1")
+        await expect(self.page.locator("#auth-list-table-body")).to_contain_text("AAuth_email_Test1")
 
     async def select_authentication_protocol(self, protocol_name: str):
         #

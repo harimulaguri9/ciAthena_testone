@@ -83,7 +83,7 @@ class UsersPage(BasePage):
     async def validate_users_page_options(self):
         print("users")
         await self.user_nav_button.click()
-        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.page.wait_for_timeout(3000)  # 20 seconds
         await self.user_search_field.is_visible()
         await self.user_filter_icon.is_visible()
         await self.user_edit_icon.is_visible()

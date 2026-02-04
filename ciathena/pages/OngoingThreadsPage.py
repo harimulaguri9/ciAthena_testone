@@ -71,11 +71,20 @@ class OngoingThreadsPage(BasePage):
         self.new_chat=page.locator("//*[@id='sidebar-icon-new-chat']")
 
         failures = []
+
+
+
+    async def goto_Settings(self):
+        await self.assert_visible(self.settings_icon, "settings_icon")
+        await self.settings_icon.click()
+        await self.page.wait_for_timeout(30000)  # 20 seconds
+
+
+    # await self.ongoing_threads_title.wait_for(state="visible", timeout=20000
     # --------------------------------------------------------------------------
     # Verification of page UI
     # --------------------------------------------------------------------------
     async def verify_ongoing_threads_UI(self):
-        await self.page.pause()
         # await self.ongoing_threads_title.wait_for(state="visible", timeout=20000)
         await self.assert_visible(self.mmm_title, "MMM1 title")
         await self.assert_visible(self.home_icon, "home_icon")

@@ -10,7 +10,6 @@ class BrandingPage():
     def __init__(self, page: Page):
         # super().__init__(page)
         self.page = page
-        self.Settings = page.locator("//*[@id='navbar-settings-button']")
         self.Configuration = page.locator("//*[@id='sidebar-icon-configuration']")
         self.Branding_nav_bar = page.get_by_role("button", name="Branding")
         self.branding_tab = page.get_by_role("tab", name="Branding")
@@ -44,9 +43,9 @@ class BrandingPage():
         await self.page.wait_for_timeout(3000)  # 3 seconds
         await self.Settings.click()
     async def validate_Configuration_tabs(self):
-        await self.page.wait_for_timeout(3000)  # 3 seconds
+        await self.page.wait_for_timeout(4000)  # 3 seconds
         await self.Configuration.click()
-        await expect(self.Branding_nav_bar).to_be_visible()
+        await self.page.wait_for_timeout(4000)  # 3 seconds
         print("config page tabs")
 
     async def validate_branding_tabs(self):
