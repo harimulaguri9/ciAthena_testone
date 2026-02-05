@@ -2,19 +2,18 @@
 from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 
-class OngoingThreadsPage(BasePage):
+class FAST_OngoingThreadsPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
         self.ongoing_threads_navbar=page.locator("#sidebar-nav-label-ongoing-threads")
         self.sidebar_nav_item_newchat=page.locator("#sidebar-nav-item-new-chat")
         self.ongoing_threads_title = page.get_by_text("Ongoing Threads")
         self.search_input = page.locator("//*[@id='search-input']")
-        #self.search_input = page.locator("#search-input")
         self.pin_icon = page.locator("#pin-icon")
         self.today_header = page.locator("//*[@id='group-label-0']")
         self.response_question_text = page.locator("#question-text")
         self.today_history_section=page.locator("//p[contains(text(),'Today')]//parent::div/div/div/div/div[2]")
-        self.mmm_title = page.locator("//p[text()='MMM']")
+        self.mmm_title = page.locator("//p[text()='FAST']")
         self.home_icon = page.locator("#navbar-home-button")
         self.settings_icon = page.locator("#navbar-settings-button")
         self.app_overview_icon = page.locator("#navbar-app-overview-button")
@@ -75,9 +74,9 @@ class OngoingThreadsPage(BasePage):
 
 
     async def goto_Settings(self):
-        # await self.assert_visible(self.settings_icon, "settings_icon")
+        await self.assert_visible(self.settings_icon, "settings_icon")
         await self.settings_icon.click()
-        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.page.wait_for_timeout(30000)  # 20 seconds
 
 
     # await self.ongoing_threads_title.wait_for(state="visible", timeout=20000
@@ -94,10 +93,10 @@ class OngoingThreadsPage(BasePage):
     # --------------------------------------------------------------------------
     # Ask Question
     # --------------------------------------------------------------------------
-    async def ask_question(self):
+    async def ask_fast_question(self):
 
         await self.main_input.fill(
-            "How does TOTAL_DIGITAL_PROMOTIONS volume last month compare to the previous month across regions?"
+            "How is the Payer-Mix of Cardizor different from Payer-Mix of Competitors?"
         )
 
         await self.send_button1.click()
@@ -115,20 +114,16 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
         # Share Insights
         # --------------------------------------------------------------------------
-    async def verify_share_insights(self):
+    async def verify_fast_share_insights(self):
             await self.page.wait_for_timeout(20000)  # 20 seconds
             await self.share_visualization_button.click()
             print("share clicked")
             await self.tag_select()
             print("Tag clicked")
             await self.next_button.click()
-            # await self.page.wait_for_timeout(3000)
             await self.create_new_space()
-            # await self.page.wait_for_timeout(2000)
             await self.space_select()
-            # await self.page.wait_for_timeout(2000)
             await self.save_to_Space_button.click()
-
             await self.page.wait_for_timeout(5000)  # 20 seconds
 
 
@@ -138,9 +133,8 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
         # Save Insights
         # --------------------------------------------------------------------------
-    async def verify_save_insights(self):
+    async def verify_fast_save_insights(self):
             await self.save_insights_button.click()
-
             print("Save / Bookmark clicked")
             await self.tag_select()
             print("Tag clicked")
@@ -152,7 +146,7 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
         # Unsave Insights
         # --------------------------------------------------------------------------
-    async def verify_unsave_insights(self):
+    async def verify_fast_unsave_insights(self):
             await self.save_insights_button.click()
             # await self.page.wait_for_timeout(3000)
             await self.assert_visible(self.insight_unsaved_msg, "Insight removed successfully.")
@@ -161,7 +155,7 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
         # Download Insights
         # --------------------------------------------------------------------------
-    async def verify_download_insights(self):
+    async def verify_fast_download_insights(self):
             # await self.page.wait_for_timeout(1000)
             try:
                 await self.click(self.download_button, "download_button")

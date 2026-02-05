@@ -47,4 +47,4 @@ class LoginPage(BasePage):
         await self.phone_number_button.click()
         await self.page.wait_for_timeout(20000)
         await self.verify_button.click()
-        await self.page.wait_for_timeout(5000)
+        await self.page.wait_for_timeout(10000)

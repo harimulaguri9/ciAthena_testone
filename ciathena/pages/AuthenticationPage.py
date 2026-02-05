@@ -1,5 +1,6 @@
 import time
 
+import row
 from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 #import pytest_check as check
@@ -42,6 +43,7 @@ class AuthenticationPage(BasePage):
         self.auth_password_policy_min_chars_input = page.locator("#auth-password-policy-min-chars-input")
         self.auth_password_policy_expiry_select = page.locator("#auth-password-policy-expiry-select")
         self.auth_password_policy_expiry_30 = page.locator('//*[@id="auth-password-policy-expiry-30"]')
+
 
 
 
@@ -99,6 +101,7 @@ class AuthenticationPage(BasePage):
         self.auth_add_new_user_submit_button=page.locator(("#auth-add-users-submit-button"))
         self.auth_add_new_user_save_proceed_button = page.locator(("#auth-form-users-save-button"))
 
+
     async def add_users_to_the_group(self):
         await self.auth_users_tab_button.click()
         await expect(self.auth_add_users_title).to_be_visible()
@@ -108,7 +111,6 @@ class AuthenticationPage(BasePage):
         await self.auth_add_new_user_submit_button.click()
         await self.auth_add_new_user_save_proceed_button.click()
         time.sleep(3)
-        await self.page.reload()
         # await expect(self.auth_updated_toast_message).to_be_visible()
 
 
@@ -125,7 +127,7 @@ class AuthenticationPage(BasePage):
     async def verify_authentication_page_ui(self):
         time.sleep(2)
         await self.authentication_nav_button.click()
-        time.sleep(5)
+        time.sleep(7)
         await expect(self.authentication_page_title).to_be_visible()
         await expect(self.authentication_search_input).to_be_visible()
         await expect(self.add_new_authentication_button).to_be_visible()
@@ -219,8 +221,7 @@ class AuthenticationPage(BasePage):
 
     async def auth_type_save_proceed_button(self):
         await self.auth_properties_save_proceed_button.click()
-        await self.page.wait_for_timeout(3000)
-        await self.page.reload()
+        await self.page.wait_for_timeout(5000)
 
     async def search_for_saml_authentication_type(self):
         time.sleep(4)

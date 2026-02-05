@@ -1,26 +1,4 @@
-from datetime import time
-import time
-# import allure
 import pytest
-# #import pytest_check as check
-#
-#
-# # @pytest.mark.order(2)
-# # @pytest.mark.smoke
-# # @pytest.mark.wip
-# @pytest.mark.asyncio
-# @pytest.mark.asyncio
-# @pytest.mark.branding
-# async def test_branding_configuration(setup):
-#     brandingPage = setup["brandingPage"]
-#
-#     await brandingPage.click_on_Settings()
-#     await brandingPage.validate_Configuration_tabs()
-#     await brandingPage.validate_branding_tabs()
-#     await brandingPage.validate_company_name()
-#     await brandingPage.update_branding_logos()
-#     await brandingPage.upload_login_background_image()
-
 
 @pytest.mark.asyncio
 @pytest.mark.auth
@@ -84,46 +62,3 @@ async def test_email_authentication_flow(setup):
     await authenticationPage.search_for_email_authentication_type()
     await authenticationPage.sso_auth_type_edit()
     await authenticationPage.sso_auth_type_delete()
-
-# @pytest.mark.asyncio
-# @pytest.mark.users
-# # async def test_users_management(setup):
-#     brandingPage = setup["brandingPage"]
-#     usersPage = setup["usersPage"]
-#
-#     await brandingPage.click_on_Settings()
-#     await brandingPage.validate_Configuration_tabs()
-#     await usersPage.validate_users_page_options()
-#     await usersPage.verify_users_table_columns()
-#     await usersPage.verify_adduser_fields()
-#     await usersPage.fill_user_details(
-#         first_name="Hari",
-#         last_name="Mulaguri",
-#         email="hari1@test.com",
-#         title="QA",
-#         phone="9999999999"
-#     )
-# async def test_search_edit_users(setup):
-#     usersPage = setup["usersPage"]
-#     brandingPage = setup["brandingPage"]
-#
-#     await brandingPage.click_on_Settings()
-#     await brandingPage.validate_Configuration_tabs()
-#     await usersPage.validate_users_page_options()
-#     await usersPage.verify_users_table_columns()
-#     await usersPage.verify_user_search_edit()
-#     await usersPage.verify_user_search_delete()
-
-#
-# async def test_search_edit_user_sections(setup):
-#     usersPage = setup["usersPage"]
-#     brandingPage = setup["brandingPage"]
-#
-#     await brandingPage.click_on_Settings()
-#     await brandingPage.validate_Configuration_tabs()
-#     await usersPage.validate_users_page_options()
-#     await usersPage.verify_users_table_columns()
-#     await usersPage.verify_user_search_edit()
-#     await usersPage.verify_user_search_delete()
-
-

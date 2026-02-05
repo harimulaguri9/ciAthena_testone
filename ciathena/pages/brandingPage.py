@@ -38,10 +38,13 @@ class BrandingPage():
 
         self.Background_image_choosefile = page.locator("#login-screen-tab-background-input")
         self.login_screen_banner_save_button = page.locator("#login-screen-tab-save-button")
+        self.settings_icon = page.locator("#navbar-settings-button")
+
 
     async def click_on_Settings(self):
         await self.page.wait_for_timeout(3000)  # 3 seconds
-        await self.Settings.click()
+        await self.settings_icon.click()
+
     async def validate_Configuration_tabs(self):
         await self.page.wait_for_timeout(4000)  # 3 seconds
         await self.Configuration.click()

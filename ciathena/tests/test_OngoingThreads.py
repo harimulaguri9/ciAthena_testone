@@ -7,10 +7,10 @@ import pytest
 async def test_ask_question(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     await ongoingthreadsPage.ask_question()
-
-async def goto_Settings(setup):
-    ongoingthreadsPage = setup["ongoingthreadsPage"]
-    await ongoingthreadsPage.goto_Settings()
+#
+# async def goto_Settings(setup):
+#     ongoingthreadsPage = setup["ongoingthreadsPage"]
+#     await ongoingthreadsPage.goto_Settings()
 
     # @pytest.mark.asyncio
 # @pytest.mark.order(3)

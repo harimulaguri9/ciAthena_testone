@@ -12,13 +12,18 @@ from ciathena.pages.CollabSpacePage import CollabSpacePage
 from ciathena.pages.brandingPage import BrandingPage
 from ciathena.pages.AuthenticationPage import AuthenticationPage
 from ciathena.pages.UsersPage import UsersPage
+
+from ciathena.pages.FAST_pages.FAST_OngoingThreadsPage import FAST_OngoingThreadsPage
+
+
+
 from pytest_html import extras
 # @pytest.fixture(scope="function")
 @pytest_asyncio.fixture
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(headless=False, slow_mo=3000)
+        browser = await p.chromium.launch(headless=False, slow_mo=2000)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
@@ -35,11 +40,15 @@ async def setup():
         authenticationPage =AuthenticationPage(page)
         usersPage =UsersPage(page)
 
+        fast_ongoingthreadsPage = FAST_OngoingThreadsPage(page)
+
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
         await page.goto("https://ciathena-dev.customerinsights.ai/")
         # await loginPage.login_with_email_password()
         await loginPage.login_with_sso_email()
         await welcomePage.select_mmm_usecase()
+        # await welcomePage.select_fast_usecase()
+
 
         yield {
             "page": page,
@@ -51,7 +60,9 @@ async def setup():
             "collabspacePage" : collabspacePage,
             "brandingPage" : brandingPage,
             "authenticationPage": authenticationPage,
-            "usersPage": usersPage
+            "usersPage": usersPage,
+
+            "fast_ongoingthreadsPage":fast_ongoingthreadsPage
 
         }
         print("🧹 Closing page after test--")

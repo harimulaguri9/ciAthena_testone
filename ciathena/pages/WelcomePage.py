@@ -8,6 +8,8 @@ class WelcomePage(BasePage):
         self.welcome_search_input=page.locator("#welcome-search-input")
         self.search_button=page.locator("#welcome-search-submit-button")
         self.mmm_usecase_icon=page.locator("#icon-app-mmm")
+        self.fast_usecase_icon=page.locator("#welcome-app-name-fast")
+
         self.navbar=page.locator("#navbar-deepdive-text-section")
 
     async def validate_welcomepage_ui(self):
@@ -18,5 +20,12 @@ class WelcomePage(BasePage):
         await self.mmm_usecase_icon.wait_for(state="visible", timeout=5000)
         await self.mmm_usecase_icon.scroll_into_view_if_needed()
         await self.mmm_usecase_icon.click()
+        await self.page.wait_for_timeout(10000)
+
+    async def select_fast_usecase(self):
+        await self.welcome_search_input.click()
+        await self.fast_usecase_icon.wait_for(state="visible", timeout=5000)
+        await self.fast_usecase_icon.scroll_into_view_if_needed()
+        await self.fast_usecase_icon.click()
         await self.page.wait_for_timeout(10000)
 

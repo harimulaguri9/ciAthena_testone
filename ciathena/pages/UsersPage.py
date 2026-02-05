@@ -28,7 +28,9 @@ class UsersPage(BasePage):
         self.language_option_english = page.get_by_role("option", name="English")
 
         # ========== Use Cases ==========
-        self.use_cases_dropdown = page.get_by_text("Select use cases", exact=True)
+        # self.use_cases_dropdown = page.get_by_text("Select use cases", exact=True)
+        self.use_cases_dropdown = page.locator("#general-tab-use-cases-select")
+
         self.use_case_mmx = page.get_by_text("MMX", exact=True)
         self.use_case_fast = page.get_by_role("option", name="FAST")
         self.minimise_usecase_dropdown = page.get_by_role("#ArrowDropDownIcon")
@@ -37,11 +39,11 @@ class UsersPage(BasePage):
         self.user_licensed_toggle=page.locator("//p[text()='Licensed']/following::div[@role='switch'][1]")
         # ========== Role ==========
         self.role_dropdown = page.get_by_role("combobox").filter(has_text="Select role")
-        self.role_analyst = page.get_by_role("option", name="Analyst", exact=True)
+        self.role_analyst = page.get_by_role("option", name="Admin", exact=True)
 
         # ========== Team ==========
         self.team_dropdown = page.get_by_role("combobox").filter(has_text="Select team")
-        self.team_alpha = page.get_by_text("Team Alpha")
+        self.team_alpha = page.get_by_text("new team")
         self.licensed_toggle = page.locator("#general-tab-licensed-toggle")
         self.personalised_toggle = page.locator("#general-tab-personalized-insights-toggle")
 
@@ -77,6 +79,38 @@ class UsersPage(BasePage):
 
         # ========== Users list ==========
         self.users_search_input = page.locator("#users-search-input")
+        self.users_more_button = page.locator("#user-context-menu-button-57f067d0-7a74-4be3-ae05-fbcc013c1485 > svg")
+        self.users_edit_button = page.locator("#user-context-menu-edit")
+        self.users_delete_button = page.locator("#user-context-menu-delete")
+
+        # ========== Users sections list ==========
+        self.users_edit_user_tab_general = page.locator("#edit-user-tab-general")
+        self.users_edit_user_tab_usecases = page.locator("#edit-user-tab-use-cases")
+        self.users_edit_user_tab_parameters = page.locator("#edit-user-tab-parameters")
+        self.users_edit_user_tab_user_activity = page.locator("#edit-user-tab-user-activity")
+        self.users_edit_user_tab_logs = page.locator("#edit-user-tab-logs")
+
+        self.users_edit_user_save_button = page.locator("#edit-user-save-button")
+        self.users_edit_user_activity_login_logout_tab = page.locator("#edit-user-activity-tab-login-logout")
+        self.users_edit_user_activity_conversations_tab = page.locator("#edit-user-user-activity-tab-conversations")
+        self.users_edit_user_activity_insights_hub_tab = page.locator("#user-activity-tab-insights-hub")
+        self.users_edit_user_activity_llm_tokens_tab = page.locator("#user-activity-tab-llm-tokens")
+
+        self.usecase_names_sections = page.locator("//*[@id='use-cases-table']/tbody/tr/td[1]/div/p")
+        self.usecases_general=page.locator("//*[@id='general-tab-use-cases-select']/div/div/span")
+
+        self.users_filter_button=page.locator("#users-filter-button")
+        self.filter_license_select=page.locator("#filter-license-select")
+        self.filter_license_option_active=page.locator("#filter-license-option-active")
+        self.filter_license_option_inactive=page.locator("#filter-license-option-inactive")
+
+        self.filter_role_select=page.locator("#filter-role-select")
+        self.filter_role_option_Viewer=page.locator("#filter-role-option-Viewer")
+        self.filter_role_option_Admin=page.locator("#filter-license-option-Admin")
+
+        self.filter_team_select=page.locator("#filter-team-select")
+        self.filter_team_option_all=page.locator("#filter-team-option-all")
+
 
 
     # -------- METHODS --------
@@ -100,6 +134,7 @@ class UsersPage(BasePage):
 
     async def verify_adduser_fields(self):
         await self.users_adduser_button.click()
+        await self.page.evaluate("document.body.style.zoom='70%'")
         await self.page.wait_for_timeout(2000)  # 20 seconds
 
     async def fill_user_details(self,
@@ -172,5 +207,74 @@ class UsersPage(BasePage):
         if await self.personalised_toggle.get_attribute("aria-checked") == "false":
             await self.personalised_toggle.click()
 
-    async def verify_user_search(self,first_name: str):
-        await self.users_search_input.fill(first_name)
+    async def verify_user_search_edit(self):
+        email = "Hari.Mulaguri@customerinsights.ai"
+        general_usecase_names = []
+        section_usecase_names=[]
+        await self.users_search_input.fill(email)
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.users_more_button.click()
+        await self.users_edit_button.click()
+        await self.user_phone.fill("1234567890")
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        general_usecase_names=await self.usecases_general.all_text_contents()
+        print("general_usecase_names: ",general_usecase_names)
+        await self.users_edit_user_tab_usecases.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        section_usecase_names= await self.usecase_names_sections.all_text_contents()
+        print("section_usecase_names: ",section_usecase_names)
+        general_usecase_names.sort()
+        section_usecase_names.sort()
+
+        print("sorted general_usecase_names:", general_usecase_names)
+        print("sorted section_usecase_names:", section_usecase_names)
+        assert general_usecase_names == section_usecase_names, \
+            f"Use case mismatch: {general_usecase_names} vs {section_usecase_names}"
+        await self.users_edit_user_tab_general.click()
+        # await self.save_and_proceed_button.click()
+#======================================================================
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.use_cases_dropdown.click()
+        await self.use_case_fast.click()
+        await self.user_phone.click()
+        await self.users_edit_user_save_button.click()
+
+
+        await self.users_more_button.click()
+        await self.users_edit_button.click()
+        updated_general_usecase_names=await self.usecases_general.all_text_contents()
+        print("updated_general_usecase_names: ",updated_general_usecase_names)
+
+        await self.users_edit_user_tab_usecases.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        updated_section_usecase_names= await self.usecase_names_sections.all_text_contents()
+        print("updated_section_usecase_names: ",updated_section_usecase_names)
+        updated_general_usecase_names.sort()
+        updated_section_usecase_names.sort()
+
+        print("sorted general_usecase_names:", updated_general_usecase_names)
+        print("sorted section_usecase_names:", updated_section_usecase_names)
+        assert updated_general_usecase_names == updated_section_usecase_names, \
+            f"Use case mismatch: {updated_general_usecase_names} vs {updated_section_usecase_names}"
+
+        await self.users_edit_user_tab_general.click()
+        await self.save_and_proceed_button.click()
+
+
+    async def verify_user_filters(self):
+        await self.users_filter_button.click()
+        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.filter_license_select.click()
+        await self.check_filter_license_option_active()
+        await self.check_filter_role_admin()
+
+
+
+    async def check_filter_license_option_active(self):
+        status = await self.page.locator(
+            "td[data-name='user-license-cell-0'] span.MuiChip-label").inner_text()
+        assert status == "Active"
+
+    async def check_filter_role_admin(self):
+        role = await self.page.locator("p[data-name='user-role-text-0']").inner_text()
+        assert role == "Admin"
