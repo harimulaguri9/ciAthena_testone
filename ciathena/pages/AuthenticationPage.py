@@ -106,7 +106,7 @@ class AuthenticationPage(BasePage):
         await self.auth_users_tab_button.click()
         await expect(self.auth_add_users_title).to_be_visible()
         await self.auth_add_user_button.click()
-        await self.auth_add_new_user_search_input.fill("Hari")
+        await self.auth_add_new_user_search_input.fill("hari")
         await self.auth_add_new_user_checkbox.first.check()
         await self.auth_add_new_user_submit_button.click()
         await self.auth_add_new_user_save_proceed_button.click()
@@ -125,9 +125,8 @@ class AuthenticationPage(BasePage):
     # ---------- OpenID connect----------
 #Verify Authentication landing page UI
     async def verify_authentication_page_ui(self):
-        time.sleep(2)
         await self.authentication_nav_button.click()
-        time.sleep(7)
+        await self.page.wait_for_timeout(3000)
         await expect(self.authentication_page_title).to_be_visible()
         await expect(self.authentication_search_input).to_be_visible()
         await expect(self.add_new_authentication_button).to_be_visible()
@@ -188,7 +187,7 @@ class AuthenticationPage(BasePage):
 
 
     async def fill_saml_auth_appinfo_details(self):
-        time.sleep(3)
+        await self.page.wait_for_timeout(3000)
         await self.auth_properties_appInfo_tab.click()
         await self.auth_properties_appInfo_redirect_URL.fill("https:/testciai-reditrect.com")
         await self.auth_properties_appInfo_logout_URL.fill("https:/testciai-logout.com")
@@ -196,7 +195,7 @@ class AuthenticationPage(BasePage):
 
 
     async def fill_saml_auth_sso_provider_details(self):
-        time.sleep(5)
+        time.sleep(3)
         await self.auth_properties_sso_provider_tab.click()
         await self.saml_saml_entity_identifier_input.fill("https:/testciai-authority_url.com")
         await self.saml_signon_url_input.fill("https:/testciai-authority_signon.com")
@@ -224,7 +223,7 @@ class AuthenticationPage(BasePage):
         await self.page.wait_for_timeout(5000)
 
     async def search_for_saml_authentication_type(self):
-        time.sleep(4)
+        await self.page.wait_for_timeout(3000)
         await self.authentication_search_input.fill("AAuth_SAML_Test1")
         await expect(self.page.locator("#auth-list-table-body")).to_contain_text("AAuth_SAML_Test1")
 

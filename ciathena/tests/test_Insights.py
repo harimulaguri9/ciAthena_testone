@@ -1,7 +1,7 @@
 import allure
 import pytest
 # @pytest.mark.order(3)
-# @pytest.mark.smoke
+@pytest.mark.wip
 @pytest.mark.asyncio
 # @allure.epic("Insights Hub")
 # @allure.story("InsightsHub_UI")
@@ -11,7 +11,7 @@ async def test_Insights(setup):
     insightshubPage = setup["insightshubPage"]
 
     await insightshubPage.verify_insightshub_UI()
-    # await insightshubPage.verify_executive_cards()
+    await insightshubPage.verify_executive_cards()
     await insightshubPage.verify_personalized_insights_all_cards()
 
     #

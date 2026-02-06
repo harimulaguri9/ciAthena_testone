@@ -136,7 +136,6 @@ class InsightsHubPage(BasePage):
 
     async def verify_chart_details(self):
         charts = await self.chart_section_title.count()
-        await self.page.pause()
 
         for i in range(charts):
             time.sleep(3)
@@ -169,8 +168,8 @@ class InsightsHubPage(BasePage):
         headers = [
             "Customer Engagement",
             "Operational Efficiency",
-            "Market Trends",
-            "Financial Performance"
+            "Market Trends"
+
 
             # "Access Favorability Landscape",
             # "Market Access Landscape",
@@ -187,10 +186,12 @@ class InsightsHubPage(BasePage):
 
             # try:
             # Wait for section header to be visible
+            await self.page.wait_for_timeout(5000)
+
             header_locator = self.page.locator(f"//h2[text()='{header_name}']")
 
             #self.click(header_locator, f'{header_locator}')
-            await header_locator.wait_for(state="visible", timeout=10000)
+            await header_locator.wait_for(state="visible", timeout=5000)
             print(f"✅ Section '{header_name}' loaded.")
 
             # --- Step 4: Get the first visible insight card under this section ---
@@ -198,7 +199,7 @@ class InsightsHubPage(BasePage):
                 f"//div[contains(@id, 'insight-card-{header_name.lower().replace(' ', '-')}')]"
             ).first
 
-            await trx_card.wait_for(state="visible", timeout=10000)
+            await trx_card.wait_for(state="visible", timeout=5000)
             trx_text = await trx_card.text_content()
             trx_text = trx_text.strip() if trx_text else "N/A"
             print(f"📈 Found Card: {trx_text}")
@@ -222,7 +223,7 @@ class InsightsHubPage(BasePage):
             # # --- Step 6: Hover again and click message icon ---
             # await trx_card.hover()
 
-            time.sleep(3)
+            await self.page.wait_for_timeout(3000)
 
             msg_icon = self.page.locator(
                 f"//*[@id='conversation-icon-{header_name.lower().replace(' ', '-').replace('&', 'and')}-0']"

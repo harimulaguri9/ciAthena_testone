@@ -22,7 +22,6 @@ class CollabSpacePage(BasePage):
         self.rename_button=page.locator("#rename-confirm-button")
         self.Delete_space=page.locator("//span[text()='Delete']")
         self.Delete_confirm_button=page.locator("//*[@id='delete-confirm-button']")
-        self.Pin_button=page.locator("//img[@alt='Pin']")
         self.view_button=page.locator("//img[@alt='View']")
         self.collab_panel_pin_button=page.locator("#collab-panel-pin-button")
         self.search_spaces=page.get_by_placeholder("Search spaces")
@@ -128,11 +127,13 @@ class CollabSpacePage(BasePage):
 
         # Wait for the "My Spaces" section to be visible
         time.sleep(3)
+
         await self.collab_space_navbar.hover()
         time.sleep(3)
        # self.page.wait_for_locator(self.search_spaces, timeout=2000)
         await self.page.wait_for_selector("//input[@placeholder='Search spaces']", timeout=3000)
         await self.search_spaces.click()
+        await self.collab_panel_pin_button.click()
 
         time.sleep(2)
         await self.MySpace_header.wait_for(state="visible", timeout=2000)
@@ -152,8 +153,6 @@ class CollabSpacePage(BasePage):
                 print(f"Found space '{space_name}' at index {i}")
                 time.sleep(5)
                 await self.page.locator("//img[@id='collab-panel-my-space-menu-icon-0']").click()
-
-
                 print(f"Clicked 'More' button for space '{space_name}' at index {i}")
                 time.sleep(2)
 
@@ -192,7 +191,7 @@ class CollabSpacePage(BasePage):
 
         # Wait for the "My Spaces" section to be visible
         time.sleep(3)
-        await self.collab_space_navbar.hover()
+        # await self.collab_space_navbar.hover()
         time.sleep(3)
        # self.page.wait_for_locator(self.search_spaces, timeout=2000)
         await self.page.wait_for_selector("//input[@placeholder='Search spaces']", timeout=3000)
@@ -233,7 +232,7 @@ class CollabSpacePage(BasePage):
                 # ✅ Validation: ensure space name no longer exists
                 time.sleep(4)  # wait for UI refresh
                 remaining_spaces = [
-                    await self.pace_name_elements.nth(j).text_content().strip()
+                    await self.space_name_elements.nth(j).text_content().strip()
                     for j in range(await self.space_name_elements.count())
                 ]
 

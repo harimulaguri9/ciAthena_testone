@@ -43,9 +43,9 @@ async def setup():
         fast_ongoingthreadsPage = FAST_OngoingThreadsPage(page)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
-        await page.goto("https://ciathena-dev.customerinsights.ai/")
-        # await loginPage.login_with_email_password()
-        await loginPage.login_with_sso_email()
+        await page.goto("https://ciathena.customerinsights.ai/")
+        await loginPage.login_with_email_password()
+        # await loginPage.login_with_sso_email()
         await welcomePage.select_mmm_usecase()
         # await welcomePage.select_fast_usecase()
 

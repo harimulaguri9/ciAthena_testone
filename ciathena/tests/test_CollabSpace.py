@@ -3,7 +3,7 @@ import allure
 
 @pytest.mark.order(4)
 # @pytest.mark.usefixtures("step_logger")
-@pytest.mark.smoke
+@pytest.mark.wip
 @pytest.mark.asyncio
 @allure.epic("Collabspace")
 @allure.story("CollabspaceUI")

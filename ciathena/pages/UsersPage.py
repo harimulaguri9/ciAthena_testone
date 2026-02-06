@@ -73,8 +73,8 @@ class UsersPage(BasePage):
         # ========== Delete ==========
         self.more_actions_btn = page.get_by_role("button").nth(4)
         self.delete_option = page.get_by_text("Delete")
-        self.confirm_delete_button = page.get_by_role("button", name="Delete")
-
+        self.delete_confirm_button = page.get_by_role("button", name="Delete")
+        self.delete_cancel_button = page.locator("#delete-cancel-button")
         # ========== Overlay / Backdrop ==========
         self.backdrop = page.locator(".MuiBackdrop-root.MuiBackdrop-invisible")
 
@@ -135,6 +135,7 @@ class UsersPage(BasePage):
             print(columnname)
 
     async def verify_adduser_fields(self):
+        await self.page.wait_for_timeout(5000)  # 20 seconds
         await self.users_adduser_button.click()
         await self.page.evaluate("document.body.style.zoom='70%'")
         await self.page.wait_for_timeout(2000)  # 20 seconds
@@ -238,6 +239,20 @@ class UsersPage(BasePage):
         # await self.use_case_fast.click()
         # await self.user_phone.click()
         await self.users_user_save_button.click()
+
+    async def verify_user_delete(self):
+            email = "Hari.Mulaguri@customerinsights.ai"
+            general_usecase_names = []
+            section_usecase_names = []
+            await self.users_search_input.fill(email)
+            await self.page.wait_for_timeout(3000)  # 20 seconds
+            await self.users_more_button.click()
+            await self.users_edit_button.click()
+            await self.user_phone.fill("1234567899")
+            await self.page.wait_for_timeout(3000)  # 20 seconds
+            await self.users_delete_button.click()
+            # await self.delete_confirm_button.click()
+            await self.delete_cancel_button.click()
 
 
         # await self.users_more_button.click()
