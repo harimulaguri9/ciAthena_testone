@@ -128,8 +128,7 @@ class OngoingThreadsPage(BasePage):
             await self.space_select()
             # await self.page.wait_for_timeout(2000)
             await self.save_to_Space_button.click()
-
-            await self.page.wait_for_timeout(5000)  # 20 seconds
+            await self.page.wait_for_timeout(3000)  # 20 seconds
 
 
             # await expect(self.insight_shared_msg).to_be_visible(timeout=2000)
@@ -144,7 +143,7 @@ class OngoingThreadsPage(BasePage):
             print("Save / Bookmark clicked")
             await self.tag_select()
             print("Tag clicked")
-            await self.page.wait_for_timeout(3000)
+            await self.page.wait_for_timeout(2000)
             await self.submit_button.click()
             # await expect(self.insight_saved_msg).to_be_visible(timeout=2000)
             # await self.assert_visible(self.insight_saved_msg, "Insight saved successfully")
@@ -154,9 +153,9 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
     async def verify_unsave_insights(self):
             await self.save_insights_button.click()
-            # await self.page.wait_for_timeout(3000)
+            await self.page.wait_for_timeout(2000)
             await self.assert_visible(self.insight_unsaved_msg, "Insight removed successfully.")
-            await self.page.wait_for_timeout(3000)
+            await self.page.wait_for_timeout(2000)
 
         # --------------------------------------------------------------------------
         # Download Insights

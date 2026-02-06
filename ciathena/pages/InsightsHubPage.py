@@ -167,15 +167,18 @@ class InsightsHubPage(BasePage):
         time.sleep(30)
         # --- Step 2: Define all section headers to iterate through ---
         headers = [
-            # "Customer Engagement"
-            "Access Favorability Landscape",
-            "Market Access Landscape",
-            "Access vs Performance Dynamics",
-            "Competitive Access Comparison",
-            "Payer Mix & Differentiation",
-            "FAST vs Traditional Benchmarks",
-            "HCP Opportunity Segmentation"
+            "Customer Engagement",
+            "Operational Efficiency",
+            "Market Trends",
+            "Financial Performance"
 
+            # "Access Favorability Landscape",
+            # "Market Access Landscape",
+            # "Access vs Performance Dynamics",
+            # "Competitive Access Comparison",
+            # "Payer Mix & Differentiation",
+            # "FAST vs Traditional Benchmarks",
+            # "HCP Opportunity Segmentation"
         ]
 
         # --- Step 3: Loop through each section header ---
@@ -219,6 +222,7 @@ class InsightsHubPage(BasePage):
             # # --- Step 6: Hover again and click message icon ---
             # await trx_card.hover()
 
+            time.sleep(3)
 
             msg_icon = self.page.locator(
                 f"//*[@id='conversation-icon-{header_name.lower().replace(' ', '-').replace('&', 'and')}-0']"
@@ -226,7 +230,6 @@ class InsightsHubPage(BasePage):
 
             await msg_icon.wait_for(state='visible', timeout=3000)
             await msg_icon.click()
-            await msg_icon.wait_for(state='visible', timeout=4000)
 
             # await self.click(self.page.go_back(), "personalized_insights_tab")
            # await self.page.go_back(wait_until="domcontentloaded")

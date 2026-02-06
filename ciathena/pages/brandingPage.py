@@ -46,7 +46,7 @@ class BrandingPage():
         await self.settings_icon.click()
 
     async def validate_Configuration_tabs(self):
-        await self.page.wait_for_timeout(4000)  # 3 seconds
+        await self.page.wait_for_timeout(5000)  # 3 seconds
         await self.Configuration.click()
         await self.page.wait_for_timeout(4000)  # 3 seconds
         print("config page tabs")

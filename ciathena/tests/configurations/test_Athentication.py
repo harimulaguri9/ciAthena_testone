@@ -28,7 +28,7 @@ async def test_saml_authentication_flow(setup):
     brandingPage = setup["brandingPage"]
     authenticationPage = setup["authenticationPage"]
 
-    await ongoingthreadsPage.goto_Settings()
+    # await ongoingthreadsPage.goto_Settings()
     await brandingPage.validate_Configuration_tabs()
     await authenticationPage.verify_authentication_page_ui()
     await authenticationPage.verify_new_saml_page_properties()

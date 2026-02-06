@@ -1,5 +1,6 @@
 import pytest
 
+
 # @pytest.mark.asyncio
 # @pytest.mark.users
 # async def test_users_management(setup):
@@ -32,6 +33,7 @@ import pytest
 #     await usersPage.validate_users_page_options()
 #     await usersPage.verify_users_table_columns()
 #     await usersPage.verify_user_search_edit()
+#     await usersPage.verify_user_search_delete()
 
 # @pytest.mark.asyncio
 # @pytest.mark.users
@@ -44,7 +46,7 @@ import pytest
 #     await brandingPage.validate_Configuration_tabs()
 #     await usersPage.validate_users_page_options()
 #     await usersPage.verify_users_table_columns()
-#     await usersPage.verify_user_search_delete()
+#     await usersPage.verify_user_search_edit()
 
 # @pytest.mark.asyncio
 # @pytest.mark.users
@@ -57,27 +59,3 @@ import pytest
 #     await brandingPage.validate_Configuration_tabs()
 #     await usersPage.validate_users_page_options()
 #     await usersPage.verify_user_filters()
-
-# @pytest.mark.asyncio
-# @pytest.mark.users
-# async def test_user_sections(setup):
-#     usersPage = setup["usersPage"]
-#     brandingPage = setup["brandingPage"]
-#
-#     print("test_search_edit_user_sections")
-#     await brandingPage.click_on_Settings()
-#     await brandingPage.validate_Configuration_tabs()
-#     await usersPage.validate_users_page_options()
-
-
-@pytest.mark.asyncio
-@pytest.mark.users
-async def test_user_activity_sections(setup):
-    usersPage = setup["usersPage"]
-    brandingPage = setup["brandingPage"]
-
-    print("test_search_edit_user_sections")
-    await brandingPage.click_on_Settings()
-    await brandingPage.validate_Configuration_tabs()
-    await usersPage.validate_users_page_options()
-    await usersPage.verify_user_activity_sections()

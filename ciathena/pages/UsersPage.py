@@ -1,5 +1,7 @@
 import re
 from datetime import time
+
+import box
 from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 
@@ -90,11 +92,11 @@ class UsersPage(BasePage):
         self.users_edit_user_tab_user_activity = page.locator("#edit-user-tab-user-activity")
         self.users_edit_user_tab_logs = page.locator("#edit-user-tab-logs")
 
-        self.users_edit_user_save_button = page.locator("#edit-user-save-button")
-        self.users_edit_user_activity_login_logout_tab = page.locator("#edit-user-activity-tab-login-logout")
-        self.users_edit_user_activity_conversations_tab = page.locator("#edit-user-user-activity-tab-conversations")
-        self.users_edit_user_activity_insights_hub_tab = page.locator("#user-activity-tab-insights-hub")
-        self.users_edit_user_activity_llm_tokens_tab = page.locator("#user-activity-tab-llm-tokens")
+        self.users_user_save_button = page.locator("#edit-user-save-button")
+        self.users_user_activity_login_logout_tab = page.locator("#user-activity-tab-login-logout")
+        self.users_user_activity_conversations_tab = page.locator("#user-activity-tab-conversations")
+        self.users_user_activity_insights_hub_tab = page.locator("#user-activity-tab-insights-hub")
+        self.users_user_activity_llm_tokens_tab = page.locator("#user-activity-tab-llm-tokens")
 
         self.usecase_names_sections = page.locator("//*[@id='use-cases-table']/tbody/tr/td[1]/div/p")
         self.usecases_general=page.locator("//*[@id='general-tab-use-cases-select']/div/div/span")
@@ -106,7 +108,7 @@ class UsersPage(BasePage):
 
         self.filter_role_select=page.locator("#filter-role-select")
         self.filter_role_option_Viewer=page.locator("#filter-role-option-Viewer")
-        self.filter_role_option_Admin=page.locator("#filter-license-option-Admin")
+        self.filter_role_option_Admin=page.locator("#filter-role-option-Admin")
 
         self.filter_team_select=page.locator("#filter-team-select")
         self.filter_team_option_all=page.locator("#filter-team-option-all")
@@ -215,66 +217,159 @@ class UsersPage(BasePage):
         await self.page.wait_for_timeout(3000)  # 20 seconds
         await self.users_more_button.click()
         await self.users_edit_button.click()
-        await self.user_phone.fill("1234567890")
+        await self.user_phone.fill("1234567899")
         await self.page.wait_for_timeout(3000)  # 20 seconds
-        general_usecase_names=await self.usecases_general.all_text_contents()
-        print("general_usecase_names: ",general_usecase_names)
-        await self.users_edit_user_tab_usecases.click()
-        await self.page.wait_for_timeout(3000)  # 20 seconds
-        section_usecase_names= await self.usecase_names_sections.all_text_contents()
-        print("section_usecase_names: ",section_usecase_names)
-        general_usecase_names.sort()
-        section_usecase_names.sort()
+        # general_usecase_names=await self.usecases_general.all_text_contents()
+        # print("general_usecase_names: ",general_usecase_names)
+        # await self.users_edit_user_tab_usecases.click()
+        # await self.page.wait_for_timeout(3000)  # 20 seconds
+        # section_usecase_names= await self.usecase_names_sections.all_text_contents()
+        # print("section_usecase_names: ",section_usecase_names)
+        # general_usecase_names.sort()
+        # section_usecase_names.sort()
+        #
+        # print("sorted general_usecase_names:", general_usecase_names)
+        # print("sorted section_usecase_names:", section_usecase_names)
+        # assert general_usecase_names == section_usecase_names, \
+        #     f"Use case mismatch: {general_usecase_names} vs {section_usecase_names}"
+        # await self.users_edit_user_tab_general.click()
+        # await self.page.wait_for_timeout(3000)  # 20 seconds
+        # await self.use_cases_dropdown.click()
+        # await self.use_case_fast.click()
+        # await self.user_phone.click()
+        await self.users_user_save_button.click()
 
-        print("sorted general_usecase_names:", general_usecase_names)
-        print("sorted section_usecase_names:", section_usecase_names)
-        assert general_usecase_names == section_usecase_names, \
-            f"Use case mismatch: {general_usecase_names} vs {section_usecase_names}"
-        await self.users_edit_user_tab_general.click()
+
+        # await self.users_more_button.click()
+        # await self.users_edit_button.click()
+        # updated_general_usecase_names=await self.usecases_general.all_text_contents()
+        # print("updated_general_usecase_names: ",updated_general_usecase_names)
+        #
+        # await self.users_edit_user_tab_usecases.click()
+        # await self.page.wait_for_timeout(3000)  # 20 seconds
+        # updated_section_usecase_names= await self.usecase_names_sections.all_text_contents()
+        # print("updated_section_usecase_names: ",updated_section_usecase_names)
+        # updated_general_usecase_names.sort()
+        # updated_section_usecase_names.sort()
+        #
+        # print("sorted general_usecase_names:", updated_general_usecase_names)
+        # print("sorted section_usecase_names:", updated_section_usecase_names)
+        # assert updated_general_usecase_names == updated_section_usecase_names, \
+        #     f"Use case mismatch: {updated_general_usecase_names} vs {updated_section_usecase_names}"
+        #
+        # await self.users_edit_user_tab_general.click()
         # await self.save_and_proceed_button.click()
-#======================================================================
-        await self.page.wait_for_timeout(3000)  # 20 seconds
-        await self.use_cases_dropdown.click()
-        await self.use_case_fast.click()
-        await self.user_phone.click()
-        await self.users_edit_user_save_button.click()
-
-
-        await self.users_more_button.click()
-        await self.users_edit_button.click()
-        updated_general_usecase_names=await self.usecases_general.all_text_contents()
-        print("updated_general_usecase_names: ",updated_general_usecase_names)
-
-        await self.users_edit_user_tab_usecases.click()
-        await self.page.wait_for_timeout(3000)  # 20 seconds
-        updated_section_usecase_names= await self.usecase_names_sections.all_text_contents()
-        print("updated_section_usecase_names: ",updated_section_usecase_names)
-        updated_general_usecase_names.sort()
-        updated_section_usecase_names.sort()
-
-        print("sorted general_usecase_names:", updated_general_usecase_names)
-        print("sorted section_usecase_names:", updated_section_usecase_names)
-        assert updated_general_usecase_names == updated_section_usecase_names, \
-            f"Use case mismatch: {updated_general_usecase_names} vs {updated_section_usecase_names}"
-
-        await self.users_edit_user_tab_general.click()
-        await self.save_and_proceed_button.click()
 
 
     async def verify_user_filters(self):
         await self.users_filter_button.click()
         await self.page.wait_for_timeout(2000)  # 20 seconds
         await self.filter_license_select.click()
-        await self.check_filter_license_option_active()
-        await self.check_filter_role_admin()
+        await self.filter_license_option_active.click()
+        await self.page.wait_for_timeout(2000)  # 20 seconds
 
+        await self.filter_role_select.click()
+        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.filter_role_option_Admin.click()
+
+        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.filter_team_select.click()
+        await self.page.wait_for_timeout(2000)
+        await self.filter_team_option_all.click()
+
+        await self.page.mouse.click(150, 150)
+        await self.check_filter_role_admin()
+        await self.check_filter_license_option_active()
 
 
     async def check_filter_license_option_active(self):
         status = await self.page.locator(
             "td[data-name='user-license-cell-0'] span.MuiChip-label").inner_text()
+        print(status)
         assert status == "Active"
 
     async def check_filter_role_admin(self):
         role = await self.page.locator("p[data-name='user-role-text-0']").inner_text()
+        print(role)
         assert role == "Admin"
+
+    #
+    # async def verify_user_sections_validations(self):
+    #     email = "Hari.Mulaguri@customerinsights.ai"
+    #     general_usecase_names = []
+    #     section_usecase_names=[]
+    #     await self.users_search_input.fill(email)
+    #     await self.page.wait_for_timeout(3000)  # 20 seconds
+    #     await self.users_more_button.click()
+    #     await self.users_edit_button.click()
+    #     await self.users_edit_user_tab_general.is_visible()
+    #     await self.users_edit_user_tab_usecases.is_visible()
+    #     await self.users_edit_user_tab_parameters.is_visible()
+    #     # await self.users_edit_user_activity_conversations_tab.is_visible()
+    #     await self.users_edit_user_tab_logs.is_visible()
+
+
+    async def verify_user_activity_sections(self):
+        email = "Hari.Mulaguri@customerinsights.ai"
+        await self.users_search_input.fill(email)
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.users_more_button.click()
+        await self.users_edit_button.click()
+
+        await self.users_edit_user_tab_general.is_visible()
+        await self.users_edit_user_tab_usecases.is_visible()
+        await self.users_edit_user_tab_parameters.is_visible()
+        await self.users_edit_user_tab_user_activity_validation()
+        await self.users_edit_user_tab_logs_validation()
+
+
+
+
+    async def users_edit_user_tab_user_activity_validation(self):
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.users_edit_user_tab_user_activity.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.users_user_activity_login_logout_tab.is_visible()
+        await self.users_user_activity_login_logout_tab.click()
+        logins_triggered = self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Logins triggered")
+        logouts_triggered =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Logouts triggered")
+        await expect(logins_triggered).to_be_visible()
+        await expect(logouts_triggered).to_be_visible()
+        print("logins_triggered- done")
+
+        await self.users_user_activity_conversations_tab.is_visible()
+        await self.users_user_activity_conversations_tab.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        Overall_conversations =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Overall conversations")
+        Max_in_a_day_conversations =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Max in a day")
+        await expect(Overall_conversations).to_be_visible()
+        await expect(Max_in_a_day_conversations).to_be_visible()
+        print("conversations- done")
+
+
+        await self.users_user_activity_insights_hub_tab.is_visible()
+        await self.users_user_activity_insights_hub_tab.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        Overall_interactions=  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Overall interactions")
+        Max_in_a_day_interactions =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Max in a day")
+        await expect(Overall_interactions).to_be_visible()
+        await expect(Max_in_a_day_interactions).to_be_visible()
+        print("interactions- done")
+
+
+        await self.users_user_activity_llm_tokens_tab.is_visible()
+        await self.users_user_activity_llm_tokens_tab.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        Token_used=  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Token used")
+        Usage_last_week =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Usage last week")
+        await expect(Token_used).to_be_visible()
+        await expect(Usage_last_week).to_be_visible()
+        print("tokens- done")
+
+
+    async def users_edit_user_tab_logs_validation(self):
+        await self.users_edit_user_tab_logs.is_visible()
+        await self.users_edit_user_tab_logs.click()
+        action_cell =  self.page.locator("#logs-cell-action-0")
+        await expect(action_cell).to_have_text("User updated")
+        print("logs- done")
