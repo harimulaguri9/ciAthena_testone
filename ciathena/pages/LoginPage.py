@@ -1,4 +1,3 @@
-import allure
 
 from ciathena.pages.BasePage import BasePage
 from playwright.async_api import Page
