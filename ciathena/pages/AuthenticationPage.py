@@ -1,9 +1,7 @@
 import time
 
-import row
 from playwright.async_api import Page, expect
 from ciathena.pages.BasePage import BasePage
-#import pytest_check as check
 
 
 class AuthenticationPage(BasePage):
@@ -45,8 +43,6 @@ class AuthenticationPage(BasePage):
         self.auth_password_policy_expiry_30 = page.locator('//*[@id="auth-password-policy-expiry-30"]')
 
 
-
-
 #App Information section
         self.auth_properties_appInfo_tab = page.locator("#auth-properties-subtab-appInformation-label")
         self.auth_properties_appInfo_redirect_URL = page.locator("#auth-app-information-redirect-input")
@@ -67,8 +63,6 @@ class AuthenticationPage(BasePage):
         self.saml_logout_url_input = page.locator('#auth-sso-provider-saml-logout-url-input')
         self.saml_certificate_input = page.locator('#auth-sso-provider-saml-certificate-input')
         self.saml_sign_auth_request_control = page.locator('#auth-sso-provider-saml-sign-auth-request-control')
-
-
 
 #Fieldmaping
         self.fieldmapping_tab = page.locator('#auth-properties-subtab-fieldMapping')

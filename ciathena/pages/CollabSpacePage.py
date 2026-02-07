@@ -124,7 +124,7 @@ class CollabSpacePage(BasePage):
         space_name = "hari_space1"
         space_desc_name = "qa1space_desc"
         new_space_name ="hari_space1_Updated"
-
+        self.page.pause()
         # Wait for the "My Spaces" section to be visible
         time.sleep(3)
 
