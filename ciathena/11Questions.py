@@ -3,6 +3,7 @@ import time
 from ciathena.Utils.ExcelReader import ExcelReader
 from ciathena.Utils.ExcelWriter import ExcelWriter
 
+
 INPUT_PATH = r"C:\Users\HariKumarMulaguri\PycharmProjects\PythonProjectTest\QuestionsTest.xlsx"
 OUTPUT_PATH = r"C:\Users\HariKumarMulaguri\PycharmProjects\PythonProjectTest\Reports.xlsx"
 SHEET_NAME = "Questions"
@@ -18,7 +19,7 @@ class ChatbotAutomation:
         self.sql_button_locator = page.locator("button[aria-label='Show SQL']")
         self.sql_query_response_locator = page.locator("div.MuiBox-root.css-18xib6f")
         self.show_sql_icon = page.locator("#sql-toggle-icon")
-        self.show_info_icon = page.locator("button[aria-label='Explain / More info']")
+        # self.show_info_icon = page.locator("button[aria-label='Explain / More info']")
         self.show_share_icon = page.locator("img[alt='Share']")
         self.show_save_icon = page.locator("img[alt='Save']")
         self.show_download_icon = page.locator("img[alt='Download']")
@@ -90,7 +91,7 @@ def main():
         page = browser.new_page()
 
         # Go to chatbot app
-        page.goto("https://ciathena-qa.customerinsights.ai")
+        page.goto("https://ciathena.customerinsights.ai")
         page.get_by_role("button", name="Sign in with Microsoft").click()
         page.get_by_role("textbox", name="You'r Email Address").fill("hari.mulaguri@customerinsights.ai")
         page.get_by_role("button", name="Next").click()
