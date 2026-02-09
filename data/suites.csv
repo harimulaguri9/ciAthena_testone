@@ -1,5 +1,4 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"broken","Sat Feb 07 03:42:11 UTC 2026","Sat Feb 07 03:42:27 UTC 2026","16173","ciathena.tests","test_CollabSpace","","","","Verify Collabspace UI","Validate that the UI of Collabspace loads correctly"
-"passed","Sat Feb 07 03:43:08 UTC 2026","Sat Feb 07 03:46:38 UTC 2026","210629","ciathena.tests","test_Insights","","","","test_Insights",""
-"passed","Sat Feb 07 03:47:19 UTC 2026","Sat Feb 07 03:47:19 UTC 2026","0","ciathena.tests","test_Login","","","","test_login_functionality","test_login_functionality_valid_logins"
-"failed","Sat Feb 07 03:39:41 UTC 2026","Sat Feb 07 03:41:30 UTC 2026","109090","ciathena.tests","test_OngoingThreads","","","","test_ask_question",""
+"broken","Mon Feb 09 04:20:10 UTC 2026","Mon Feb 09 04:20:10 UTC 2026","0","ciathena.tests","test_Login","","","","test_login_functionality","test_login_functionality_valid_logins"
+"broken","Mon Feb 09 04:18:43 UTC 2026","Mon Feb 09 04:18:43 UTC 2026","0","ciathena.tests","test_Insights","","","","test_Insights",""
+"broken","Mon Feb 09 04:17:17 UTC 2026","Mon Feb 09 04:17:17 UTC 2026","0","ciathena.tests","test_OngoingThreads","","","","test_ask_question",""
