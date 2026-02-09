@@ -202,9 +202,9 @@ class OngoingThreadsPage(BasePage):
         # --------------------------------------------------------------------------
     async def click_like_button(self):
             await self.click(self.like_button, "like_button")
-            # await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(2000)
             await expect(self.like_button).to_have_attribute("aria-label", "Undo like")
-            await expect(self.like_msg).to_be_visible(timeout=5000)
+            await expect(self.like_msg).to_be_visible(timeout=3000)
             # await self.page.wait_for_timeout(2000)
 
     async def click_dislike_button(self):
@@ -212,9 +212,9 @@ class OngoingThreadsPage(BasePage):
             # await self.page.wait_for_timeout(2000)
             await self.assert_visible(self.unlike_feedback_dialog, "unlike feedback popup")
             await self.unlike_feedback_dialog.fill("test unlike feedback")
-            # await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(2000)
             await self.click(self.feedback_submit_button, "feedback_submit_button")
-            # await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(2000)
 
     # --------------------------------------------------------------------------
     # Tag selection

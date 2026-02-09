@@ -44,8 +44,8 @@ async def setup():
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
         await page.goto("https://ciathena.customerinsights.ai/")
-        await loginPage.login_with_email_password()
-        # await loginPage.login_with_sso_email()
+        # await loginPage.login_with_email_password()
+        await loginPage.login_with_sso_email()
         await welcomePage.select_mmm_usecase()
         # await welcomePage.select_fast_usecase()
 
@@ -78,6 +78,13 @@ async def setup():
 #         print(f"[STEP] {message}")
 #         request.node.step_logs.append(f"➡️ {message}")
 #     return log_step
+
+
+async def home():
+    welcomePage = WelcomePage(page)
+
+    await welcomePage.select_mmm_usecase()
+
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):

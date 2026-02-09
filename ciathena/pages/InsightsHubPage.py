@@ -113,9 +113,7 @@ class InsightsHubPage(BasePage):
         print(f"🔍 Found {count} executive insights.")
 
         for i in range(count):
-
             title_element = self.executive_insights_card_title1.nth(i)
-
             # ✅ Capture text BEFORE clicking
             try:
                 title_text = title_element.text_content(timeout=5000)
@@ -135,10 +133,8 @@ class InsightsHubPage(BasePage):
 
     async def verify_chart_details(self):
         charts = await self.chart_section_title.count()
-
         for i in range(charts):
             time.sleep(3)
-
             await self.assert_visible(self.insights_graph_info_button.nth(i), f"Info icon for chart {i + 1}")
             # await self.assert_visible(self.insights_tabular_toggle_button.nth(i), f"Tabular toggle icon for chart {i + 1}")
             await self.assert_visible(self.insights_download_button.nth(i), f"Download icon for chart {i + 1}")
@@ -148,7 +144,6 @@ class InsightsHubPage(BasePage):
             # await self.click(self.insights_tabular_toggle_button.nth(i), f"tabular_toggle_button_{i}")
             # await self.click(self.insights_tabular_toggle_button.nth(i), f"tabular_toggle_button_{i}_back")
             await self.click(self.insights_download_button.nth(i), f"download_button_{i}")
-
             print(f"✅ Chart {i + 1} verified successfully.\n")
 
     async def verify_personalized_insights_all_cards(self):

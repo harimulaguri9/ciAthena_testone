@@ -20,7 +20,7 @@ class WelcomePage(BasePage):
         await self.mmm_usecase_icon.wait_for(state="visible", timeout=5000)
         await self.mmm_usecase_icon.scroll_into_view_if_needed()
         await self.mmm_usecase_icon.click()
-        await self.page.wait_for_timeout(10000)
+        await self.page.wait_for_timeout(15000)
 
     async def select_fast_usecase(self):
         await self.welcome_search_input.click()

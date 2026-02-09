@@ -132,9 +132,9 @@ class UsersPage(BasePage):
             print(columnname)
 
     async def verify_adduser_fields(self):
-        await self.page.wait_for_timeout(5000)  # 20 seconds
+        await self.page.wait_for_timeout(3000)  # 20 seconds
         await self.users_adduser_button.click()
-        await self.page.evaluate("document.body.style.zoom='70%'")
+        await self.page.evaluate("document.body.style.zoom='90%'")
         await self.page.wait_for_timeout(2000)  # 20 seconds
 
     async def fill_user_details(self,
@@ -153,12 +153,12 @@ class UsersPage(BasePage):
         # Select language
         await self.select_user_langugae_dropdown()
         # Select Use Case
-        await self.select_user_usecases_dropdown()
+        # await self.select_user_usecases_dropdown()
 
         # Select licensed_toggle
         await self.enable_licensed_toggle()
         # Select Team
-        await self.select_team_dropdown()
+        # await self.select_team_dropdown()
 
         # Select Role
         await self.select_user_role_dropdown()

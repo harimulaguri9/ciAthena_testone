@@ -30,7 +30,6 @@ async def test_search_edit_users(setup):
     await brandingPage.click_on_Settings()
     await brandingPage.validate_Configuration_tabs()
     await usersPage.validate_users_page_options()
-    # await usersPage.verify_users_table_columns()
     await usersPage.verify_user_search_edit()
 
 @pytest.mark.asyncio
@@ -43,7 +42,6 @@ async def verify_user_search_delete(setup):
     await brandingPage.click_on_Settings()
     await brandingPage.validate_Configuration_tabs()
     await usersPage.validate_users_page_options()
-    # await usersPage.verify_users_table_columns()
     await usersPage.verify_user_delete()
 
 @pytest.mark.asyncio

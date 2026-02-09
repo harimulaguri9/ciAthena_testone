@@ -14,7 +14,7 @@ async def test_Insights(setup):
     await insightshubPage.verify_executive_cards()
     await insightshubPage.verify_personalized_insights_all_cards()
 
-    #
+
     # with allure.step("login into the application"):
     #     await loginPage.login_success()
     # with allure.step("Select use case"):
