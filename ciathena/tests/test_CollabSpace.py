@@ -1,52 +1,73 @@
+# import pytest
+# import allure
+#
+# @pytest.mark.wip
+# @pytest.mark.asyncio
+# # @allure.epic("Collabspace")
+# # @allure.story("CollabspaceUI")
+# # @allure.title("Verify Collabspace UI")
+# @allure.description("Validate that the UI of Collabspace loads correctly")
+# async def test_create_new_collabspace(setup):
+#     basepage = setup["basepage"]
+#     loginPage = setup["loginPage"]
+#     welcomePage = setup["welcomePage"]
+#     collabspacePage = setup["collabspacePage"]
+#
+#     await collabspacePage.create_new_collabspace()
+#     await collabspacePage.rename_collabspace()
+#     await collabspacePage.delete_collabspace()
+#     await collabspacePage.create_Dashboard()
+#     await collabspacePage.edit_Dashboard()
+#     await collabspacePage.delete_Dashboard()
+
+
 import pytest
 import allure
 
-@pytest.mark.order(4)
-# @pytest.mark.usefixtures("step_logger")
-@pytest.mark.smoke
+@pytest.mark.order(1)
+@pytest.mark.wipx
 @pytest.mark.asyncio
-@allure.epic("Collabspace")
-@allure.story("CollabspaceUI")
-@allure.title("Verify Collabspace UI")
 @allure.description("Validate that the UI of Collabspace loads correctly")
-async def test_Collabspace(setup):
+async def test_create_new_collabspace(setup):
     basepage = setup["basepage"]
     loginPage = setup["loginPage"]
     welcomePage = setup["welcomePage"]
     collabspacePage = setup["collabspacePage"]
 
-    # LOGIN
-    with allure.step("login into the application"):
-        await loginPage.login_success()
+    await collabspacePage.create_new_collabspace()
+    await collabspacePage.rename_collabspace()
+    await collabspacePage.delete_collabspace()
+    await collabspacePage.create_Dashboard()
+    await collabspacePage.edit_Dashboard()
+    await collabspacePage.delete_Dashboard()
 
-    # USE CASE
-    with allure.step("Select use case"):
-        await welcomePage.select_usecase()
 
-    # ---------------------
-    #  RUN TESTS SAFELY
-    # ---------------------
-
-    # 1️⃣ Rename
-    with allure.step("Verify rename_spaces"):
-        try:
-            await collabspacePage.rename_spaces()
-        except Exception as e:
-            allure.attach(str(e), "Rename Failed", allure.attachment_type.TEXT)
-            print(f"[WARNING] rename_spaces failed but continuing...")
-
-    # 2️⃣ Delete
-    with allure.step("Verify delete_spaces"):
-        try:
-            await collabspacePage.delete_spaces()
-        except Exception as e:
-            allure.attach(str(e), "Delete Failed", allure.attachment_type.TEXT)
-            print(f"[WARNING] delete_spaces failed but continuing...")
-
-    # 3️⃣ Dashboard creation
-    with allure.step("Verify create_Dashboard"):
-        try:
-            await collabspacePage.create_Dashboard()
-        except Exception as e:
-            allure.attach(str(e), "Dashboard Creation Failed", allure.attachment_type.TEXT)
-            print(f"[WARNING] create_Dashboard failed but continuing...")
+# @pytest.mark.order(2)
+# @pytest.mark.wipx
+# @pytest.mark.asyncio
+# async def test_rename_collabspace(setup):
+#     collabspacePage = setup["collabspacePage"]
+#     await collabspacePage.rename_collabspace()
+#
+#
+# @pytest.mark.order(3)
+# @pytest.mark.wipx
+# @pytest.mark.asyncio
+# async def test_delete_collabspace(setup):
+#     collabspacePage = setup["collabspacePage"]
+#     await collabspacePage.delete_collabspace()
+#
+#
+# @pytest.mark.order(4)
+# @pytest.mark.wipx
+# @pytest.mark.asyncio
+# async def test_create_Dashboard(setup):
+#     collabspacePage = setup["collabspacePage"]
+#     await collabspacePage.create_Dashboard()
+#
+# @pytest.mark.order(5)
+# @pytest.mark.wipx
+# @pytest.mark.asyncio
+# async def test_delete_Dashboard(setup):
+#     collabspacePage = setup["collabspacePage"]
+#     await collabspacePage.delete_Dashboard()

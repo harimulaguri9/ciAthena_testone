@@ -25,7 +25,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
       # 3️⃣ Install dependencies
       - name: Install dependencies
@@ -38,7 +38,7 @@ jobs:
       # 4️⃣ Run Playwright tests (parallel)
       - name: Run Playwright Tests
         run: |
-          pytest ciathena/tests/test_OngoingThreads.py \
+          pytest -m wip \
             --alluredir=allure-results \
             --capture=tee-sys
 

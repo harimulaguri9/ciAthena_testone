@@ -14,7 +14,7 @@ class OngoingThreadsPage(BasePage):
         self.today_header = page.locator("//*[@id='group-label-0']")
         self.response_question_text = page.locator("#question-text")
         self.today_history_section=page.locator("//p[contains(text(),'Today')]//parent::div/div/div/div/div[2]")
-        self.mmm1_title = page.get_by_text("MMM1")
+        self.mmm_title = page.locator("//p[text()='MMM']")
         self.home_icon = page.locator("#navbar-home-button")
         self.settings_icon = page.locator("#navbar-settings-button")
         self.app_overview_icon = page.locator("#navbar-app-overview-button")
@@ -25,15 +25,19 @@ class OngoingThreadsPage(BasePage):
         self.send_button2 = page.locator("#question-response-send-button")
         self.data_category_section = page.locator("#categories-wrapper")
         self.answer_response = page.locator("#answer-text")
-        self.share_visualization_button = page.locator("#share-visualization-button")
-        self.save_insights_button = page.locator("#save-visualization-button")
+
+        self.copy_answer_button = page.locator("//button[@aria-label='Copy answer']")
+        self.regenerate_button = page.locator("//button[@aria-label='Regenerate']")
+        self.share_visualization_button = page.locator("#share-header-button")
+        self.save_bookmark_button = page.locator("//button[@aria-label='Save / Bookmark']")
+        self.save_insights_button = page.locator("#save-header-button")
         self.next_button = page.locator("#nextButton")
-        self.save_button = page.get_by_role("button", name="Save")
-        self.submit_button = page.get_by_role("button", name="Submit")
+        self.submit_button = page.locator("#submitInsightsButton")
         self.insight_saved_msg = page.get_by_text("Insight saved successfully")
         self.insight_unsaved_msg = page.get_by_text("Insight removed successfully.")
         self.insight_shared_msg = page.get_by_text("Insight shared successfully")
-        self.download_button = page.locator("#download-visualization-button")
+        self.download_button = page.locator("//button[@aria-label='Download']")
+
         self.download_visual_button = page.locator("#download-visuals-option")
         self.download_data_button = page.locator("#download-data-option")
 
@@ -67,13 +71,22 @@ class OngoingThreadsPage(BasePage):
         self.new_chat=page.locator("//*[@id='sidebar-icon-new-chat']")
 
         failures = []
+
+
+
+    async def goto_Settings(self):
+        # await self.assert_visible(self.settings_icon, "settings_icon")
+        await self.settings_icon.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+
+
+    # await self.ongoing_threads_title.wait_for(state="visible", timeout=20000
     # --------------------------------------------------------------------------
     # Verification of page UI
     # --------------------------------------------------------------------------
     async def verify_ongoing_threads_UI(self):
-        await self.page.pause()
         # await self.ongoing_threads_title.wait_for(state="visible", timeout=20000)
-        await self.assert_visible(self.mmm1_title, "MMM1 title")
+        await self.assert_visible(self.mmm_title, "MMM1 title")
         await self.assert_visible(self.home_icon, "home_icon")
         await self.assert_visible(self.settings_icon, "settings_icon")
         await self.assert_visible(self.app_overview_icon, "app_overview_icon")
@@ -82,7 +95,6 @@ class OngoingThreadsPage(BasePage):
     # Ask Question
     # --------------------------------------------------------------------------
     async def ask_question(self):
-        await self.page.pause()
 
         await self.main_input.fill(
             "How does TOTAL_DIGITAL_PROMOTIONS volume last month compare to the previous month across regions?"
@@ -90,7 +102,7 @@ class OngoingThreadsPage(BasePage):
 
         await self.send_button1.click()
         #await asyncio.sleep(3)
-        await self.page.wait_for_timeout(35000)  # 20 seconds
+        await self.page.wait_for_timeout(30000)  # 20 seconds
         # await self.assert_visible(self.show_thinking_button, "show_thinking_button")
         # time.sleep(5)
         # await self.assert_visible(self.show_thinking_button, "show_thinking_button")
@@ -100,16 +112,120 @@ class OngoingThreadsPage(BasePage):
             return text.strip() if text else None
         return None
 
+        # --------------------------------------------------------------------------
+        # Share Insights
+        # --------------------------------------------------------------------------
+    async def verify_share_insights(self):
+            await self.page.wait_for_timeout(20000)  # 20 seconds
+            await self.share_visualization_button.click()
+            print("share clicked")
+            await self.tag_select()
+            print("Tag clicked")
+            await self.next_button.click()
+            # await self.page.wait_for_timeout(3000)
+            await self.create_new_space()
+            # await self.page.wait_for_timeout(2000)
+            await self.space_select()
+            # await self.page.wait_for_timeout(2000)
+            await self.save_to_Space_button.click()
+            await self.page.wait_for_timeout(5000)  # 20 seconds
+            # await expect(self.insight_shared_msg).to_be_visible(timeout=2000)
+            # await self.assert_visible(self.insight_shared_msg, "Insight shared successfully")
+
+        # --------------------------------------------------------------------------
+        # Save Insights
+        # --------------------------------------------------------------------------
+    async def verify_save_insights(self):
+            await self.save_insights_button.click()
+
+            print("Save / Bookmark clicked")
+            await self.tag_select()
+            print("Tag clicked")
+            await self.page.wait_for_timeout(2000)
+            await self.submit_button.click()
+            await self.page.wait_for_timeout(5000)
+
+            # await expect(self.insight_saved_msg).to_be_visible(timeout=2000)
+            # await self.assert_visible(self.insight_saved_msg, "Insight saved successfully")
+
+        # --------------------------------------------------------------------------
+        # Unsave Insights
+        # --------------------------------------------------------------------------
+    async def verify_unsave_insights(self):
+            await self.save_insights_button.click()
+            await self.page.wait_for_timeout(3000)
+            # await self.assert_visible(self.insight_unsaved_msg, "Insight removed successfully.")
+
+        # --------------------------------------------------------------------------
+        # Download Insights
+        # --------------------------------------------------------------------------
+    async def verify_download_insights(self):
+            # await self.page.wait_for_timeout(1000)
+            try:
+                await self.click(self.download_button, "download_button")
+                return
+            except:
+                print("download_button not found, trying download_visual_button...")
+
+            try:
+                await self.click(self.download_visual_button, "download_visual_button")
+                return
+            except:
+                print("download_visual_button not found.")
+
+            try:
+                await self.click(self.download_visual_button, "download_data_button")
+                return
+            except:
+                print("download_data_button not found.")
+
+            print("⚠️ No download button found, continuing test...")
+
+        # --------------------------------------------------------------------------
+        # Info Button
+        # --------------------------------------------------------------------------
+
+        # --------------------------------------------------------------------------
+        # SQL Button Validation
+        # --------------------------------------------------------------------------
+    async def verify_sql_query(self):
+            await self.click(self.sql_button, "sql_button")
+            # await self.page.wait_for_timeout(2000)
+            await expect(self.sql_button).to_have_attribute("aria-label", "Hide SQL")
+            # await self.page.wait_for_timeout(2000)
+            await self.click(self.sql_button, "sql_button")
+            # await self.page.wait_for_timeout(2000)
+            await expect(self.sql_button).to_have_attribute("aria-label", "Show SQL")
+
+        # --------------------------------------------------------------------------
+        # Like & Dislike Buttons
+        # --------------------------------------------------------------------------
+    async def click_like_button(self):
+            await self.click(self.like_button, "like_button")
+            await self.page.wait_for_timeout(2000)
+            await expect(self.like_button).to_have_attribute("aria-label", "Undo like")
+            await expect(self.like_msg).to_be_visible(timeout=3000)
+            # await self.page.wait_for_timeout(2000)
+
+    async def click_dislike_button(self):
+            await self.click(self.dislike_button, "unlike_button")
+            # await self.page.wait_for_timeout(2000)
+            await self.assert_visible(self.unlike_feedback_dialog, "unlike feedback popup")
+            await self.unlike_feedback_dialog.fill("test unlike feedback")
+            await self.page.wait_for_timeout(2000)
+            await self.click(self.feedback_submit_button, "feedback_submit_button")
+            await self.page.wait_for_timeout(2000)
+
     # --------------------------------------------------------------------------
     # Tag selection
     # --------------------------------------------------------------------------
     async def tag_select(self):
         count = await self.tag_containers.count()
-        target_tag_name = "hari_tag"
+        target_tag_name = "MMM"
 
         for i in range(count):
             tag_element = self.tag_containers.nth(i)
-            await self.page.wait_for_timeout(2000)
+            # await self.page.wait_for_timeout(2000)
 
             tag_name_text = (await tag_element.text_content() or "").strip()
             print(f"🔹 Found tag: {tag_name_text}")
@@ -117,7 +233,7 @@ class OngoingThreadsPage(BasePage):
             if target_tag_name.lower() in tag_name_text.lower():
                 print(f"✅ Matching tag found: {tag_name_text}")
                 await tag_element.click()
-                await self.page.wait_for_timeout(2000)
+                # await self.page.wait_for_timeout(2000)
                 print(f"✅ Matching tag: '{tag_name_text}' clicked")
                 break
             else:
@@ -129,7 +245,7 @@ class OngoingThreadsPage(BasePage):
 
         for i in range(count):
             tag_space_element = self.tag_items.nth(i)
-            await self.page.wait_for_timeout(3000)
+            # await self.page.wait_for_timeout(3000)
             print(tag_space_element)
             tag_name_text = (await tag_space_element.text_content() or "").strip()
             print(f"🔹 Found space: {tag_name_text}")
@@ -145,15 +261,14 @@ class OngoingThreadsPage(BasePage):
     async def create_new_space(self):
         space_name = "hari_space1"
         space_name_desc = "hari_space1_desc"
-
         await self.create_space_button.wait_for(state="visible", timeout=2000)
         await self.create_space_button.click()
-        await self.page.wait_for_timeout(2000)
+        # await self.page.wait_for_timeout(2000)
         await self.space_title_input.fill(space_name)
         await self.space_desc_input.fill(space_name_desc)
-        await self.page.wait_for_timeout(2000)
+        # await self.page.wait_for_timeout(2000)
         await self.save_space_Button.click()
-        await self.page.wait_for_timeout(3000)
+        # await self.page.wait_for_timeout(3000)
 
     # --------------------------------------------------------------------------
     # Space selection
@@ -165,7 +280,7 @@ class OngoingThreadsPage(BasePage):
 
         for i in range(count):
             space_element = self.space_containers.nth(i)
-            await self.page.wait_for_timeout(2000)
+            # await self.page.wait_for_timeout(2000)
             space_name_text = (await space_element.text_content() or "").strip()
             print(f"🔹 Found space: {space_name_text}")
 
@@ -177,109 +292,6 @@ class OngoingThreadsPage(BasePage):
         else:
             print(f"⚠️ Space: '{target_space_name}' not found!")
 
-    # --------------------------------------------------------------------------
-    # Share Insights
-    # --------------------------------------------------------------------------
-    async def share_insights(self):
-        await self.share_visualization_button.click()
-        await self.page.wait_for_timeout(2000)
-        # await self.tag_select()
-        # await self.page.wait_for_timeout(4000)
-        # await self.next_button.click()
-        # await self.page.wait_for_timeout(3000)
-        await self.create_new_space()
-        await self.page.wait_for_timeout(2000)
-        await self.space_select()
-        await self.page.wait_for_timeout(2000)
-        await self.save_to_Space_button.click()
-
-
-        # await expect(self.insight_shared_msg).to_be_visible(timeout=2000)
-        #await self.assert_visible(self.insight_shared_msg, "Insight shared successfully")
-    # --------------------------------------------------------------------------
-    # Save Insights
-    # --------------------------------------------------------------------------
-    async def save_insights(self):
-        await self.save_insights_button.click()
-        await self.page.wait_for_timeout(4000)
-        await self.tag_select()
-        await self.page.wait_for_timeout(3000)
-        await self.submit_button.click()
-        await self.page.wait_for_timeout(2000)
-        #await expect(self.insight_saved_msg).to_be_visible(timeout=2000)
-        #await self.assert_visible(self.insight_saved_msg, "Insight saved successfully")
-
-    # --------------------------------------------------------------------------
-    # Unsave Insights
-    # --------------------------------------------------------------------------
-    async def unsave_insights(self):
-        await self.save_insights_button.click()
-        await self.page.wait_for_timeout(3000)
-        await self.assert_visible(self.insight_unsaved_msg, "Bookmark removed successfully")
-
-
-    # --------------------------------------------------------------------------
-    # Download Insights
-    # --------------------------------------------------------------------------
-    async def click_download_insights_button(self):
-        await self.page.wait_for_timeout(1000)
-        try:
-            await self.click(self.download_button, "download_button")
-            return
-        except:
-            print("download_button not found, trying download_visual_button...")
-
-        try:
-            await self.click(self.download_visual_button, "download_visual_button")
-            return
-        except:
-            print("download_visual_button not found.")
-
-        try:
-            await self.click(self.download_data_button, "download_data_button")
-            return
-        except:
-            print("download_data_button not found.")
-
-        print("⚠️ No download button found, continuing test...")
-
-    # --------------------------------------------------------------------------
-    # Info Button
-    # --------------------------------------------------------------------------
-    async def click_info_button(self):
-        await self.click(self.info_button, "info_button")
-        await self.page.wait_for_timeout(2000)
-
-    # --------------------------------------------------------------------------
-    # SQL Button Validation
-    # --------------------------------------------------------------------------
-    async def validate_sql_button(self):
-        await self.click(self.sql_button, "sql_button")
-        await self.page.wait_for_timeout(2000)
-        await expect(self.sql_button).to_have_attribute("aria-label", "Hide SQL")
-        await self.page.wait_for_timeout(2000)
-        await self.click(self.sql_button, "sql_button")
-        await self.page.wait_for_timeout(2000)
-        await expect(self.sql_button).to_have_attribute("aria-label", "Show SQL")
-
-    # --------------------------------------------------------------------------
-    # Like & Dislike Buttons
-    # --------------------------------------------------------------------------
-    async def click_like_button(self):
-        await self.click(self.like_button, "like_button")
-        await self.page.wait_for_timeout(2000)
-        await expect(self.like_button).to_have_attribute("aria-label", "Undo like")
-        await expect(self.like_msg).to_be_visible(timeout=5000)
-        await self.page.wait_for_timeout(2000)
-
-    async def click_dislike_button(self):
-        await self.click(self.dislike_button, "unlike_button")
-        await self.page.wait_for_timeout(2000)
-        await self.assert_visible(self.unlike_feedback_dialog, "unlike feedback popup")
-        await self.unlike_feedback_dialog.fill("test unlike feedback")
-        await self.page.wait_for_timeout(2000)
-        await self.click(self.feedback_submit_button, "feedback_submit_button")
-        await self.page.wait_for_timeout(2000)
 
     # --------------------------------------------------------------------------
     # Suggested Questions
@@ -292,12 +304,12 @@ class OngoingThreadsPage(BasePage):
         loops = min(headers_count, 2)
         for i in range(loops):
             await self.new_chat.click()
-            await self.page.wait_for_timeout(2000)
+            # await self.page.wait_for_timeout(2000)
             suggested_category_header =  self.suggested_category_headers.nth(i)
             print("suggested_category_header:-->", await suggested_category_header.text_content())
-            await self.page.wait_for_timeout(2000)
+            # await self.page.wait_for_timeout(2000)
             await suggested_category_header.hover()
-            await self.page.wait_for_timeout(2000)
+            # await self.page.wait_for_timeout(2000)
             suggested_question_name = (await self.suggested_question.text_content()).strip()
             print(f"🔹 Found question_name: {suggested_question_name}")
             await self.suggested_question.click()
@@ -326,7 +338,7 @@ class OngoingThreadsPage(BasePage):
 
         print(f"Total today_history_Q found: {today_history_Qs}")
         for i in range(today_history_Qs):
-            await self.page.wait_for_timeout(2000)
+            # await self.page.wait_for_timeout(2000)
             today_history_Q1 = self.today_history_section.nth(i)
             question_text=await today_history_Q1.text_content()
             print(question_text)
@@ -340,6 +352,6 @@ class OngoingThreadsPage(BasePage):
                 response_Q = self.today_history_section.nth(i)
                 resp_question_text = await response_Q.text_content()
                 print(resp_question_text)
-                await self.page.wait_for_timeout(2000)
+                # await self.page.wait_for_timeout(2000)
                 #assert question_text.__contains__(resp_question_text)
                 #assert resp_question_text in question_text

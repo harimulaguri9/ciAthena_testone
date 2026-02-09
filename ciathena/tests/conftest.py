@@ -1,5 +1,6 @@
 import allure
 import pytest
+import pytest_asyncio
 from playwright.async_api import async_playwright, Page
 import asyncio
 from ciathena.pages.BasePage import BasePage
@@ -11,13 +12,18 @@ from ciathena.pages.CollabSpacePage import CollabSpacePage
 from ciathena.pages.brandingPage import BrandingPage
 from ciathena.pages.AuthenticationPage import AuthenticationPage
 from ciathena.pages.UsersPage import UsersPage
-from pytest_html import extras
 
-@pytest.fixture(scope="session")
+from ciathena.pages.FAST_pages.FAST_OngoingThreadsPage import FAST_OngoingThreadsPage
+
+
+
+from pytest_html import extras
+# @pytest.fixture(scope="function")
+@pytest_asyncio.fixture
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(headless=False, slow_mo=100)
+        browser = await p.chromium.launch(headless=True, slow_mo=2000)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
@@ -34,10 +40,15 @@ async def setup():
         authenticationPage =AuthenticationPage(page)
         usersPage =UsersPage(page)
 
+        fast_ongoingthreadsPage = FAST_OngoingThreadsPage(page)
+
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
-        await basepage.navigate("https://ciathena-dev.customerinsights.ai/")
-        await loginPage.login_success()
-        await welcomePage.select_usecase()
+        await page.goto("https://ciathena.customerinsights.ai/")
+        # await loginPage.login_with_email_password()
+        await loginPage.login_with_sso_email()
+        await welcomePage.select_mmm_usecase()
+        # await welcomePage.select_fast_usecase()
+
 
         yield {
             "page": page,
@@ -49,7 +60,9 @@ async def setup():
             "collabspacePage" : collabspacePage,
             "brandingPage" : brandingPage,
             "authenticationPage": authenticationPage,
-            "usersPage": usersPage
+            "usersPage": usersPage,
+
+            "fast_ongoingthreadsPage":fast_ongoingthreadsPage
 
         }
         print("🧹 Closing page after test--")
@@ -57,14 +70,21 @@ async def setup():
 
 
 
-@pytest.fixture
-async def step_logger(request):
-    request.node.step_logs = []
+# @pytest.fixture
+# async def step_logger(request):
+#     request.node.step_logs = []
+#
+#     async def log_step(message: str):
+#         print(f"[STEP] {message}")
+#         request.node.step_logs.append(f"➡️ {message}")
+#     return log_step
 
-    async def log_step(message: str):
-        print(f"[STEP] {message}")
-        request.node.step_logs.append(f"➡️ {message}")
-    return log_step
+
+async def home():
+    welcomePage = WelcomePage(page)
+
+    await welcomePage.select_mmm_usecase()
+
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
@@ -90,16 +110,47 @@ def pytest_runtest_makereport(item, call):
                 name=f"Failure Screenshot ({report.when})",
                 attachment_type=allure.attachment_type.PNG
             )
-#
-# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+
+
+# @pytest.hookimpl(hookwrapper=True)
 # def pytest_runtest_makereport(item, call):
 #     outcome = yield
-#     rep = outcome.get_result()
-#     if hasattr(item, "step_logs") and rep.when == "call":
-#         html_steps = "<br>".join(item.step_logs)
-#         extra = getattr(rep, "extra", [])
-#         extra.append(extras.html(f"<div><strong>Steps:</strong><br>{html_steps}</div>"))
-#         rep.extra = extra
+#     report = outcome.get_result()
+#
+#     if report.failed and report.when == "call":
+#         page = item.funcargs.get("page", None)
+#
+#         # 1️⃣ Screenshot
+#         if page:
+#             screenshot = page.screenshot()
+#             allure.attach(
+#                 screenshot,
+#                 name=f"{item.name} - Screenshot",
+#                 attachment_type=allure.attachment_type.PNG
+#             )
+#
+#             # 2️⃣ Current URL
+#             allure.attach(
+#                 page.url,
+#                 name="Current URL",
+#                 attachment_type=allure.attachment_type.TEXT
+#             )
+#
+#             # 3️⃣ Page title
+#             title = page.title()
+#             allure.attach(
+#                 title,
+#                 name="Page Title",
+#                 attachment_type=allure.attachment_type.TEXT
+#             )
+#
+#         # 4️⃣ Full failure reason (test body)
+#         allure.attach(
+#             report.longreprtext,
+#             name="Test Failure Traceback",
+#             attachment_type=allure.attachment_type.TEXT
+#s        )
+
 
 @pytest.fixture(scope="session")
 def event_loop():
