@@ -1,3 +1,0 @@
-🚀 Launching Chromium browser...
-🧩 New Page Created: 139653800480208
-🧩 BasePage Using Page: 139653800480208
