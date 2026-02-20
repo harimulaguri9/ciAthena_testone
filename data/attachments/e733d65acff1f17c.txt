@@ -1,5 +1,0 @@
-🚀 Launching Chromium browser...
-🧩 New Page Created: 139927746880528
-🧩 BasePage Using Page: 139927746880528
-config page tabs
-🧹 Closing page after test--
