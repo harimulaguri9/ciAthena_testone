@@ -1,0 +1,15 @@
+🚀 Launching Chromium browser...
+🧩 New Page Created: 139927766992144
+🧩 BasePage Using Page: 139927766992144
+test_search_edit_user_sections
+config page tabs
+users
+Name
+License
+2FA
+Personalized Insights
+Role
+Team
+Last login1
+users table_columns
+🧹 Closing page after test--
