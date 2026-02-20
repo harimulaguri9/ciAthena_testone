@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"f9673560b2d7a764ec3f81418af9f0c9","name":"ciathena.tests.configurations","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
+{"total":2,"items":[{"uid":"f9673560b2d7a764ec3f81418af9f0c9","name":"ciathena.tests.configurations","statistic":{"failed":1,"broken":1,"skipped":0,"passed":5,"unknown":0,"total":7}},{"uid":"b28956da27282934119516297f2fdc26","name":"ciathena.tests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":4,"unknown":0,"total":4}}]}

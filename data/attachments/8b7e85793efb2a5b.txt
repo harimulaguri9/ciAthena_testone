@@ -1,0 +1,34 @@
+🚀 Launching Chromium browser...
+🧩 New Page Created: 139829712774800
+🧩 BasePage Using Page: 139829712774800
+share clicked
+🔹 Found tag: Budget Allocation
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: ROI
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: Attribution
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: Marketing Mix
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: MMM
+✅ Matching tag found: MMM
+✅ Matching tag: 'MMM' clicked
+Tag clicked
+space_containers: 2
+🔹 Found space: hari_space1H1 members
+✅ Matching space found: hari_space1H1 members
+✅ Matching space: 'hari_space1H1 members' clicked
+Save / Bookmark clicked
+🔹 Found tag: Budget Allocation
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: ROI
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: Attribution
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: Marketing Mix
+⚠️ Tag: 'MMM' not found!
+🔹 Found tag: MMM
+✅ Matching tag found: MMM
+✅ Matching tag: 'MMM' clicked
+Tag clicked
+🧹 Closing page after test--
