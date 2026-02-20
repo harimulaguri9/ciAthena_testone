@@ -1,3 +1,3 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"broken","Fri Feb 20 14:10:19 UTC 2026","Fri Feb 20 14:10:19 UTC 2026","0","ciathena.tests.configurations","test_Roles","","","","test_all_default_personas",""
-"broken","Fri Feb 20 14:10:20 UTC 2026","Fri Feb 20 14:10:20 UTC 2026","0","ciathena.tests.configurations","test_Roles","","","","test_admin_full_access",""
+"failed","Fri Feb 20 14:16:39 UTC 2026","Fri Feb 20 14:17:01 UTC 2026","22162","ciathena.tests.configurations","test_Roles","","","","test_admin_full_access",""
+"failed","Fri Feb 20 14:15:38 UTC 2026","Fri Feb 20 14:16:00 UTC 2026","22140","ciathena.tests.configurations","test_Roles","","","","test_all_default_personas",""
