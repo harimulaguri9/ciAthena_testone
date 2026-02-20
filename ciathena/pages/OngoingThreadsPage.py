@@ -124,9 +124,9 @@ class OngoingThreadsPage(BasePage):
             await self.next_button.click()
             # await self.page.wait_for_timeout(3000)
             await self.create_new_space()
-            await self.page.wait_for_timeout(2000)
-            await self.space_select()
             await self.page.wait_for_timeout(3000)
+            await self.space_select()
+            await self.page.wait_for_timeout(5000)
             await self.save_to_Space_button.click()
             await self.page.wait_for_timeout(3000)  # 20 seconds
             # await expect(self.insight_shared_msg).to_be_visible(timeout=2000)
@@ -261,7 +261,7 @@ class OngoingThreadsPage(BasePage):
 
     async def create_new_space(self):
         space_name = "hari_space1"
-        space_name_desc = "hari_space11_desc"
+        space_name_desc = "hari_space1_desc"
         await self.create_space_button.wait_for(state="visible", timeout=2000)
         await self.create_space_button.click()
         # await self.page.wait_for_timeout(2000)
@@ -281,7 +281,7 @@ class OngoingThreadsPage(BasePage):
 
         for i in range(count):
             space_element = self.space_containers.nth(i)
-            await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(4000)
             space_name_text = (await space_element.text_content() or "").strip()
             print(f"🔹 Found space: {space_name_text}")
 
