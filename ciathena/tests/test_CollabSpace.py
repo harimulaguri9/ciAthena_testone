@@ -1,33 +1,9 @@
-# import pytest
-# import allure
-#
-# @pytest.mark.wip
-# @pytest.mark.asyncio
-# # @allure.epic("Collabspace")
-# # @allure.story("CollabspaceUI")
-# # @allure.title("Verify Collabspace UI")
-# @allure.description("Validate that the UI of Collabspace loads correctly")
-# async def test_create_new_collabspace(setup):
-#     basepage = setup["basepage"]
-#     loginPage = setup["loginPage"]
-#     welcomePage = setup["welcomePage"]
-#     collabspacePage = setup["collabspacePage"]
-#
-#     await collabspacePage.create_new_collabspace()
-#     await collabspacePage.rename_collabspace()
-#     await collabspacePage.delete_collabspace()
-#     await collabspacePage.create_Dashboard()
-#     await collabspacePage.edit_Dashboard()
-#     await collabspacePage.delete_Dashboard()
-
-
 import pytest
 import allure
 
 @pytest.mark.order(1)
-@pytest.mark.wipx
 @pytest.mark.asyncio
-@allure.description("Validate that the UI of Collabspace loads correctly")
+# @allure.description("Validate that the UI of Collabspace loads correctly")
 async def test_create_new_collabspace(setup):
     basepage = setup["basepage"]
     loginPage = setup["loginPage"]

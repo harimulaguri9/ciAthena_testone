@@ -5,8 +5,8 @@ import time
 
 from pytest_html.selfcontained_report import SelfContainedReport
 
-from ciathena.Utils.ExcelReader import ExcelReader
-from ciathena.Utils.ExcelWriter import ExcelWriter
+from ciathena.Utils.ExcelReader2 import ExcelReader
+from ciathena.Utils.ExcelWriter2 import ExcelWriter
 
 INPUT_PATH = r"C:\Users\HariKumarMulaguri\PycharmProjects\PythonProjectTest\Questions.xlsx"
 OUTPUT_PATH = r"C:\Users\HariKumarMulaguri\PycharmProjects\PythonProjectTest\Reports.xlsx"

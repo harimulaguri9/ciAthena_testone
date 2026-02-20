@@ -21,8 +21,6 @@ import pytest
 
 
 @pytest.mark.asyncio
-@pytest.mark.auth
-@pytest.mark.saml
 async def test_saml_authentication_flow(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     brandingPage = setup["brandingPage"]
@@ -41,7 +39,7 @@ async def test_saml_authentication_flow(setup):
     await authenticationPage.add_users_to_the_group()
     await authenticationPage.search_for_saml_authentication_type()
     await authenticationPage.sso_auth_type_edit()
-    # await authenticationPage.sso_auth_type_delete()
+    await authenticationPage.sso_auth_type_delete()
 
 
 # @pytest.mark.asyncio

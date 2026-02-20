@@ -12,10 +12,10 @@ from ciathena.pages.CollabSpacePage import CollabSpacePage
 from ciathena.pages.brandingPage import BrandingPage
 from ciathena.pages.AuthenticationPage import AuthenticationPage
 from ciathena.pages.UsersPage import UsersPage
+from ciathena.pages.TeamsPage import TeamsPage
+from ciathena.pages.RolesPage import RolesPage
 
 from ciathena.pages.FAST_pages.FAST_OngoingThreadsPage import FAST_OngoingThreadsPage
-
-
 
 from pytest_html import extras
 # @pytest.fixture(scope="function")
@@ -23,7 +23,7 @@ from pytest_html import extras
 async def setup():
     async with async_playwright() as p:
         print("🚀 Launching Chromium browser...")
-        browser = await p.chromium.launch(headless=True, slow_mo=2000)
+        browser = await p.chromium.launch(headless=False, slow_mo=1000)
         context = await browser.new_context()
         """Create a new page and initialize all page objects."""
         page = await context.new_page()
@@ -39,16 +39,18 @@ async def setup():
         brandingPage = BrandingPage(page)
         authenticationPage =AuthenticationPage(page)
         usersPage =UsersPage(page)
+        teamsPage =TeamsPage(page)
+        rolesPage =RolesPage(page)
 
         fast_ongoingthreadsPage = FAST_OngoingThreadsPage(page)
 
         print(f"🧩 BasePage Using Page: {id(basepage.page)}")
         await page.goto("https://ciathena.customerinsights.ai/")
-        # await loginPage.login_with_email_password()
-        await loginPage.login_with_sso_email()
+        await loginPage.login_with_email_password()
+        # await loginPage.login_with_sso_email()
         await welcomePage.select_mmm_usecase()
         # await welcomePage.select_fast_usecase()
-
+        # await page.locator("#welcome-app-name-patient_claims").click()
 
         yield {
             "page": page,
@@ -61,6 +63,8 @@ async def setup():
             "brandingPage" : brandingPage,
             "authenticationPage": authenticationPage,
             "usersPage": usersPage,
+            "teamsPage": teamsPage,
+            "rolesPage": rolesPage,
 
             "fast_ongoingthreadsPage":fast_ongoingthreadsPage
 

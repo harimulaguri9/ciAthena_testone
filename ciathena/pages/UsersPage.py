@@ -78,7 +78,9 @@ class UsersPage(BasePage):
 
         # ========== Users list ==========
         self.users_search_input = page.locator("#users-search-input")
-        self.users_more_button = page.locator("#user-context-menu-button-57f067d0-7a74-4be3-ae05-fbcc013c1485 > svg")
+        self.users_more_button = page.locator("button:has([data-testid='MoreHorizIcon'])")
+        # self.users_more_button = page.get_by_test_id("users-row-context-menu")
+
         self.users_edit_button = page.locator("#user-context-menu-edit")
         self.users_delete_button = page.locator("#user-context-menu-delete")
 
@@ -94,6 +96,18 @@ class UsersPage(BasePage):
         self.users_user_activity_conversations_tab = page.locator("#user-activity-tab-conversations")
         self.users_user_activity_insights_hub_tab = page.locator("#user-activity-tab-insights-hub")
         self.users_user_activity_llm_tokens_tab = page.locator("#user-activity-tab-llm-tokens")
+
+        self.user_activity_granularity_dropdown = page.locator("#user-activity-granularity-select")
+        self.user_activity_option_daily = page.locator('#li[data-value="daily"]')
+        self.user_activity_option_weekly = page.locator('li[data-value="weekly"]')
+        self.user_activity_option_monthly = page.locator('li[data-value="monthly"]')
+        self.user_activity_option_total = page.locator('li[data-value="total"]')
+        self.user_activity_option_total = page.locator('li[data-value="total"]')
+        self.user_activity_chart_view_fullscreen_icon = page.locator("//button[@aria-label='View in fullscreen']")
+        self.user_activity_chart_data_view_icon = page.locator("//button[@aria-label='Data View']")
+        self.user_activity_chart_type_icon = page.locator("button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-4fkcbr")
+        self.user_activity_chart_download_icon = page.locator("//button[@aria-label='Download']")
+
 
         self.usecase_names_sections = page.locator("//*[@id='use-cases-table']/tbody/tr/td[1]/div/p")
         self.usecases_general=page.locator("//*[@id='general-tab-use-cases-select']/div/div/span")
@@ -134,7 +148,6 @@ class UsersPage(BasePage):
     async def verify_adduser_fields(self):
         await self.page.wait_for_timeout(3000)  # 20 seconds
         await self.users_adduser_button.click()
-        await self.page.evaluate("document.body.style.zoom='90%'")
         await self.page.wait_for_timeout(2000)  # 20 seconds
 
     async def fill_user_details(self,
@@ -208,15 +221,16 @@ class UsersPage(BasePage):
             await self.personalised_toggle.click()
 
     async def verify_user_search_edit(self):
-        email = "Hari.Mulaguri@customerinsights.ai"
+        email = "haritest1@test.com"
         general_usecase_names = []
         section_usecase_names=[]
+        await self.page.wait_for_timeout(2000)  # 20 seconds
         await self.users_search_input.fill(email)
-        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.page.wait_for_timeout(2000)  # 20 seconds
         await self.users_more_button.click()
         await self.users_edit_button.click()
         await self.user_phone.fill("1234567899")
-        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.page.wait_for_timeout(2000)  # 20 seconds
         # general_usecase_names=await self.usecases_general.all_text_contents()
         # print("general_usecase_names: ",general_usecase_names)
         # await self.users_edit_user_tab_usecases.click()
@@ -238,7 +252,7 @@ class UsersPage(BasePage):
         await self.users_user_save_button.click()
 
     async def verify_user_delete(self):
-            email = "Hari.Mulaguri@customerinsights.ai"
+            email = "haritest1@gmail.com"
             general_usecase_names = []
             section_usecase_names = []
             await self.users_search_input.fill(email)
@@ -321,33 +335,53 @@ class UsersPage(BasePage):
     #     await self.users_edit_user_tab_logs.is_visible()
 
 
-    async def verify_user_activity_sections(self):
-        email = "Hari.Mulaguri@customerinsights.ai"
+
+
+    async def validate_edit_user_tabs_validation(self):
+        email = "Harimulaguri9@gmail.com"
         await self.users_search_input.fill(email)
         await self.page.wait_for_timeout(3000)  # 20 seconds
         await self.users_more_button.click()
         await self.users_edit_button.click()
-
+        await self.page.wait_for_timeout(3000)  # 20 seconds
         await self.users_edit_user_tab_general.is_visible()
         await self.users_edit_user_tab_usecases.is_visible()
         await self.users_edit_user_tab_parameters.is_visible()
-        await self.users_edit_user_tab_user_activity_validation()
-        await self.users_edit_user_tab_logs_validation()
+        await self.users_edit_user_tab_user_activity.is_visible()
+        await self.users_edit_user_tab_logs.is_visible()
 
-
-
-
-    async def users_edit_user_tab_user_activity_validation(self):
+    async def verify_user_activity_sections(self):
+        email = "HariMulaguri9@gmail.com"
+        await self.users_search_input.fill(email)
         await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.users_more_button.click()
+        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.users_edit_button.click()
+        await self.users_user_activity_tabs_validation()
+        # await self.users_edit_user_tab_logs_validation()
+
+
+
+
+    async def users_user_activity_tabs_validation(self):
+        await self.page.wait_for_timeout(2000)  # 20 seconds
         await self.users_edit_user_tab_user_activity.click()
-        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.page.wait_for_timeout(2000)  # 20 seconds
         await self.users_user_activity_login_logout_tab.is_visible()
         await self.users_user_activity_login_logout_tab.click()
         logins_triggered = self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Logins triggered")
         logouts_triggered =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Logouts triggered")
         await expect(logins_triggered).to_be_visible()
         await expect(logouts_triggered).to_be_visible()
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("weekly")
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("monthly")
+
+        await self.validate_user_activity_charts_validation()
         print("logins_triggered- done")
+
+
 
         await self.users_user_activity_conversations_tab.is_visible()
         await self.users_user_activity_conversations_tab.click()
@@ -356,9 +390,15 @@ class UsersPage(BasePage):
         Max_in_a_day_conversations =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Max in a day")
         await expect(Overall_conversations).to_be_visible()
         await expect(Max_in_a_day_conversations).to_be_visible()
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("weekly")
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("monthly")
+
+        await self.validate_user_activity_charts_validation()
         print("conversations- done")
-
-
+    #
+    #
         await self.users_user_activity_insights_hub_tab.is_visible()
         await self.users_user_activity_insights_hub_tab.click()
         await self.page.wait_for_timeout(3000)  # 20 seconds
@@ -366,9 +406,16 @@ class UsersPage(BasePage):
         Max_in_a_day_interactions =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Max in a day")
         await expect(Overall_interactions).to_be_visible()
         await expect(Max_in_a_day_interactions).to_be_visible()
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("weekly")
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("monthly")
+
+        await self.validate_user_activity_charts_validation()
+
         print("interactions- done")
-
-
+    #
+    #
         await self.users_user_activity_llm_tokens_tab.is_visible()
         await self.users_user_activity_llm_tokens_tab.click()
         await self.page.wait_for_timeout(3000)  # 20 seconds
@@ -376,12 +423,38 @@ class UsersPage(BasePage):
         Usage_last_week =  self.page.locator("p.MuiTypography-root.MuiTypography-body1.font-inter.css-oxca9l",has_text="Usage last week")
         await expect(Token_used).to_be_visible()
         await expect(Usage_last_week).to_be_visible()
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("weekly")
+        await self.page.wait_for_timeout(2000)
+        await self.select_user_activity_granularity_options("monthly")
+
+        await self.validate_user_activity_charts_validation()
         print("tokens- done")
-
-
+    #
+    #
     async def users_edit_user_tab_logs_validation(self):
         await self.users_edit_user_tab_logs.is_visible()
         await self.users_edit_user_tab_logs.click()
         action_cell =  self.page.locator("#logs-cell-action-0")
         await expect(action_cell).to_have_text("User updated")
         print("logs- done")
+
+
+    async def select_user_activity_granularity_options(self, option: str):
+        await self.user_activity_granularity_dropdown.click()
+        granularity_map = {
+            "daily": self.user_activity_option_daily,
+            "weekly": self.user_activity_option_weekly,
+            "monthly": self.user_activity_option_monthly,
+            "total": self.user_activity_option_total
+        }
+        await granularity_map[option].click()
+        await self.page.wait_for_timeout(2000)
+
+    async def validate_user_activity_charts_validation(self):
+        await expect(self.user_activity_chart_view_fullscreen_icon).to_be_visible()
+        await expect(self.user_activity_chart_data_view_icon).to_be_visible()
+        await self.page.wait_for_timeout(2000)
+        await expect(self.user_activity_chart_type_icon).to_be_visible()
+        await expect(self.user_activity_chart_download_icon).to_be_visible()
+        await self.page.wait_for_timeout(2000)

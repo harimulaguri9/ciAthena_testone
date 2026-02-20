@@ -100,7 +100,7 @@ class AuthenticationPage(BasePage):
         await self.auth_users_tab_button.click()
         await expect(self.auth_add_users_title).to_be_visible()
         await self.auth_add_user_button.click()
-        await self.auth_add_new_user_search_input.fill("hari")
+        await self.auth_add_new_user_search_input.fill("harivocera")
         await self.auth_add_new_user_checkbox.first.check()
         await self.auth_add_new_user_submit_button.click()
         await self.auth_add_new_user_save_proceed_button.click()
@@ -200,7 +200,7 @@ class AuthenticationPage(BasePage):
     async def fill_saml_auth_field_mapping_details(self):
         time.sleep(3)
         await self.fieldmapping_tab.click()
-        await self.fieldmapping_email.fill("haritest@test.com")
+        await self.fieldmapping_email.fill("haritest1@test.com")
         await self.fieldmapping_firstname.fill("hari")
         await self.fieldmapping_lastname.fill("test1")
         await self.fieldmapping_signin.fill(" yes")

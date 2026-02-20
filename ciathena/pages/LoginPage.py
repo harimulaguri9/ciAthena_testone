@@ -31,6 +31,8 @@ class LoginPage(BasePage):
         await self.page.wait_for_timeout(2000)
         await self.signin_button.click()
         await self.page.wait_for_timeout(5000)
+        await self.page.locator("#welcome-search-input").click(force=True)
+
 
     async def login_with_sso_email(self):
         await self.email_input.fill("hari.mulaguri@customerinsights.ai")
@@ -47,3 +49,5 @@ class LoginPage(BasePage):
         await self.page.wait_for_timeout(20000)
         await self.verify_button.click()
         await self.page.wait_for_timeout(10000)
+        await self.page.locator("#welcome-search-input").click(force=True)
+

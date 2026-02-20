@@ -116,7 +116,7 @@ class OngoingThreadsPage(BasePage):
         # Share Insights
         # --------------------------------------------------------------------------
     async def verify_share_insights(self):
-            await self.page.wait_for_timeout(20000)  # 20 seconds
+            await self.page.wait_for_timeout(5000)  # 20 seconds
             await self.share_visualization_button.click()
             print("share clicked")
             await self.tag_select()
@@ -124,11 +124,11 @@ class OngoingThreadsPage(BasePage):
             await self.next_button.click()
             # await self.page.wait_for_timeout(3000)
             await self.create_new_space()
-            # await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(2000)
             await self.space_select()
-            # await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(3000)
             await self.save_to_Space_button.click()
-            await self.page.wait_for_timeout(5000)  # 20 seconds
+            await self.page.wait_for_timeout(3000)  # 20 seconds
             # await expect(self.insight_shared_msg).to_be_visible(timeout=2000)
             # await self.assert_visible(self.insight_shared_msg, "Insight shared successfully")
 
@@ -201,15 +201,16 @@ class OngoingThreadsPage(BasePage):
         # Like & Dislike Buttons
         # --------------------------------------------------------------------------
     async def click_like_button(self):
-            await self.click(self.like_button, "like_button")
             await self.page.wait_for_timeout(2000)
+            await self.click(self.like_button, "like_button")
+            await self.page.wait_for_timeout(3000)
             await expect(self.like_button).to_have_attribute("aria-label", "Undo like")
-            await expect(self.like_msg).to_be_visible(timeout=3000)
+            await expect(self.like_msg).to_be_visible(timeout=2000)
             # await self.page.wait_for_timeout(2000)
 
     async def click_dislike_button(self):
             await self.click(self.dislike_button, "unlike_button")
-            # await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(2000)
             await self.assert_visible(self.unlike_feedback_dialog, "unlike feedback popup")
             await self.unlike_feedback_dialog.fill("test unlike feedback")
             await self.page.wait_for_timeout(2000)
@@ -260,7 +261,7 @@ class OngoingThreadsPage(BasePage):
 
     async def create_new_space(self):
         space_name = "hari_space1"
-        space_name_desc = "hari_space1_desc"
+        space_name_desc = "hari_space11_desc"
         await self.create_space_button.wait_for(state="visible", timeout=2000)
         await self.create_space_button.click()
         # await self.page.wait_for_timeout(2000)
@@ -280,7 +281,7 @@ class OngoingThreadsPage(BasePage):
 
         for i in range(count):
             space_element = self.space_containers.nth(i)
-            # await self.page.wait_for_timeout(2000)
+            await self.page.wait_for_timeout(2000)
             space_name_text = (await space_element.text_content() or "").strip()
             print(f"🔹 Found space: {space_name_text}")
 

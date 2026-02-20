@@ -1,7 +1,6 @@
 import allure
 import pytest
 # @pytest.mark.order(3)
-@pytest.mark.wip
 @pytest.mark.asyncio
 # @allure.epic("Insights Hub")
 # @allure.story("InsightsHub_UI")

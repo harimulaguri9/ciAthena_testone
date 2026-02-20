@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright
 import time
-from ciathena.Utils.ExcelReader import ExcelReader
-from ciathena.Utils.ExcelWriter import ExcelWriter
+from ciathena.Utils.ExcelReader2 import ExcelReader
+from ciathena.Utils.ExcelWriter2 import ExcelWriter
 
 
 INPUT_PATH = r"C:\Users\HariKumarMulaguri\PycharmProjects\PythonProjectTest\QuestionsTest.xlsx"

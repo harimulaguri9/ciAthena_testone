@@ -4,11 +4,11 @@ from playwright.sync_api import Page, expect
 from ciathena.pages.BasePage import BasePage
 from playwright.sync_api import Page
 
-from ciathena.Utils.ExcelReader import ExcelReader
-from ciathena.Utils.ExcelWriter import ExcelWriter
+from ciathena.Utils.ExcelReader2 import ExcelReader
+from ciathena.Utils.ExcelWriter2 import ExcelWriter
 
-INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\Questions.xlsx"
-OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\Reports.xlsx"
+INPUT_PATH = r"/Questions.xlsx"
+OUTPUT_PATH = r"/Reports.xlsx"
 SHEET_NAME = "Questions"
 
 

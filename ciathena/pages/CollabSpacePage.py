@@ -281,7 +281,6 @@ class CollabSpacePage(BasePage):
 
     async def delete_Dashboard(self):
         target_dashboard = "qa1Dashboard_updated"
-        await self.page.pause()
         count = await self.saved_dashboard_names.count()
         target_index = None
         for i in range(count):

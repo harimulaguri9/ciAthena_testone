@@ -1,3 +1,4 @@
+
 import re
 import time
 from difflib import SequenceMatcher
@@ -6,13 +7,12 @@ from openpyxl.utils import cell
 from playwright.async_api import Page, expect
 import asyncio
 from playwright.async_api import async_playwright
+from ciathena.Utils.ExcelReader2 import ExcelReader
+from ciathena.Utils.ExcelWriter2 import ExcelWriter
+# from ciathena.tests.apis.apiUtils import create_api_request_context, get_user_id
 
-
-from ciathena.Utils.ExcelReader import ExcelReader
-from ciathena.Utils.ExcelWriter import ExcelWriter
-
-INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\FAST_Qexcel.xlsx"
-OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\FAST_Rexcel.xlsx"
+INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\MMM_Questions.xlsx"
+OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\MMM_Report.xlsx"
 SHEET_NAME = "Questions"
 
 
@@ -20,15 +20,21 @@ class ChatbotAutomation:
     def __init__(self, page: Page):
         self.page = page
 
+        self.mmm_usecase=page.locator("#welcome-app-name-mmm")
+        self.fast_usecase=page.locator("#welcome-app-name-fast")
+        self.patientIQ_usecase=page.locator("#welcome-app-name-patient_claims")
+        self.insightsAI_usecase=page.locator("#welcome-app-name-insightsai")
+
         self.valid_response_locator = page.locator("#answer-text")
         self.invalid_response_locator = page.locator('[data-name="answer-text"]')
         self.answer_visualization_container = page.locator("//div[@id='answer-visualization-container']")
         self.answer_visualization_title = page.locator("//div[@id='visualization-actions-pill']/p")
         self.view_fullscreen_icon = page.locator("//button[@aria-label='View in fullscreen']")
         self.data_view_icon = page.locator("//button[@aria-label='Data View']")
-        self.chart_button=page.locator("button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-m16sue")
+        self.chart_button=page.locator("div[aria-label*='Chart']").nth(0)
 
-        # self.download_icon = page.locator("#//*[@aria-label='Download']")
+        # self.chart_button=page.locator("button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-4fkcbr")
+        self.download_icon = page.locator("//button[@aria-label='Download']")
         self.restore_icon= page.locator("#//*[@aria-label='Restore']")
 
         self.sql_button_locator = page.locator("#sql-toggle-button")
@@ -56,7 +62,7 @@ class ChatbotAutomation:
         ]
 
     async def get_valid_response(self):
-        if await self.valid_response_locator.is_visible():
+        if await self.valid_response_locator.is_visible(timeout=90000):
             return (await self.valid_response_locator.text_content()).strip()
         return None
 
@@ -67,11 +73,25 @@ class ChatbotAutomation:
                 return text
         return None
 
-    async def get_actual_chart_name(self) -> str:
-        time.sleep(2)
-        actual_chart_name = await self.chart_button.get_attribute("aria-label")
-        return actual_chart_name
+    # async def get_actual_chart_name(self) -> str:
+    #     time.sleep(20)
+    #     actual_chart_name = await self.chart_button.get_attribute("aria-label")
+    #     print("actual_chart_name   :",actual_chart_name)
+    #     return actual_chart_name
 
+    async def get_actual_chart_name(self) -> str:
+        try:
+            # Wait only few seconds for chart icon
+            await self.chart_button.wait_for(state="visible", timeout=30000)
+
+            actual_chart_name = await self.chart_button.get_attribute("aria-label")
+            print("actual_chart_name:", actual_chart_name)
+
+            return actual_chart_name if actual_chart_name else "None"
+
+        except Exception as e:
+            print("⚠️ Chart icon not available (No insights loaded)")
+            return "None"
 
 
     async def get_sql_query_if_available(self):
@@ -129,7 +149,8 @@ class ChatbotAutomation:
 #-----------------------------------------SQL match----------------------------------------------------
 
 def normalize_sql(sql: str) -> str:
-
+    if not sql:
+        return ""
     sql = sql.lower() # lowercase
     sql = re.sub(r"'[^']*'", "''", sql) # remove string literals
     # sql = re.sub(r"\b\d+\b", "0", sql) # remove numbers
@@ -145,7 +166,6 @@ def sql_similarity(sql1: str, sql2: str) -> float:
 
 def normalize_chart_name(name: str) -> str:
     words = name.lower().replace("_", " ").replace("-", " ").split()
-
     # remove generic words
     words = [w for w in words if w not in {"chart"}]
 
@@ -197,19 +217,25 @@ async def main():
 
 
         # --- LOGIN SSO ---
-        await page.goto("https://ciathena.customerinsights.ai/")
-        await page.locator("//input[@placeholder='username@domain.ai']").fill("hari.mulaguri@customerinsights.ai")
-        await page.wait_for_timeout(2000)
-        await page.locator("//button[normalize-space()='Sign in']").click()
-        await page.wait_for_timeout(2000)
-        await page.locator("#i0116").fill("hari.mulaguri@customerinsights.ai")
-        await page.get_by_role("button", name="Next").click()
-        await page.locator("//input[@placeholder='Password']").fill("Android@123")
-        await page.locator("#idSIButton9").click()
-        await page.get_by_role("button", name="Text +XX XXXXXXXX73").click()
-        await page.wait_for_timeout(20000)
-        await page.get_by_role("button", name="Verify").click()
-        await page.wait_for_timeout(5000)
+        await page.goto("https://ciathena-dev.customerinsights.ai/")
+        # await page.locator("//input[@placeholder='username@domain.ai']").fill("hari.mulaguri@customerinsights.ai")
+        # await page.wait_for_timeout(2000)
+        # await page.locator("//button[normalize-space()='Sign in']").click()
+        # await page.wait_for_timeout(2000)
+        # await page.locator("#i0116").fill("hari.mulaguri@customerinsights.ai")
+        # await page.get_by_role("button", name="Next").click()
+        # await page.locator("//input[@placeholder='Password']").fill("Android@123")
+        # await page.locator("#idSIButton9").click()
+        # await page.get_by_role("button", name="Text +XX XXXXXXXX73").click()
+        # await page.wait_for_timeout(20000)
+        # await page.get_by_role("button", name="Verify").click()
+
+        await page.locator("input[placeholder='username@domain.ai']").fill("harimulaguri9@gmail.com")
+        await page.get_by_role("button", name="Sign in").click()
+        await page.get_by_placeholder("Enter password").fill("Android@123")
+        await page.get_by_role("button", name="Sign in").click()
+        await page.wait_for_timeout(10000)
+
 
         bot = ChatbotAutomation(page)
         for item in questions_sqlquery:
@@ -219,14 +245,19 @@ async def main():
 
             await page.wait_for_timeout(5000)
             await page.locator("#welcome-search-input").click(force=True)
-            await page.locator("#welcome-app-name-fast").click()
+            await page.locator("#welcome-app-name-mmm").click()
+            # await page.locator("#welcome-app-name-fast").click()
+            # await page.locator("#welcome-app-name-insightsai").click()
+            # await page.locator("#welcome-app-name-patient_claims").click()
+
             await bot.ask_question_input.fill(question)
             await bot.send_button.click()
-            await page.wait_for_timeout(40000)
+
+            await page.wait_for_timeout(100000)
             answer_text = await bot.get_valid_response()
             sql_query = None
             icon_status = None
-            # chart_match=None
+            chart_match=None
 
             if answer_text:
                 sql_query, icon_status = await bot.get_sql_query_if_available()
@@ -242,14 +273,18 @@ async def main():
                 print(f"Similarity Score: {similarity_score:.4f}")
 
 
-                actual_chart = await bot.get_actual_chart_name()
-                print(expected_chart_name)
-                print(actual_chart)
-                chart_match = is_chart_match(expected_chart_name, actual_chart)
+                # actual_chart = await bot.get_actual_chart_name()
+                # print("expected_chart_name:",expected_chart_name)
+                # print("actual_chart       :",actual_chart)
+                # chart_match = is_chart_match(expected_chart_name, actual_chart)
 
+                actual_chart = await bot.get_actual_chart_name()
+                if actual_chart == "None":
+                    chart_match = False
+                else:
+                    chart_match = is_chart_match(expected_chart_name, actual_chart)
 
                 # status = "PASS" if chart_match and sql_match else "FAIL"
-
                 # #chart_match
                 # actual_chart = await bot.get_actual_chart_name()
                 # chart_match=actual_chart == expected_chart_name
@@ -260,6 +295,7 @@ async def main():
             else:
                 answer_text = await bot.get_error_response() or "No response"
                 actual_chart = "none"
+                similarity_score=0.0
                 chart_match = False
                 sql_match = False
                 status = "FAIL"
