@@ -1,6 +1,6 @@
 🚀 Launching Chromium browser...
-🧩 New Page Created: 139829710898640
-🧩 BasePage Using Page: 139829710898640
+🧩 New Page Created: 139947031053584
+🧩 BasePage Using Page: 139947031053584
 🔍 Found 5 executive insights.
 1. N/A
 ✅ Chart 1 verified successfully.
@@ -32,9 +32,9 @@
 
 ➡️ Navigating to Section 2: Operational Efficiency
 ✅ Section 'Operational Efficiency' loaded.
-📈 Found Card: Process OptimizationOperational processes are functioning well but could benefit from automation to reduce manual workload.
+📈 Found Card: Process BottlenecksCertain operational inefficiencies are highlighted, requiring immediate process optimization.
 
 ➡️ Navigating to Section 3: Market Trends
 ✅ Section 'Market Trends' loaded.
-📈 Found Card: Competitor AnalysisCompetitor activities are being monitored, revealing potential opportunities and threats.
+📈 Found Card: Emerging CompetitorsNew competitors are entering the market, posing potential challenges.
 🧹 Closing page after test--
