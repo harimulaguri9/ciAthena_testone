@@ -7,8 +7,6 @@ import pytest
 #
 # # @pytest.mark.order(2)
 # # @pytest.mark.smoke
-# # @pytest.mark.wip
-# @pytest.mark.asyncio
 # @pytest.mark.asyncio
 # @pytest.mark.branding
 # async def test_branding_configuration(setup):

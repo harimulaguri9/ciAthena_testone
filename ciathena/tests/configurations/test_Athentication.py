@@ -21,6 +21,7 @@ import pytest
 
 
 @pytest.mark.asyncio
+@pytest.mark.wip
 async def test_saml_authentication_flow(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     brandingPage = setup["brandingPage"]

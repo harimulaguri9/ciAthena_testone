@@ -1,6 +1,7 @@
 
 import pytest
 @pytest.mark.asyncio
+@pytest.mark.wip
 async def test_branding_configuration(setup):
     brandingPage = setup["brandingPage"]
 

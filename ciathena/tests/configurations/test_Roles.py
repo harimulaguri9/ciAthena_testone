@@ -24,7 +24,7 @@ async def test_admin_full_access(setup):
     await rolesPage.validate_admin_full_access()
 
 @pytest.mark.asyncio
-@pytest.mark.wip1
+@pytest.mark.wip
 async def test_viewer_restricted_access(setup):
     brandingPage = setup["brandingPage"]
     rolesPage = setup["rolesPage"]
@@ -36,7 +36,7 @@ async def test_viewer_restricted_access(setup):
     await rolesPage.validate_viewer_restricted_access()
 
 @pytest.mark.asyncio
-@pytest.mark.wip1
+@pytest.mark.wip
 async def test_persona_selection_difference(setup):
     brandingPage = setup["brandingPage"]
     rolesPage = setup["rolesPage"]

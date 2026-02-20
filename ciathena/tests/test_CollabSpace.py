@@ -3,6 +3,8 @@ import allure
 
 @pytest.mark.order(1)
 @pytest.mark.asyncio
+@pytest.mark.wip
+
 # @allure.description("Validate that the UI of Collabspace loads correctly")
 async def test_create_new_collabspace(setup):
     basepage = setup["basepage"]
@@ -19,7 +21,6 @@ async def test_create_new_collabspace(setup):
 
 
 # @pytest.mark.order(2)
-# @pytest.mark.wipx
 # @pytest.mark.asyncio
 # async def test_rename_collabspace(setup):
 #     collabspacePage = setup["collabspacePage"]
@@ -27,7 +28,6 @@ async def test_create_new_collabspace(setup):
 #
 #
 # @pytest.mark.order(3)
-# @pytest.mark.wipx
 # @pytest.mark.asyncio
 # async def test_delete_collabspace(setup):
 #     collabspacePage = setup["collabspacePage"]
@@ -35,14 +35,12 @@ async def test_create_new_collabspace(setup):
 #
 #
 # @pytest.mark.order(4)
-# @pytest.mark.wipx
 # @pytest.mark.asyncio
 # async def test_create_Dashboard(setup):
 #     collabspacePage = setup["collabspacePage"]
 #     await collabspacePage.create_Dashboard()
 #
 # @pytest.mark.order(5)
-# @pytest.mark.wipx
 # @pytest.mark.asyncio
 # async def test_delete_Dashboard(setup):
 #     collabspacePage = setup["collabspacePage"]

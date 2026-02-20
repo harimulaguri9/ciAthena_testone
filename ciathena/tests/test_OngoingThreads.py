@@ -2,7 +2,7 @@
 import pytest
 @pytest.mark.asyncio
 @pytest.mark.order(2)
-# @pytest.mark.asyncio
+@pytest.mark.wip
 async def test_ask_question(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     await ongoingthreadsPage.ask_question()
