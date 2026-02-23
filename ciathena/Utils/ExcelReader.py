@@ -20,18 +20,20 @@ class ExcelReader:
                 sql_queries.append(row[1])  # Column B
         return sql_queries
 
-    def get_questions_with_expected_sql(self):
+    def get_questions_with_expected_values(self):
         data = []
         for row in self.sheet.iter_rows(min_row=2, values_only=True):
-            question = row[0]  # Column A
-            expected_sql = row[1]  # Column B
-            chart = row[3]  # Column D
-
+            question = row[0]               # Column A
+            expected_sql = row[1]           # Column B
+            final_response_json=row[2]      # Column C
+            chart = row[3]                  # Column D
             if question:
                 data.append({
                     "question": question,
                     "expected_sql": expected_sql,
-                    "chart": chart
+                    "chart": chart,
+                    "final_response_json":final_response_json
 
                 })
         return data
+

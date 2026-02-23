@@ -3,11 +3,11 @@ import asyncio
 from playwright.async_api import async_playwright
 
 
-from ciathena.Utils.ExcelReader import ExcelReader
-from ciathena.Utils.ExcelWriter import ExcelWriter
+from ciathena.Utils.ExcelReader0 import ExcelReader0
+from ciathena.Utils.ExcelWriter0 import ExcelWriter0
 
-INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\3Questions.xlsx"
-OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\3Reports.xlsx"
+INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\Questions.xlsx"
+OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\Reports.xlsx"
 SHEET_NAME = "Questions"
 
 
@@ -109,8 +109,8 @@ class ChatbotAutomation:
 
 
 async def main():
-    reader = ExcelReader(INPUT_PATH, SHEET_NAME)
-    writer = ExcelWriter(OUTPUT_PATH)
+    reader = ExcelReader0(INPUT_PATH, SHEET_NAME)
+    writer = ExcelWriter0(OUTPUT_PATH)
     questions = reader.get_questions()
 
     async with async_playwright() as p:
@@ -130,7 +130,7 @@ async def main():
 
 
         # --- LOGIN SSO ---
-        await page.goto("https://ciathena.customerinsights.ai/")
+        await page.goto("https://ciathena-qa.customerinsights.ai/")
         await page.locator("//input[@placeholder='username@domain.ai']").fill("hari.mulaguri@customerinsights.ai")
         await page.wait_for_timeout(2000)
         await page.locator("//button[normalize-space()='Sign in']").click()
@@ -176,8 +176,6 @@ async def main():
                 icon_status["show_sql_visible"] if icon_status else False,
                 icon_status["show_share_visible"] if icon_status else False,
                 icon_status["show_save_visible"] if icon_status else False,
-                icon_status["view_fullscreen_icon"] if icon_status else False,
-                icon_status["data_view_icon"] if icon_status else False,
                 icon_status["show_download_visible"] if icon_status else False,
                 status
             )

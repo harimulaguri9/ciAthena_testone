@@ -3,7 +3,7 @@ from _testcapi import awaitType
 
 
 @pytest.mark.asyncio
-@pytest.mark.wip
+@pytest.mark.smoke
 async def test_teams_management(setup):
     brandingPage = setup["brandingPage"]
     teamsPage = setup["teamsPage"]

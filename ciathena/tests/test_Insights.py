@@ -1,19 +1,29 @@
 import allure
 import pytest
 # @pytest.mark.order(3)
-@pytest.mark.wip
+@pytest.mark.smoke
 @pytest.mark.asyncio
 # @allure.epic("Insights Hub")
 # @allure.story("InsightsHub_UI")
 # @allure.title("Verify InsightsHub UI elements")
 # @allure.description("Validate UI components of Insights Hub after login")
-async def test_Insights(setup):
+async def test_insightshub_UI(setup):
     insightshubPage = setup["insightshubPage"]
+    await insightshubPage.verify_insightshub_UI()
 
+@pytest.mark.asyncio
+@pytest.mark.smoke
+async def test_executive_all_cards(setup):
+    insightshubPage = setup["insightshubPage"]
     await insightshubPage.verify_insightshub_UI()
     await insightshubPage.verify_executive_cards()
-    await insightshubPage.verify_personalized_insights_all_cards()
 
+@pytest.mark.smoke
+@pytest.mark.asyncio
+async def test_personalized_insights_all_cards(setup):
+        insightshubPage = setup["insightshubPage"]
+        await insightshubPage.verify_insightshub_UI()
+        await insightshubPage.verify_personalized_insights_all_cards()
 
     # with allure.step("login into the application"):
     #     await loginPage.login_success()

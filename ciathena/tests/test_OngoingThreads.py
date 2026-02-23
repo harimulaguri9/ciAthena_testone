@@ -2,19 +2,10 @@
 import pytest
 @pytest.mark.asyncio
 @pytest.mark.order(2)
-@pytest.mark.wip
+@pytest.mark.smoke
 async def test_ask_question(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     await ongoingthreadsPage.ask_question()
-#
-# async def goto_Settings(setup):
-#     ongoingthreadsPage = setup["ongoingthreadsPage"]
-#     await ongoingthreadsPage.goto_Settings()
-
-    # @pytest.mark.asyncio
-# @pytest.mark.order(3)
-# async def test_validate_generated_insights_options(setup):
-#     ongoingthreadsPage = setup["ongoingthreadsPage"]
 
     await ongoingthreadsPage.verify_share_insights()
     await ongoingthreadsPage.verify_unsave_insights()

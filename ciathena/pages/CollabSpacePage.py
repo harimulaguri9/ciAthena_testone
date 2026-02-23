@@ -61,9 +61,9 @@ class CollabSpacePage(BasePage):
     async def create_new_collabspace(self):
         title1="hari_space1"
         title1desc="hari_space1_desc"
-        time.sleep(3)
+        time.sleep(2)
         await self.collab_space_navbar.click()
-        await self.page.evaluate("document.body.style.zoom='80%'")
+        # await self.page.evaluate("document.body.style.zoom='80%'")
         await self.proceed_button.click()
         await self.spaceTitleInput.fill(title1)
         await self.spaceDescriptionInput.fill(title1desc)
@@ -129,6 +129,7 @@ class CollabSpacePage(BasePage):
         space_name = "hari_space1"
         new_space_name ="hari_space1_Updated"
         time.sleep(2)
+        # await self.page.evaluate("document.body.style.zoom='80%'")
         await self.collab_space_navbar.wait_for(state="visible", timeout=3000)
         await self.collab_space_navbar.hover()
         await self.collab_space_navbar.click()
@@ -254,7 +255,6 @@ class CollabSpacePage(BasePage):
         await self.collab_space_navbar.click()
 
         await self.page.evaluate("document.body.style.zoom='80%'")
-        # await self.assert_visible(self.view_button,"Dashboards card displayed")
         await self.view_button.click()
         await self.generate_dashboard_button.click()
         await self.infographics_header.click()
@@ -263,7 +263,6 @@ class CollabSpacePage(BasePage):
         if await self.kpi_checkbox_button.is_visible():
             await self.kpi_checkbox_button.click()
             await self.save_proceed_button.click()
-
         else:
             await self.save_proceed_button.click()
         await self.dashboard_input.fill(dashboard1)
@@ -272,7 +271,10 @@ class CollabSpacePage(BasePage):
 
     async def edit_Dashboard(self):
         rename_dashboard = "qa1Dashboard_updated"
-
+        await self.collab_space_navbar.hover()
+        await self.collab_space_navbar.click()
+        await self.page.evaluate("document.body.style.zoom='80%'")
+        await self.view_button.click()
         await self.dashboard_edit_icon.click()
         await self.dashboard_title_edit_input.fill(rename_dashboard)
         await self.dashboard_save_button.click()
@@ -281,6 +283,11 @@ class CollabSpacePage(BasePage):
 
     async def delete_Dashboard(self):
         target_dashboard = "qa1Dashboard_updated"
+        await self.page.wait_for_timeout(5000)
+        await self.collab_space_navbar.click()
+        await self.page.evaluate("document.body.style.zoom='80%'")
+        await self.view_button.click()
+
         count = await self.saved_dashboard_names.count()
         target_index = None
         for i in range(count):

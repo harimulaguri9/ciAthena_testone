@@ -5,15 +5,15 @@ import sys
 
 def test_run_all_tests():
     pytest.main([
-         "tests/test_Login.py",
-         "tests/test_OngoingThreads.py",
-         "tests/test_Insights.py",
-         "tests/test_CollabSpace.py",
+         # "tests/test_Login.py",
+         # "tests/test_OngoingThreads.py",
+         # "tests/test_Insights.py",
+         # "tests/test_CollabSpace.py",
          # "tests/test_Configurations.pyx",
          # "tests/configurations/test_Branding.pyx",
          "tests/configurations/test_Athentication.py",
-         "tests/configurations/test_Users.py",
-        "tests/configurations/test_Teams.py",
+         # "tests/configurations/test_Users.py",
+        # "tests/configurations/test_Teams.py",
         # "tests/configurations/test_Roles.py",
 
         # run entire test folder

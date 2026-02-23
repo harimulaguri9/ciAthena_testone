@@ -11,7 +11,7 @@ class AuthenticationPage(BasePage):
 #Authentication
         self.authentication_nav_button = page.locator("#configurations-nav-button-authentication")
         self.authentication_page_title = page.locator("//h1[contains(text(),'Authentication')]")
-        self.authentication_search_input = page.get_by_placeholder("Search...")
+        self.authentication_search_input = page.locator("#auth-list-search-input")
         self.add_new_authentication_button = page.get_by_role("button", name="Add new")
 
 # Add new / Properties
@@ -63,6 +63,7 @@ class AuthenticationPage(BasePage):
         self.saml_logout_url_input = page.locator('#auth-sso-provider-saml-logout-url-input')
         self.saml_certificate_input = page.locator('#auth-sso-provider-saml-certificate-input')
         self.saml_sign_auth_request_control = page.locator('#auth-sso-provider-saml-sign-auth-request-control')
+        self.auth_save_proceed_button = page.locator(("#auth-properties-save-button"))
 
 #Fieldmaping
         self.fieldmapping_tab = page.locator('#auth-properties-subtab-fieldMapping')
@@ -105,7 +106,6 @@ class AuthenticationPage(BasePage):
         await self.auth_add_new_user_submit_button.click()
         await self.auth_add_new_user_save_proceed_button.click()
         time.sleep(3)
-        # await expect(self.auth_updated_toast_message).to_be_visible()
 
 
     async def delete_users_to_the_group(self):
@@ -181,12 +181,14 @@ class AuthenticationPage(BasePage):
 
 
     async def fill_saml_auth_appinfo_details(self):
-        await self.page.wait_for_timeout(3000)
         await self.auth_properties_appInfo_tab.click()
         await self.auth_properties_appInfo_redirect_URL.fill("https:/testciai-reditrect.com")
         await self.auth_properties_appInfo_logout_URL.fill("https:/testciai-logout.com")
         await self.auth_properties_appInfo_back_channel_logout_URL.fill("https:/testciai-channel.com")
 
+    async def auth_auth_save_proceed_button(self):
+        await self.page.evaluate("document.body.style.zoom='100%'")
+        await self.auth_save_proceed_button.click()
 
     async def fill_saml_auth_sso_provider_details(self):
         time.sleep(3)
@@ -214,30 +216,44 @@ class AuthenticationPage(BasePage):
 
     async def auth_type_save_proceed_button(self):
         await self.auth_properties_save_proceed_button.click()
-        await self.page.wait_for_timeout(5000)
+        await self.page.wait_for_timeout(2000)
 
     async def search_for_saml_authentication_type(self):
-        await self.page.wait_for_timeout(3000)
+        await self.page.wait_for_timeout(2000)
+        await self.page.pause()
         await self.authentication_search_input.fill("AAuth_SAML_Test1")
         await expect(self.page.locator("#auth-list-table-body")).to_contain_text("AAuth_SAML_Test1")
 
     async def sso_auth_type_edit(self):
+        await self.page.wait_for_timeout(2000)
+        await self.sso_auth_more_button.click()
+        await self.auth_edit_option.click()
+        # await self.auth_users_tab_button.click()
+        # await self.auth_add_new_user_search_input.fill("Hari")
+
+
+    async def delete_users_from_authtype(self):
         await self.page.wait_for_timeout(3000)
         await self.sso_auth_more_button.click()
         await self.page.wait_for_timeout(2000)
         await self.auth_edit_option.click()
         await self.auth_users_tab_button.click()
+        await self.page.wait_for_timeout(2000)
         # await self.auth_add_new_user_search_input.fill("Hari")
         await self.delete_users_to_the_group()
         await self.auth_properties_save_proceed_button.click()
         await self.auth_remove_user_confirm.click()
+        await self.page.wait_for_timeout(2000)
 
 
     async def sso_auth_type_delete(self):
         await self.sso_auth_more_button.click()
         await self.page.wait_for_timeout(2000)
         await self.auth_delete_option.click()
+        await self.page.wait_for_timeout(2000)
         await self.auth_delete_confirm.click()
+        await self.page.wait_for_timeout(2000)
+
 
 
     #=====================================SAML_auth_setup=============================================

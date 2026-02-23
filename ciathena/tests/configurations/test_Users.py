@@ -2,7 +2,7 @@ import pytest
 
 @pytest.mark.asyncio
 @pytest.mark.order(1)
-@pytest.mark.wip
+@pytest.mark.smoke
 
 async def test_users_management(setup):
     brandingPage = setup["brandingPage"]
@@ -23,7 +23,7 @@ async def test_users_management(setup):
     )
 @pytest.mark.order(2)
 @pytest.mark.asyncio
-@pytest.mark.wip
+@pytest.mark.smoke
 async def test_search_edit_users(setup):
     usersPage = setup["usersPage"]
     brandingPage = setup["brandingPage"]
@@ -36,7 +36,7 @@ async def test_search_edit_users(setup):
 
 @pytest.mark.order(3)
 @pytest.mark.asyncio
-@pytest.mark.wip
+@pytest.mark.smoke
 async def verify_user_search_delete(setup):
     usersPage = setup["usersPage"]
     brandingPage = setup["brandingPage"]
@@ -50,7 +50,7 @@ async def verify_user_search_delete(setup):
 
 @pytest.mark.order(4)
 @pytest.mark.asyncio
-@pytest.mark.wip
+@pytest.mark.smoke
 async def test_user_filter_options(setup):
     usersPage = setup["usersPage"]
     brandingPage = setup["brandingPage"]
@@ -75,7 +75,7 @@ async def test_user_filter_options(setup):
 
 @pytest.mark.order(6)
 @pytest.mark.asyncio
-@pytest.mark.wip
+@pytest.mark.smoke
 async def test_validate_edit_user_tabs(setup):
     usersPage = setup["usersPage"]
     brandingPage = setup["brandingPage"]
@@ -88,7 +88,7 @@ async def test_validate_edit_user_tabs(setup):
 
 @pytest.mark.order(7)
 @pytest.mark.asyncio
-@pytest.mark.wip
+@pytest.mark.smoke
 
 # @pytest.mark.user1
 async def test_user_activity_sections(setup):

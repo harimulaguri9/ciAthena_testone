@@ -25,7 +25,7 @@ from ciathena.Utils.ExcelWriter2 import ExcelWriter
 # ============================================================
 
 INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\MMM_Questions.xlsx"
-OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\MMM_Report.xlsx"
+OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\MMM_Report_new.xlsx"
 SHEET_NAME = "Questions"
 BASE_URL = "https://ciathena-qa.customerinsights.ai/"
 
@@ -160,7 +160,7 @@ async def main():
         for item in test_data:
             question = item["question"]
             expected_sql = item["expected_sql"]
-            expected_be = item["expected_be_response"]
+            expected_be_response = item["expected_be_response"]
             expected_chart = item["chart"]
 
             print(f"\nExecuting: {question}")
@@ -183,7 +183,7 @@ async def main():
             # VALIDATIONS
             # -----------------------------
             sql_match = normalize_sql(actual_sql) == normalize_sql(expected_sql)
-            be_match = compare_be_response(raw_sql_result, expected_be)
+            be_match = compare_be_response(raw_sql_result, expected_be_response)
 
             try:
                 actual_chart = await page.locator("button[aria-label*='Chart']").get_attribute("aria-label")
