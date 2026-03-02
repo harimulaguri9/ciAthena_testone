@@ -7,7 +7,7 @@ class TeamsPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
         self.teams_nav_button = page.locator("#configurations-nav-label-teams")
-        self.teams_search_field = page.locator('#teams-search-input')
+        self.teams_search_field = page.locator("#teams-search-input")
         self.teams_filter_icon=page.locator("#teams-filter-icon")
         self.teams_filter_usecase=page.locator("#teams-filter-select-use-case-dropdown")
         self.teams_delete_icon=page.locator("#teams-delete-button-icon")
@@ -24,13 +24,14 @@ class TeamsPage(BasePage):
         self.teams_general_tab = page.locator("#add-team-tab-general")
         self.teams_tab_users = page.locator("#add-team-tab-users")
         self.teams_users_add_button = page.locator("#teams-users-add-button")
+        self.teams_checkbox = page.locator("input[id^='teams-add-new-users-modal-user-checkbox']")
 
         self.teams_user_search_add_team = page.locator("#teams-users-search-input")
         self.teams_addteam_users_checkbox = page.locator("input[type='checkbox'][id^='teams-users-table-row-checkbox']")
         self.save_proceed_button = page.locator("#add-team-save-button")
         # self.team_created_success = page.locator("#add-team-save-button")
         self.addusers_search_input = page.locator("#teams-add-new-users-modal-search-input")
-        self.addusers_checkbox = page.locator("#teams-add-new-users-modal-user-checkbox-0")
+        self.addusers_checkbox = page.locator("input[id^='teams-add-new-users-modal-user-checkbox']")
         self.teams_user_submit = page.locator("#teams-add-new-users-modal-submit-button")
         self.teams_user_delete_button_icon = page.locator("#teams-users-delete-button-icon")
 
@@ -93,19 +94,25 @@ class TeamsPage(BasePage):
 
     async def add_users_create_team(self):
         await self.teams_tab_users.click()
+        await self.page.pause()
         await self.teams_users_add_button.click()
         await self.addusers_search_input.fill("harivocera@gmail.com")
         await self.addusers_checkbox.click()
+        await self.page.wait_for_timeout(1000)  # 20 seconds
         await self.teams_user_submit.click()
+        await self.page.wait_for_timeout(1000)  # 20 seconds
         await self.save_proceed_button.click()
-        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.page.wait_for_timeout(1000)  # 20 seconds
 
     async def validate_created_team_properties(self):
-        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.page.wait_for_timeout(1000)
+        await self.page.teams_search_field.fill("TeamsABC")# 20 seconds
+        await self.page.wait_for_timeout(3000)
+
         await self.select_created_team_quick_options()
-        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.page.wait_for_timeout(1000)  # 20 seconds
         await self.teams_properties_option.click()
-        await self.page.wait_for_timeout(2000)  # 20 seconds
+        await self.page.wait_for_timeout(1000)  # 20 seconds
         await self.valdiate_teams_general_section()
         await self.valdiate_teams_users_section()
         await self.valdiate_teams_logs_section("Team created")
@@ -114,18 +121,22 @@ class TeamsPage(BasePage):
 
     async def select_created_team_quick_options(self):
         created_team_name="TeamsABC"
-        rows = self.page.locator("tr[data-testid='teams-table-row']")
-        row_count = await rows.count()
-        for i in range(row_count):
-            row = rows.nth(i)
-            team_name = await row.locator("[data-testid='teams-row-name-content']").inner_text()
-            if team_name.strip() == created_team_name:
-                # ✅ Select checkbox
-                checkbox = row.locator("input[type='checkbox']")
-                await checkbox.check()
-                # ✅ Click context menu (three dots)
-                await row.locator("[data-testid='teams-row-context-menu-icon']").click()
-                break
+        # rows = self.page.locator("tr[data-testid='teams-table-row']")
+        # row_count = await rows.count()
+
+        row = self.page.locator("tr[data-name^='teams-table-row']").filter(has_text="TeamsABC")
+        checkbox = row.locator("input[type='checkbox']")
+        await checkbox.check()
+        # for i in range(row_count):
+        #     row = rows.nth(i)
+        #     team_name = await row.locator("[data-testid='teams-row-name-content']").inner_text()
+        #     if team_name.strip() == created_team_name:
+        #         # ✅ Select checkbox
+        #         checkbox = row.locator("input[type='checkbox']")
+        #         await checkbox.check()
+        #         # ✅ Click context menu (three dots)
+        #         await row.locator("[data-testid='teams-row-context-menu-icon']").click()
+        #         break
 
         await self.page.wait_for_timeout(2000)
 

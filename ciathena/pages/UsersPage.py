@@ -105,8 +105,9 @@ class UsersPage(BasePage):
         self.user_activity_option_total = page.locator('li[data-value="total"]')
         self.user_activity_chart_view_fullscreen_icon = page.locator("//button[@aria-label='View in fullscreen']")
         self.user_activity_chart_data_view_icon = page.locator("//button[@aria-label='Data View']")
-        self.user_activity_chart_type_icon = page.locator("button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-4fkcbr")
+        # self.user_activity_chart_type_icon = page.locator("button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-4fkcbr")
         self.user_activity_chart_download_icon = page.locator("//button[@aria-label='Download']")
+        self.user_activity_chart_type_icon = page.locator("[aria-label$='Chart']").first
 
 
         self.usecase_names_sections = page.locator("//*[@id='use-cases-table']/tbody/tr/td[1]/div/p")
@@ -352,10 +353,11 @@ class UsersPage(BasePage):
 
     async def verify_user_activity_sections(self):
         email = "HariMulaguri9@gmail.com"
+        await self.page.pause()
         await self.users_search_input.fill(email)
-        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.page.wait_for_timeout(1000)  # 20 seconds
         await self.users_more_button.click()
-        await self.page.wait_for_timeout(3000)  # 20 seconds
+        await self.page.wait_for_timeout(1000)  # 20 seconds
         await self.users_edit_button.click()
         await self.users_user_activity_tabs_validation()
         # await self.users_edit_user_tab_logs_validation()
@@ -454,7 +456,7 @@ class UsersPage(BasePage):
     async def validate_user_activity_charts_validation(self):
         await expect(self.user_activity_chart_view_fullscreen_icon).to_be_visible()
         await expect(self.user_activity_chart_data_view_icon).to_be_visible()
-        await self.page.wait_for_timeout(2000)
+        await self.page.wait_for_timeout(4000)
         await expect(self.user_activity_chart_type_icon).to_be_visible()
         await expect(self.user_activity_chart_download_icon).to_be_visible()
-        await self.page.wait_for_timeout(2000)
+        await self.page.wait_for_timeout(4000)

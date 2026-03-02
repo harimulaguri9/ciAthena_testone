@@ -24,24 +24,24 @@ class RolesPage(BasePage):
 
     async def navigate_to_roles(self):
         await self.roles_nav_button.click()
-        await self.page.wait_for_timeout(2000)
-
+        await self.page.wait_for_timeout(3000)
         await expect(self.roles_persona_cards.first).to_be_visible()
-        await self.page.wait_for_timeout(2000)
+        await self.page.wait_for_timeout(3000)
 
 
 
     async def validate_all_default_personas(self):
-        expected_personas = ['Admin', 'Viewer']
+        expected_personas = ['Admin', 'Analyst','business analyst','Test Role','Viewer']
+        # expected_personas = ['Admin', 'Viewer']
         await self.validate_persona_names(expected_personas)
-        await self.page.wait_for_timeout(2000)
+        await self.page.wait_for_timeout(3000)
         await self.validate_persona_count(len(expected_personas))
-        await self.page.wait_for_timeout(2000)
+        await self.page.wait_for_timeout(3000)
 
 
     async def validate_persona_count(self, expected_count: int):
         actual_count = await self.roles_persona_cards.count()
-        await self.page.wait_for_timeout(1000)
+        await self.page.wait_for_timeout(3000)
 
         print("Persona Count:", actual_count)
         assert actual_count == expected_count, \
@@ -50,14 +50,14 @@ class RolesPage(BasePage):
     async def validate_persona_names(self, expected_personas: list):
         actual_names = []
         count = await self.roles_persona_cards.count()
-        await self.page.wait_for_timeout(1000)
+        await self.page.wait_for_timeout(3000)
         for i in range(count):
             name = await self.roles_persona_cards.nth(i).inner_text()
             actual_names.append(name.strip())
         print("Actual Persona Names:", actual_names)
 
         for persona in expected_personas:
-            await self.page.wait_for_timeout(1000)
+            await self.page.wait_for_timeout(3000)
             assert any(persona in name for name in actual_names), \
                 f"{persona} not found in UI"
 
@@ -65,9 +65,9 @@ class RolesPage(BasePage):
     async def select_persona(self, persona_name: str):
         await self.page.wait_for_timeout(3000)
         card = self.page.locator("h6[id^='roles-persona-card-'][id$='-name']",has_text=persona_name)
-        await self.page.wait_for_timeout(2000)
+        await self.page.wait_for_timeout(3000)
         await card.click()
-        await self.page.wait_for_timeout(2000)
+        await self.page.wait_for_timeout(3000)
         await expect(card).to_be_visible()
 
     async def get_all_permissions(self):
@@ -145,7 +145,6 @@ class RolesPage(BasePage):
 
     async def validate_admin_full_access(self):
         await self.select_persona("Admin")
-        await self.page.pause()
 
         await self.validate_all_checkboxes_disabled(self.account_settings_section, "Account Settings")
         await self.validate_all_checkboxes_disabled(self.access_security_section, "Access & Security")
@@ -188,5 +187,4 @@ class RolesPage(BasePage):
             permissions.append(state)
         print(f"{persona_name} permissions:", permissions)
         print(permissions)
-        await self.roles_save_button.click()
         return permissions

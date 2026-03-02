@@ -38,9 +38,10 @@ jobs:
       # 4️⃣ Run Playwright tests (parallel)
       - name: Run Playwright Tests
         run: |
-          pytest -m wip \
+          pytest -m smoke \
             --alluredir=allure-results \
             --capture=tee-sys
+            --qase
 
       # 5️⃣ Verify Allure Results
       - name: Verify Allure Results

@@ -3,7 +3,7 @@ import self
 
 
 @pytest.mark.asyncio
-@pytest.mark.smoke
+@pytest.mark.smoke1
 async def test_create_saml_authentication_type(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     brandingPage = setup["brandingPage"]
@@ -22,7 +22,7 @@ async def test_create_saml_authentication_type(setup):
     await authenticationPage.add_users_to_the_group()
 
 @pytest.mark.asyncio
-@pytest.mark.smoke
+@pytest.mark.smoke1
 async def test_search_for_saml_authentication_type(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     brandingPage = setup["brandingPage"]
@@ -34,7 +34,7 @@ async def test_search_for_saml_authentication_type(setup):
     await authenticationPage.search_for_saml_authentication_type()
 
 @pytest.mark.asyncio
-@pytest.mark.smoke
+@pytest.mark.smoke1
 async def test_edit_saml_authentication_type(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     brandingPage = setup["brandingPage"]
@@ -45,12 +45,13 @@ async def test_edit_saml_authentication_type(setup):
     await authenticationPage.verify_authentication_page_ui()
     await authenticationPage.search_for_saml_authentication_type()
     await authenticationPage.sso_auth_type_edit()
-    await authenticationPage.fill_saml_auth_appinfo_details()
+    await authenticationPage.fill_saml_auth_udpate_appinfo_details()
+    await authenticationPage.delete_users_from_authtype()
     await authenticationPage.auth_auth_save_proceed_button()
 
 
 @pytest.mark.asyncio
-@pytest.mark.smoke
+@pytest.mark.smoke1
 async def test_delete_users_from_authtype(setup):
     ongoingthreadsPage = setup["ongoingthreadsPage"]
     brandingPage = setup["brandingPage"]
@@ -60,6 +61,6 @@ async def test_delete_users_from_authtype(setup):
     await brandingPage.validate_Configuration_tabs()
     await authenticationPage.verify_authentication_page_ui()
     await authenticationPage.search_for_saml_authentication_type()
-    await authenticationPage.delete_users_from_authtype()
+    await authenticationPage.auth_type_more_button_select()
     await authenticationPage.sso_auth_type_delete()
 

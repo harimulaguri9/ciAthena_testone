@@ -6,6 +6,13 @@ from ciathena.pages.BasePage import BasePage
 
 
 class CollabSpacePage(BasePage):
+    dashboardname = "qa1Dashboard"
+    dashboard1desc = "qa1DashboardDesc"
+    rename_dashboard="hari_space1_Updated"
+    target_dashboard = "qa1Dashboard_updated"
+    space_name = "hari_space1"
+    new_space_name = "hari_space1_Updated"
+
     def __init__(self, page: Page):
         super().__init__(page)
         self.collab_space_navbar=page.locator("#sidebar-icon-collaboration-space")
@@ -23,6 +30,7 @@ class CollabSpacePage(BasePage):
         self.Delete_space=page.locator("//span[text()='Delete']")
         self.Delete_confirm_button=page.locator("//*[@id='delete-confirm-button']")
         self.view_button=page.locator("#view-button")
+
         self.collab_panel_pin_button=page.locator("#collab-panel-pin-button")
         self.search_spaces=page.get_by_placeholder("Search spaces")
         self.members_space=page.locator("//span[text()='Members']")
@@ -49,6 +57,8 @@ class CollabSpacePage(BasePage):
         self.dashboard_insights_search_input=page.locator("#search-saved-insights-input")
         self.dashboard_desc_input=page.locator("#dashboard-description-input")
         self.save_dialog_button=page.locator("#save-dialog-save-button")
+        self.dashboard_item_list=page.locator("#saved-dashboard-name-0")
+
         self.dashboard_edit_icon=page.locator("#collaboration-space-dashboard-edit-icon")
         self.dashboard_title_edit_input=page.locator("#collaboration-space-dashboard-title-edit-input")
         self.dashboard_save_button=page.locator("#collaboration-space-dashboard-save-button")
@@ -126,8 +136,7 @@ class CollabSpacePage(BasePage):
 
 
     async def rename_collabspace(self):
-        space_name = "hari_space1"
-        new_space_name ="hari_space1_Updated"
+
         time.sleep(2)
         # await self.page.evaluate("document.body.style.zoom='80%'")
         await self.collab_space_navbar.wait_for(state="visible", timeout=3000)
@@ -152,21 +161,21 @@ class CollabSpacePage(BasePage):
             current_space_name = (await self.space_name_elements.nth(i).text_content()).strip()
             print(current_space_name)
             time.sleep(2)
-            if current_space_name == space_name:
-                print(f"Found space '{space_name}' at index {i}")
+            if current_space_name == self.space_name:
+                print(f"Found space '{self.space_name}' at index {i}")
                 time.sleep(2)
                 await self.page.locator("//img[@id='collab-panel-my-space-menu-icon-0']").click()
-                print(f"Clicked 'More' button for space '{space_name}' at index {i}")
+                print(f"Clicked 'More' button for space '{self.space_name}' at index {i}")
                 time.sleep(2)
 
                 # Click 'Delete' option in the menu that appears
                 await self.rename_space.click()
                 time.sleep(2)
                 await self.rename_input.press("End")
-                await self.rename_input.fill(new_space_name)
+                await self.rename_input.fill(self.new_space_name)
                 await self.rename_button.click()
 
-                print(f"Renamed '{space_name}' to '{new_space_name}'")
+                print(f"Renamed '{self.space_name}' to '{self.new_space_name}'")
 
                 # ✅ Validation — look for updated name in same locator list
                 time.sleep(2)  # wait for DOM update
@@ -175,22 +184,27 @@ class CollabSpacePage(BasePage):
 
                 for j in range(spaces_after):
                     name_after = (await self.space_name_elements.nth(j).text_content()).strip()
-                    if name_after == new_space_name:
+                    if name_after == self.new_space_name:
                         updated_found = True
-                        print(f"✅ Rename successful — found updated name: '{new_space_name}'")
+                        print(f"✅ Rename successful — found updated name: '{self.new_space_name}'")
                         break
 
                 if not updated_found:
-                    print(f"❌ Rename failed — '{new_space_name}' not found after update.")
+                    time.sleep(2)
+                    print(f"❌ Rename failed — '{self.new_space_name}' not found after update.")
 
                 break
             else:
-                print(f"⚠️ Space '{space_name}' not found in the list.")
+                print(f"⚠️ Space '{self.space_name}' not found in the list.")
 
+    async def select_dashboard_item_from_list(self):
+        row = self.page.locator("div[id^='saved-dashboard-row-']").filter(has=self.page.get_by_text(self.dashboardname))
+        await expect(row).to_be_visible()
+        await row.get_by_role("checkbox").check()
+        await row.get_by_text(self.dashboardname).click()
 
 
     async def delete_collabspace(self):
-        new_space_name ="hari_space1_Updated"
         await self.collab_space_navbar.hover()
         await self.collab_space_navbar.click()
 
@@ -211,18 +225,18 @@ class CollabSpacePage(BasePage):
             # Get text of the i-th space
             current_space_name = (await self.space_name_elements.nth(i).text_content()).strip()
             print(current_space_name)
-            if current_space_name == new_space_name:
-                print(f"Found space '{new_space_name}' at index {i}")
+            if current_space_name == self.new_space_name:
+                print(f"Found space '{self.new_space_name}' at index {i}")
 
                 await self.page.locator("//img[@id='collab-panel-my-space-menu-icon-0']").click()
                 #more_button.click()
-                print(f"Clicked 'More' button for space '{new_space_name}' at index {i}")
+                print(f"Clicked 'More' button for space '{self.new_space_name}' at index {i}")
 
                 # Click 'Delete' option in the menu that appears
                 await self.Delete_space.click()
                 await self.Delete_confirm_button.click()
 
-                print(f"Deleted space '{new_space_name}'")
+                print(f"Deleted space '{self.new_space_name}'")
                 await self.collab_panel_pin_button.click()
 
                 # ✅ Validation: ensure space name no longer exists
@@ -238,22 +252,19 @@ class CollabSpacePage(BasePage):
 
                 print("Remaining spaces:", remaining_spaces)
 
-                if new_space_name in remaining_spaces:
-                    print(f"❌ Deletion failed — '{new_space_name}' still visible.")
+                if self.new_space_name in remaining_spaces:
+                    print(f"❌ Deletion failed — '{self.new_space_name}' still visible.")
                 else:
-                    print(f"✅ Deletion successful — '{new_space_name}' not found in My Spaces.")
+                    print(f"✅ Deletion successful — '{self.new_space_name}' not found in My Spaces.")
                 break
             else:
-                print(f"⚠️ Space '{new_space_name}' not found — nothing to delete.")
+                print(f"⚠️ Space '{self.new_space_name}' not found — nothing to delete.")
 
 
     async def create_Dashboard(self):
-        dashboard1="qa1Dashboard"
-        dashboard1desc="qa1DashboardDesc"
         await self.page.wait_for_timeout(3000)
         await self.collab_space_navbar.hover()
         await self.collab_space_navbar.click()
-
         await self.page.evaluate("document.body.style.zoom='80%'")
         await self.view_button.click()
         await self.generate_dashboard_button.click()
@@ -265,25 +276,24 @@ class CollabSpacePage(BasePage):
             await self.save_proceed_button.click()
         else:
             await self.save_proceed_button.click()
-        await self.dashboard_input.fill(dashboard1)
-        await self.dashboard_desc_input.fill(dashboard1desc)
+        await self.dashboard_input.fill(self.dashboard1)
+        await self.dashboard_desc_input.fill(self.dashboard1desc)
         await self.save_dialog_button.click()
 
     async def edit_Dashboard(self):
-        rename_dashboard = "qa1Dashboard_updated"
         await self.collab_space_navbar.hover()
         await self.collab_space_navbar.click()
         await self.page.evaluate("document.body.style.zoom='80%'")
         await self.view_button.click()
+        await self.select_dashboard_item_from_list()
         await self.dashboard_edit_icon.click()
-        await self.dashboard_title_edit_input.fill(rename_dashboard)
+        await self.dashboard_title_edit_input.fill(self.rename_dashboard)
         await self.dashboard_save_button.click()
         await self.dashboard_back_button.click()
         await self.page.wait_for_timeout(3000)
 
     async def delete_Dashboard(self):
-        target_dashboard = "qa1Dashboard_updated"
-        await self.page.wait_for_timeout(5000)
+        await self.page.wait_for_timeout(3000)
         await self.collab_space_navbar.click()
         await self.page.evaluate("document.body.style.zoom='80%'")
         await self.view_button.click()
@@ -292,14 +302,14 @@ class CollabSpacePage(BasePage):
         target_index = None
         for i in range(count):
             dashboard_name = (await self.saved_dashboard_names.nth(i).inner_text()).strip()
-            if dashboard_name == target_dashboard:
+            if dashboard_name == self.target_dashboard:
                 target_index = i
                 break
-        await self.page.wait_for_timeout(3000)
-        assert target_index is not None, f"Dashboard :'{target_dashboard}' not found"
+        await self.page.wait_for_timeout(2000)
+        assert target_index is not None, f"Dashboard :'{self.target_dashboard}' not found"
         dashboard_checkbox = self.page.locator(f"#saved-dashboard-checkbox-container-{target_index} input[type='checkbox']")
         await dashboard_checkbox.check()
-        await self.page.wait_for_timeout(3000)
+        await self.page.wait_for_timeout(2000)
         await self.delete_selected_dashboards.click()
         await self.dashboard_delete_confirm_button.click()
         await self.page.wait_for_timeout(3000)

@@ -11,10 +11,10 @@ def test_run_all_tests():
          # "tests/test_CollabSpace.py",
          # "tests/test_Configurations.pyx",
          # "tests/configurations/test_Branding.pyx",
-         "tests/configurations/test_Athentication.py",
-         # "tests/configurations/test_Users.py",
+        #  "tests/configurations/test_Athentication.py",
+        #  "tests/configurations/test_Users.py",
         # "tests/configurations/test_Teams.py",
-        # "tests/configurations/test_Roles.py",
+        "tests/configurations/test_Roles.py",
 
         # run entire test folder
         "-sv",

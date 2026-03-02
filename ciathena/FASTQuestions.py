@@ -10,8 +10,8 @@ from ciathena.Utils.ExcelReader import ExcelReader
 from ciathena.Utils.ExcelWriter import ExcelWriter
 from ciathena.tests.apis.beUtils import compare_trx_only
 
-INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\MMM_Questions.xlsx"
-OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\MMM_Report.xlsx"
+INPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\FAST_Questions.xlsx"
+OUTPUT_PATH = r"C:\HARI\ciATHENA_Backup\ciathena_autoamtion\FAST_Report.xlsx"
 SHEET_NAME = "Questions"
 
 
@@ -87,7 +87,6 @@ class ChatbotAutomation:
                 text = await response.text()
             except Exception:
                 return
-
             for line in text.splitlines():
                 if line.startswith("data:"):
                     data_str = line[len("data:"):].strip()
@@ -111,10 +110,10 @@ class ChatbotAutomation:
         }
         sql_query = None
 
-        print("\n🔍 Checking for SQL button visibility...")
+        print("\n Checking for SQL button visibility...")
 
         try:
-            sql_button_visible = await self.sql_button_locator.is_visible(timeout=5000)
+            sql_button_visible = await self.sql_button_locator.is_visible(timeout=15000)
             print(f"  SQL button visible: {sql_button_visible}")
 
             if sql_button_visible:
@@ -131,7 +130,7 @@ class ChatbotAutomation:
                 await self.page.wait_for_timeout(2000)
 
                 # Wait for SQL response to be visible
-                sql_response_visible = await self.sql_query_response_locator.is_visible(timeout=5000)
+                sql_response_visible = await self.sql_query_response_locator.is_visible(timeout=15000)
                 print(f"  SQL response visible: {sql_response_visible}")
 
                 if sql_response_visible:
@@ -154,6 +153,7 @@ class ChatbotAutomation:
         # Attempt 1: Get aria-label from chart icon
         try:
             await self.chart_icon.wait_for(state="visible", timeout=15000)
+            print(" Chart icon is visible, attempting to extract aria-label...")
             aria_label = await self.chart_icon.get_attribute("aria-label")
             if aria_label:
                 return aria_label.strip()
@@ -237,21 +237,40 @@ async def main():
             expected_chart_name = item["chart"]
             final_response_json = item["final_response_json"]
 
-            # Step 1: Convert string to dictionary
-            response_json = json.loads(final_response_json)
+            # # Step 1: Convert string to dictionary
+            # response_json = json.loads(final_response_json)
+            # # Step 2: Extract raw_sql_result
+            # expected_raw_sql = response_json[0]["answer"]["raw_sql_result"]
+            # print("expected_raw_sql:", expected_raw_sql)
+            try:
+                response_json = json.loads(final_response_json)
 
-            # Step 2: Extract raw_sql_result
-            expected_raw_sql = response_json["answer"]["raw_sql_result"]
-            print("expected_raw_sql:", expected_raw_sql)
+                # If list → take first element
+                if isinstance(response_json, list):
+                    response_json = response_json[0] if response_json else {}
+
+                # If dict → extract safely
+                if isinstance(response_json, dict):
+                    expected_raw_sql = response_json.get("answer", {}).get("raw_sql_result", [])
+                else:
+                    expected_raw_sql = []
+
+            except Exception as e:
+                print("JSON parsing error:", e)
+                expected_raw_sql = []
+
 
             await page.locator("#welcome-search-row").click(force=True)
-            await page.locator("#icon-app-mmm").click()
+            # await page.locator("#icon-app-mmm").click()
+            await page.locator("#icon-app-fast").click()
+            # await page.locator("#app-patient_claims").click()
+
             # clear previous stream responses before asking a new question
             bot.responses.clear()
             await bot.ask_question_input.fill(question)
             await bot.send_button.click()
-            # await page.wait_for_timeout(60000)
-            # schedule the async handler whenever a response arrives
+            print("\n🔍 ======START Execution=====")
+            print("Asked Quesion::", question)
             page.on("response", lambda r: asyncio.create_task(bot.handle_response(r)))
 
             # ---------- WAIT FOR FINAL STREAM RESPONSE ----------
@@ -276,6 +295,7 @@ async def main():
             actual_chart = "None"
 
             if answer_text:
+                await page.wait_for_timeout(15000)
                 sql_query, icon_status = await bot.get_sql_query_if_available()
                 # Status check based on icon visibility
                 status = "PASS" if icon_status and all(icon_status.values()) else "FAIL"
@@ -307,18 +327,18 @@ async def main():
                 raw_sql_comparision_result = False
                 if raw_sql_result:
                     print(f"Raw SQL Result rows: {len(raw_sql_result)}")
-                    print("Raw SQL Result:\n", raw_sql_result)
-                    raw_sql_comparision_result = compare_trx_only(expected_raw_sql, raw_sql_result)
+                    print("RAW SQL Result:\n", raw_sql_result)
+                    print(f"Raw SQL Result rows: {len(expected_raw_sql)}")
+                    print("EXP SQL Result:\n", expected_raw_sql)
 
-                    print("-------------raw_sql_comparision_result end-------------------------------")
+                    raw_sql_comparision_result = compare_trx_only(expected_raw_sql, raw_sql_result)
                     print("raw_sql_comparision_result:", raw_sql_comparision_result)
                 else:
                     print("No raw_sql_result found")
+
             else:
                 is_completed = False
                 raw_sql_result = []
-
-            print("--------------------------------------------")
 
             if answer_text:
                 # sql_query = None  # Can extract from final_payload if needed
@@ -363,11 +383,11 @@ async def main():
                 status
             )
             writer.save()
-            print("✅ ------- Response generated ----------")
+            print("✅ ====== EXECUTION DONE ======")
             await page.click("img[alt='Home']")
 
         await browser.close()
-        print("✅ Execution completed")
+        print("✅ ====== EXECUTION DONE ======")
 
 
 if __name__ == "__main__":

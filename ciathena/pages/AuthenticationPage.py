@@ -186,6 +186,12 @@ class AuthenticationPage(BasePage):
         await self.auth_properties_appInfo_logout_URL.fill("https:/testciai-logout.com")
         await self.auth_properties_appInfo_back_channel_logout_URL.fill("https:/testciai-channel.com")
 
+    async def fill_saml_auth_udpate_appinfo_details(self):
+        await self.auth_properties_appInfo_tab.click()
+        await self.auth_properties_appInfo_redirect_URL.fill("https:/testciai-reditrect1.com")
+        await self.auth_properties_appInfo_logout_URL.fill("https:/testciai-logout1.com")
+        await self.auth_properties_appInfo_back_channel_logout_URL.fill("https:/testciai-channel1.com")
+
     async def auth_auth_save_proceed_button(self):
         await self.page.evaluate("document.body.style.zoom='100%'")
         await self.auth_save_proceed_button.click()
@@ -220,23 +226,25 @@ class AuthenticationPage(BasePage):
 
     async def search_for_saml_authentication_type(self):
         await self.page.wait_for_timeout(2000)
-        await self.page.pause()
         await self.authentication_search_input.fill("AAuth_SAML_Test1")
         await expect(self.page.locator("#auth-list-table-body")).to_contain_text("AAuth_SAML_Test1")
 
     async def sso_auth_type_edit(self):
+        await self.page.pause()
         await self.page.wait_for_timeout(2000)
-        await self.sso_auth_more_button.click()
+        await self.auth_type_more_button_select()
         await self.auth_edit_option.click()
         # await self.auth_users_tab_button.click()
         # await self.auth_add_new_user_search_input.fill("Hari")
 
+    async def auth_type_more_button_select(self):
+        auth_name = "AAuth_SAML_Test1"
+        row = self.page.locator("tr", has=self.page.locator(f"text={auth_name}"))
+        await row.locator("[data-name$='-more-button']").click()
+        await self.page.wait_for_timeout(2000)
 
     async def delete_users_from_authtype(self):
-        await self.page.wait_for_timeout(3000)
-        await self.sso_auth_more_button.click()
-        await self.page.wait_for_timeout(2000)
-        await self.auth_edit_option.click()
+
         await self.auth_users_tab_button.click()
         await self.page.wait_for_timeout(2000)
         # await self.auth_add_new_user_search_input.fill("Hari")
@@ -247,7 +255,6 @@ class AuthenticationPage(BasePage):
 
 
     async def sso_auth_type_delete(self):
-        await self.sso_auth_more_button.click()
         await self.page.wait_for_timeout(2000)
         await self.auth_delete_option.click()
         await self.page.wait_for_timeout(2000)
