@@ -5,8 +5,8 @@ import time
 
 from pytest_html.selfcontained_report import SelfContainedReport
 
-from ciathena.Utils.ExcelReader import ExcelReader
-from ciathena.Utils.ExcelWriter import ExcelWriter
+from ciathena.Utils.ExcelReader2 import ExcelReader
+from ciathena.Utils.ExcelWriter2 import ExcelWriter
 
 INPUT_PATH = r"C:\Users\HariKumarMulaguri\PycharmProjects\PythonProjectTest\Questions.xlsx"
 OUTPUT_PATH = r"C:\Users\HariKumarMulaguri\PycharmProjects\PythonProjectTest\Reports.xlsx"
@@ -23,6 +23,15 @@ class QuestionsTest:
         self.show_share_icon = page.locator("img[alt='Share']")
         self.show_save_icon = page.locator("img[alt='Save']")
         self.show_download_icon = page.locator("img[alt='Download']")
+
+
+        self.view_fullscreen_icon = page.locator("//button[@aria-label='View in fullscreen']")
+        self.data_view_icon = page.locator("//button[@aria-label='Data View']")
+        self.stacked_bar_chart_icon = page.locator("//button[@aria-label='Stacked Bar Chart']")
+        self.download_icon = page.locator("#//*[@aria-label='Download']")
+        self.restore_icon= page.locator("#//*[@aria-label='Restore']")
+        self.bubble_chart_icon = page.locator("[data-testid='BubbleChartTwoToneIcon']")
+
 
         self.error_messages = [
             "Empty SQL result", "Error", "no records", "no transactions recorded",
